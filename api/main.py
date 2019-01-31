@@ -140,6 +140,22 @@ def challenges():
         send[key_send] = sub_dict
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+@app.route("/<username>")
+def get_user(username):
+    return redirect('/{}/profile'.format(username), code=302)
+
+@app.route('/<username>/profile')
+def get_profile(username):
+    r = rq.get(url+username)
+    if r.status_code != 200: return r.text, r.status_code
+    pattern = '<meta name="author" content="(.*?)"/>'
+    pseudo = re.findall(pattern, r.text)
+    pattern = '<span>(\d+)</span>'
+    score = re.findall(pattern, r.text)
+    if not pseudo or not score: return '', 500
+    send = dict(pseudo=pseudo[0], score=score[0])
+    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
