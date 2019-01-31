@@ -179,6 +179,76 @@ def get_contributions(username):
         contrib[key] = solve
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+@app.route('/<username>/score')
+def get_score(username):
+    r = rq.get(url+username+'?inc=score')
+    if r.status_code != 200: return 'HTTP Error Code: {}'.format(r.status_code), r.status_code
+    txt = r.text.replace('\n', '')
+    txt = txt.replace('&nbsp;', '')
+
+    pattern = '<meta name="author" content="(.*?)"/>'
+    exp = re.findall(pattern, r.text)
+    if not exp: return '', 500
+    pseudo = exp[0]
+
+    """ get solved challenge number """
+    pattern = '<span class="color1 tl">(\d+)Points<span class="gris tm">(\d+)/(\d+)</span>'
+    exp = re.findall(pattern, txt)
+    if not exp: return '', 500
+    (score_user, nb_solved, nb_tot) = exp[0]
+
+    """ get ranking over all users """
+    pattern = '<span class="color1 tl">(\d+)<span class="gris">/(\d+)</span>'
+    exp = re.findall(pattern, txt)
+    if not exp: return '', 500
+    (ranking, ranking_tot) = exp[0]
+
+    """ get rank """
+    pattern = '<span class="color1 tl">(\w+)<a'
+    exp = re.findall(pattern, txt)
+    if not exp: return '', 500
+    rank = exp[0]
+
+    """ get categories names """
+    pattern = '<li><a class="submenu(\d+)" href="(.*?)".*?>(.*?)</a></li>'
+    exp = re.findall(pattern, txt)
+    if not exp: return '', 500
+    categories = dict()
+
+    for id,item in enumerate(exp):
+        (sub_id, path, name) = item
+        if id in list(range(2,13)): 
+            category = dict(id=id-2, path=path, name=name)
+            categories[id-2] = category
+
+    """ get score by categories """
+    pattern = '<span class="gris">(\d+)Points(\d+)/(\d+)</span>'
+    pattern += '<ul(.*?)>(.*?)</ul>'
+    exp = re.findall(pattern, txt)
+    if not exp: return '', 500
+    score_categories = categories
+    for id,item in enumerate(exp):
+        (score, num, tot, trash, challenges_list) = item
+        category = score_categories[id]
+        score_category = dict(score=score, num_solved=num, total=tot)
+        category['score catégorie'] = score_category
+        challenges = dict()
+        category['challenges'] = challenges
+        pattern_c = '<li><a class="(.*?)" href="(.*?)" title="(\d+) Points">(.*?)</a></li>'
+        exp = re.findall(pattern_c, challenges_list)
+        for id_c, challenge_data in enumerate(exp):
+            (class_value, path, score_value, name) = challenge_data
+            name = name.strip()[1:] 
+            solved = (class_value == 'vert')
+            challenge = dict(name=name, score_value=score_value,
+                             path=path, solved=solved)
+            challenges[id_c] = challenge
+
+    send = dict(pseudo=pseudo, score=score_user, nb_solved=nb_solved, nb_tot=nb_tot,
+                ranking=ranking, ranking_tot=ranking_tot, rank=rank, 
+                categories=categories)
+    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
