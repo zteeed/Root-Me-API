@@ -299,6 +299,33 @@ def get_ctf(username):
                 num_try=num_try, CTFS=CTFS)
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+@app.route('/<username>/stats')
+def get_stats(username):
+    r = rq.get(url+username+'?inc=statistiques')
+    if r.status_code != 200: return r.text, r.status_code
+    txt = r.text.replace('\n', '')
+    txt = txt.replace('&nbsp;', '')
+    pattern = '<meta name="author" content="(.*?)"/>'
+    exp = re.findall(pattern, txt)
+    if not exp: return '', 500
+    pseudo = exp[0]
+
+    """ Evolution du Score """
+    pattern = '<script type="text/javascript">(.*?)</script>'
+    exp = re.findall(pattern, txt)
+    exp = ''.join(exp)
+    pattern = 'evolution_data_total.push\(new Array\("(.*?)",(\d+), "(.*?)", "(.*?)"\)\)'
+    pattern += 'validation_totale\[(\d+)\]\+\=1;'
+    challenges_solved = re.findall(pattern, exp)
+    challenges = dict()
+    for id, challenge_solved in enumerate(challenges_solved):
+        challenge = dict()
+        (date, score, name, path, difficulty) = challenge_solved
+        challenge = dict(name=name, score=score, path=path, 
+                         difficulty=difficulty, date=date)
+        challenges[id] = challenge
+    send = dict(pseudo=pseudo, challenges=challenges)
+    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
