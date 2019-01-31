@@ -7,14 +7,13 @@ import random
 import re
 from logging.config import dictConfig
 from multiprocessing.pool import ThreadPool
-from threading import Event, Thread
 from time import sleep
 
 import requests as rq
 from flask import Flask, redirect, jsonify
 from flask_caching import Cache
 
-from cache_updater import CacheUpdater
+import cache_refresh
 from parser.category import extract_categories, extract_category_logo, extract_category_description, \
     extract_category_prereq, extract_challenges_info
 from parser.exceptions import RootMeParsingError
@@ -44,7 +43,6 @@ dictConfig({
 })
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': CACHE_TIMEOUT})
-cache_updater = CacheUpdater(app)
 
 
 class RootMeException(BaseException):
@@ -103,7 +101,7 @@ def challenges():
     return jsonify(cached_challenges())
 
 
-@cache.cached(forced_update=cache_updater.should_update, key_prefix="challenges")
+@cache_refresh.cached(cache, key_prefix="challenge")
 def cached_challenges():
     try:
         r = rq.get(URL + 'fr/Challenges/')
@@ -321,36 +319,12 @@ def get_stats(username):
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
 
-class UpdateSleepRepeat():
-    def __init__(self):
-        self._event = Event()
-
-    def stop(self):
-        self._event.set()
-
-    def update_cached_endpoints(self):
-        """
-        Keep the cache fresh by updating it at a regular interval.
-        """
-        while True:
-            self._event.wait(REFRESH_CACHE_INTERVAL)
-            if self._event.is_set():
-                return
-
-            app.logger.info("Refreshing the cache...")
-
-            cache_updater.force_update(cached_challenges)
-            app.logger.info("/challenges cache updated")
-
-    def launch(self):
-        def f():
-            self.update_cached_endpoints()
-
-        Thread(target=f).start()
+def update_endpoints():
+    cached_challenges(cache_refresh=True)
+    app.logger.info("/challenges cache updated")
 
 
 if __name__ == "__main__":
-    updater = UpdateSleepRepeat()
-    updater.launch()
+    cache_refresh.start(update_endpoints, REFRESH_CACHE_INTERVAL)
     app.run(host='0.0.0.0', debug=True, use_reloader=False)
-    updater.stop()
+    cache_refresh.stop()
