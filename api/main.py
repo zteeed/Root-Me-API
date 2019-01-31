@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import json
+import random
 import re
 from logging.config import dictConfig
+from multiprocessing.pool import ThreadPool
+from time import sleep
 
 import requests as rq
 from flask import Flask, redirect, jsonify
@@ -67,6 +70,22 @@ def retrieve_category_info(category):
     }]
 
 
+def retry_fetch_category_info(category):
+    for i in range(10):
+        try:
+            a = retrieve_category_info(category)
+            app.logger.info('Fetched category page "{}"'.format(category))
+            return a
+        except RootMeException as e:
+            if e.err_code != 429:
+                raise
+            wait_time = 2 ** (random.random() + i)  # Exponential backoff
+            app.logger.warning("Root me recieved too much requests... Waiting {:.0f} secs".format(wait_time))
+            sleep(wait_time)
+
+    raise RootMeException(429)
+
+
 @app.route("/challenges")
 def challenges():
     try:
@@ -76,10 +95,8 @@ def challenges():
 
         categories = extract_categories(r.text)
 
-        response = []
-        for category in categories:
-            response += retrieve_category_info(category)
-            app.logger.info('Fetched category page "{}"'.format(category))
+        with ThreadPool(len(categories)) as tp:
+            response = tp.map(retry_fetch_category_info, categories)
 
         return jsonify(response)
 
