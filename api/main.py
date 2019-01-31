@@ -10,6 +10,7 @@ from time import sleep
 
 import requests as rq
 from flask import Flask, redirect, jsonify
+from flask_caching import Cache
 
 from parser.category import extract_categories, extract_category_logo, extract_category_description, \
     extract_category_prereq, extract_challenges_info
@@ -31,6 +32,7 @@ dictConfig({
     }
 })
 app = Flask(__name__)
+cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 URL = 'https://www.root-me.org/'
 ENDPOINTS = ["/", "/username", "/username/profile", "/username/contributions",
              "/username/score", "/username/ctf", "/username/stats"]
@@ -42,6 +44,7 @@ class RootMeException(BaseException):
 
 
 @app.route("/")
+@cache.cached(timeout=60)
 def root():
     return jsonify(title="Root-Me-API",
                    author="zTeeed",
@@ -87,6 +90,7 @@ def retry_fetch_category_info(category):
 
 
 @app.route("/challenges")
+@cache.cached(timeout=60)
 def challenges():
     try:
         r = rq.get(URL + 'fr/Challenges/')
