@@ -3,55 +3,20 @@
 
 import json
 import math
-import random
 import re
-from logging.config import dictConfig
-from multiprocessing.pool import ThreadPool
-from time import sleep
 
 import requests as rq
-from flask import Flask, redirect, jsonify
-from flask_caching import Cache
+from flask import redirect, jsonify
 
-import cache_refresh
-from parser.category import extract_categories, extract_category_logo, extract_category_description, \
-    extract_category_prereq, extract_challenges_info
-from parser.exceptions import RootMeParsingError
-
-# Constants
-REFRESH_CACHE_INTERVAL = 30
-CACHE_TIMEOUT = 60
-URL = 'https://www.root-me.org/'
-ENDPOINTS = ["/", "/username", "/username/profile", "/username/contributions",
-             "/username/score", "/username/ctf", "/username/stats"]
-
-# Flask config
-dictConfig({
-    'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
-    'root': {
-        'level': 'INFO',
-        'handlers': ['wsgi']
-    }
-})
-app = Flask(__name__)
-cache = Cache(app, config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': CACHE_TIMEOUT})
-
-
-class RootMeException(BaseException):
-    def __init__(self, error):
-        self.err_code = error
+from api import repeater
+from api.app import app
+from api.cache_wrapper import cached
+from api.constants import REFRESH_CACHE_INTERVAL
+from api.http_interface.challenges import get_all_challenges
 
 
 @app.route("/")
-@cache.cached(timeout=math.inf)  # Never timeout, this is static.
+@cached(timeout=math.inf)  # Never timeout, this is static.
 def root():
     return jsonify(title="Root-Me-API",
                    author="zTeeed",
@@ -59,69 +24,9 @@ def root():
                    paths=ENDPOINTS)
 
 
-def retrieve_category_info(category):
-    r = rq.get(URL + 'fr/Challenges/{}/'.format(category))
-    if r.status_code != 200:
-        raise RootMeException(r.status_code)
-
-    logo = extract_category_logo(r.text)
-    desc1, desc2 = extract_category_description(r.text)
-    prereq = extract_category_prereq(r.text)
-    challenges = extract_challenges_info(r.text)
-
-    return [{
-        'name': category,
-        'logo': logo,
-        'description1': desc1,
-        'description2': desc2,
-        'prerequisites': prereq,
-        'challenges': challenges,
-        'challenges_nb': len(challenges),
-    }]
-
-
-def retry_fetch_category_info(category):
-    for i in range(10):
-        try:
-            a = retrieve_category_info(category)
-            app.logger.info('Fetched category page "{}"'.format(category))
-            return a
-        except RootMeException as e:
-            if e.err_code != 429:
-                raise
-            wait_time = 2 ** (random.random() + i)  # Exponential backoff
-            app.logger.warning("Root me recieved too much requests... Waiting {:.0f} secs".format(wait_time))
-            sleep(wait_time)
-
-    raise RootMeException(429)
-
-
 @app.route("/challenges")
 def challenges():
-    return jsonify(cached_challenges())
-
-
-@cache_refresh.cached(cache, key_prefix="challenge")
-def cached_challenges():
-    try:
-        r = rq.get(URL + 'fr/Challenges/')
-        if r.status_code != 200:
-            raise RootMeException(r.status_code)
-
-        categories = extract_categories(r.text)
-
-        with ThreadPool(len(categories)) as tp:
-            response = tp.map(retry_fetch_category_info, categories)
-
-        return response
-
-    except RootMeException as e:
-        app.logger.exception("Root-me did not respond 200")
-        return "RootMe responded {}".format(e.err_code), 502
-
-    except RootMeParsingError:
-        app.logger.exception("Parsing error")
-        raise
+    return jsonify(get_all_challenges_cached())
 
 
 @app.route("/<username>")
@@ -319,12 +224,17 @@ def get_stats(username):
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
 
+@cached(key_prefix="challenges")
+def get_all_challenges_cached():
+    return get_all_challenges()
+
+
 def update_endpoints():
-    cached_challenges(cache_refresh=True)
+    get_all_challenges_cached(cache_refresh=True)
     app.logger.info("/challenges cache updated")
 
 
 if __name__ == "__main__":
-    cache_refresh.start(update_endpoints, REFRESH_CACHE_INTERVAL)
+    repeater.start(update_endpoints, REFRESH_CACHE_INTERVAL)
     app.run(host='0.0.0.0', debug=True, use_reloader=False)
-    cache_refresh.stop()
+    repeater.stop()

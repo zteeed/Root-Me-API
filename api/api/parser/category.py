@@ -1,8 +1,8 @@
 import re
 
-from parser.challenge import extract_challenge_general_info, extract_validation_info, extract_difficulty, \
+from api.parser.challenge import extract_challenge_general_info, extract_validation_info, extract_difficulty, \
     extract_author, extract_solutions_and_note
-from parser.exceptions import RootMeParsingError
+from api.parser.exceptions import RootMeParsingError
 
 
 def extract_challenge_ids(txt):
@@ -29,8 +29,8 @@ def extract_category_logo(txt):
 
     pattern = '<img class=\'vmiddle\' alt="" src="(.*?)" .*?/>'
     result = re.findall(pattern, txt)
-    if not result:
-        RootMeParsingError("Could not parse logo from challenge.")
+    if not result or not result[0]:
+        raise RootMeParsingError("Could not parse logo from challenge.")
 
     return result[0]
 

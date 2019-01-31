@@ -1,3 +1,2 @@
 class RootMeParsingError(BaseException):
     pass
-

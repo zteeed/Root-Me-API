@@ -1,6 +1,6 @@
 import re
 
-from parser.exceptions import RootMeParsingError
+from api.parser.exceptions import RootMeParsingError
 
 
 def extract_challenge_general_info(txt):
