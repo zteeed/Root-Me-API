@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import re
 import json
+import re
+
 import requests as rq
 from flask import Flask, redirect
 from flask import abort
@@ -11,22 +12,24 @@ global url
 url = 'https://www.root-me.org/'
 app = Flask(__name__)
 
+
 @app.route("/")
 def root():
-    paths = ["/", "/username", "/username/profile", "/username/contributions", 
+    paths = ["/", "/username", "/username/profile", "/username/contributions",
              "/username/score", "/username/ctf", "/username/stats"]
     path_dict = dict()
-    for id,path in enumerate(paths): 
+    for id, path in enumerate(paths):
         path = dict(id=id, path=path)
         path_dict[id] = path
-    send = dict(title="Root-Me-API", author="zTeeed", 
+    send = dict(title="Root-Me-API", author="zTeeed",
                 followme="https://github.com/zteeed",
                 paths=path_dict)
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+
 @app.route("/challenges")
 def challenges():
-    r = rq.get(url+'fr/Challenges/')
+    r = rq.get(url + 'fr/Challenges/')
     if r.status_code != 200: return r.text, r.status_code
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
@@ -60,7 +63,7 @@ def challenges():
         sub_dict['description1'] = exp[0]
         pattern = '<div class="texte crayon rubrique-texte.*?><p>(.*?)</p>'
         exp = re.findall(pattern, r.text)
-        if not exp: 
+        if not exp:
             sub_dict['description2'] = ''
         else:
             sub_dict['description2'] = exp[0]
@@ -70,7 +73,7 @@ def challenges():
         if exp == ['<']:
             pattern = '<p>Prérequis\xa0:(.*?)\/div>'
             exp = re.findall(pattern, txt)
-        if not exp: 
+        if not exp:
             prerequisites = dict()
         else:
             pattern = '><img.*?>\xa0(.*?)<'
@@ -116,17 +119,17 @@ def challenges():
                     pass
             pattern = '<td class="show-for-large-up">(.*?)</td>'
             exp = re.findall(pattern, chall)
-            if not exp: 
+            if not exp:
                 chall_dict['author'] = ''
             elif not exp[0]:
                 chall_dict['author'] = ''
             else:
-                pattern = '<a class=\".*?\"  title=\".*?\" href=\"/(.*?)\?lang=fr\">.*?</a>' 
+                pattern = '<a class=\".*?\"  title=\".*?\" href=\"/(.*?)\?lang=fr\">.*?</a>'
                 exp = re.findall(pattern, exp[0])
                 if not exp: return '', 500
                 chall_dict['author'] = exp[0]
-            pattern = '</td><td><img src="squelettes/img/note/note(\d+).png"' 
-            pattern +=' .*?></td><td class=".*?">(\d+)</td>'
+            pattern = '</td><td><img src="squelettes/img/note/note(\d+).png"'
+            pattern += ' .*?></td><td class=".*?">(\d+)</td>'
             exp = re.findall(pattern, chall)
             if not exp: return '', 500
             (note, solutions_nb) = exp[0]
@@ -140,13 +143,15 @@ def challenges():
         send[key_send] = sub_dict
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+
 @app.route("/<username>")
 def get_user(username):
     return redirect('/{}/profile'.format(username), code=302)
 
+
 @app.route('/<username>/profile')
 def get_profile(username):
-    r = rq.get(url+username)
+    r = rq.get(url + username)
     if r.status_code != 200: return r.text, r.status_code
     pattern = '<meta name="author" content="(.*?)"/>'
     pseudo = re.findall(pattern, r.text)
@@ -156,17 +161,18 @@ def get_profile(username):
     send = dict(pseudo=pseudo[0], score=score[0])
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+
 @app.route('/<username>/contributions')
 def get_contributions(username):
-    r = rq.get(url+username+'?inc=contributions')
+    r = rq.get(url + username + '?inc=contributions')
     if r.status_code != 200: return r.text, r.status_code
     pattern = '<meta name="author" content="(.*?)"/>'
     exp = re.findall(pattern, r.text)
     if not exp: return '', 500
     pseudo = exp[0]
     pattern = '<a class="gris" href="(.*?)">(.*?)</a>\n'
-    pattern+= '<a href="(.*?)">(.*?)</a>\n'
-    pattern+= '<span class="txs gris italic">(.*?)</span>'
+    pattern += '<a href="(.*?)">(.*?)</a>\n'
+    pattern += '<span class="txs gris italic">(.*?)</span>'
     exp = re.findall(pattern, r.text)
     if not exp: return '', 500
     contrib = dict()
@@ -179,9 +185,10 @@ def get_contributions(username):
         contrib[key] = solve
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+
 @app.route('/<username>/score')
 def get_score(username):
-    r = rq.get(url+username+'?inc=score')
+    r = rq.get(url + username + '?inc=score')
     if r.status_code != 200: return 'HTTP Error Code: {}'.format(r.status_code), r.status_code
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
@@ -215,11 +222,11 @@ def get_score(username):
     if not exp: return '', 500
     categories = dict()
 
-    for id,item in enumerate(exp):
+    for id, item in enumerate(exp):
         (sub_id, path, name) = item
-        if id in list(range(2,13)): 
-            category = dict(id=id-2, path=path, name=name)
-            categories[id-2] = category
+        if id in list(range(2, 13)):
+            category = dict(id=id - 2, path=path, name=name)
+            categories[id - 2] = category
 
     """ get score by categories """
     pattern = '<span class="gris">(\d+)Points(\d+)/(\d+)</span>'
@@ -227,7 +234,7 @@ def get_score(username):
     exp = re.findall(pattern, txt)
     if not exp: return '', 500
     score_categories = categories
-    for id,item in enumerate(exp):
+    for id, item in enumerate(exp):
         (score, num, tot, trash, challenges_list) = item
         category = score_categories[id]
         score_category = dict(score=score, num_solved=num, total=tot)
@@ -238,29 +245,31 @@ def get_score(username):
         exp = re.findall(pattern_c, challenges_list)
         for id_c, challenge_data in enumerate(exp):
             (class_value, path, score_value, name) = challenge_data
-            name = name.strip()[1:] 
+            name = name.strip()[1:]
             solved = (class_value == 'vert')
             challenge = dict(name=name, score_value=score_value,
                              path=path, solved=solved)
             challenges[id_c] = challenge
 
     send = dict(pseudo=pseudo, score=score_user, nb_solved=nb_solved, nb_tot=nb_tot,
-                ranking=ranking, ranking_tot=ranking_tot, rank=rank, 
+                ranking=ranking, ranking_tot=ranking_tot, rank=rank,
                 categories=categories)
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+
 @app.route('/<username>/ctf')
 def get_ctf(username):
-    offset = 0; stop = False
+    offset = 0;
+    stop = False
     while not stop:
-        r = rq.get(url+username+'?inc=ctf&debut_ctf_alltheday_vm_dispo={}'.format(offset))
+        r = rq.get(url + username + '?inc=ctf&debut_ctf_alltheday_vm_dispo={}'.format(offset))
         if r.status_code != 200: return r.text, r.status_code
         txt = r.text.replace('\n', '')
         txt = txt.replace('&nbsp;', '')
         pattern = "<li><a href='.*?inc=ctf.*?class='lien_pagination gris' rel='nofollow'>(.*?)</a></li>"
         exp = re.findall(pattern, txt)
         if not exp: return '', 500
-        stop = (exp[-1]=='<')
+        stop = (exp[-1] == '<')
         if offset == 0:
             pattern = '<meta name="author" content="(.*?)"/>'
             exp = re.findall(pattern, txt)
@@ -278,7 +287,8 @@ def get_ctf(username):
         pattern = '<td.*?>(.*?)</td>'
         columns = re.findall(pattern, exp[0])
         if not columns: return '', 500
-        CTFS = dict(); key=0
+        CTFS = dict();
+        key = 0
         pattern = '<tr class="row_(odd|even)">(.*?)</tr>'
         ctfs = re.findall(pattern, txt)
         pattern = "<td><img src=.*?/img/(.*?).png.*?></td>"
@@ -292,16 +302,17 @@ def get_ctf(username):
             X = dict()
             for id, item in enumerate(extracted_data):
                 X[columns[id]] = item
-            CTFS[str(key)] = X 
-            key+=1
-        offset += 50 
+            CTFS[str(key)] = X
+            key += 1
+        offset += 50
     send = dict(pseudo=pseudo, description=description, num_success=num_success,
                 num_try=num_try, CTFS=CTFS)
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+
 @app.route('/<username>/stats')
 def get_stats(username):
-    r = rq.get(url+username+'?inc=statistiques')
+    r = rq.get(url + username + '?inc=statistiques')
     if r.status_code != 200: return r.text, r.status_code
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
@@ -321,11 +332,12 @@ def get_stats(username):
     for id, challenge_solved in enumerate(challenges_solved):
         challenge = dict()
         (date, score, name, path, difficulty) = challenge_solved
-        challenge = dict(name=name, score=score, path=path, 
+        challenge = dict(name=name, score=score, path=path,
                          difficulty=difficulty, date=date)
         challenges[id] = challenge
     send = dict(pseudo=pseudo, challenges=challenges)
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
