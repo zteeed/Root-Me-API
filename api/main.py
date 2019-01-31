@@ -3,145 +3,93 @@
 
 import json
 import re
+from logging.config import dictConfig
 
 import requests as rq
-from flask import Flask, redirect
-from flask import abort
+from flask import Flask, redirect, jsonify
 
-global url
-url = 'https://www.root-me.org/'
+from parser.category import extract_categories, extract_category_logo, extract_category_description, \
+    extract_category_prereq, extract_challenges_info
+from parser.exceptions import RootMeParsingError
+
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
 app = Flask(__name__)
+URL = 'https://www.root-me.org/'
+ENDPOINTS = ["/", "/username", "/username/profile", "/username/contributions",
+             "/username/score", "/username/ctf", "/username/stats"]
+
+
+class RootMeException(BaseException):
+    def __init__(self, error):
+        self.err_code = error
 
 
 @app.route("/")
 def root():
-    paths = ["/", "/username", "/username/profile", "/username/contributions",
-             "/username/score", "/username/ctf", "/username/stats"]
-    path_dict = dict()
-    for id, path in enumerate(paths):
-        path = dict(id=id, path=path)
-        path_dict[id] = path
-    send = dict(title="Root-Me-API", author="zTeeed",
-                followme="https://github.com/zteeed",
-                paths=path_dict)
-    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+    return jsonify(title="Root-Me-API",
+                   author="zTeeed",
+                   followme="https://github.com/zteeed",
+                   paths=ENDPOINTS)
+
+
+def retrieve_category_info(category):
+    r = rq.get(URL + 'fr/Challenges/{}/'.format(category))
+    if r.status_code != 200:
+        raise RootMeException(r.status_code)
+
+    logo = extract_category_logo(r.text)
+    desc1, desc2 = extract_category_description(r.text)
+    prereq = extract_category_prereq(r.text)
+    challenges = extract_challenges_info(r.text)
+
+    return [{
+        'name': category,
+        'logo': logo,
+        'description1': desc1,
+        'description2': desc2,
+        'prerequisites': prereq,
+        'challenges': challenges,
+        'challenges_nb': len(challenges),
+    }]
 
 
 @app.route("/challenges")
 def challenges():
-    r = rq.get(url + 'fr/Challenges/')
-    if r.status_code != 200: return r.text, r.status_code
-    txt = r.text.replace('\n', '')
-    txt = txt.replace('&nbsp;', '')
-    pattern = r'<div class="clearfix"></div><span><b>(.*?)</b>.*?</span><p'
-    exp = re.findall(pattern, txt)
-    if not exp: return '', 500
-    challenges_nbs = exp
-    pattern = '<li><a class="submenu.*?" href="fr/Challenges/(.*?)/" '
-    pattern += 'title="(.*?)"'
-    exp = re.findall(pattern, r.text)
-    if not exp: return '', 500
-    send = dict()
-    for key_send, category in enumerate(exp):
-        (name, desc) = category
-        print(name)
-        sub_dict = dict()
-        sub_dict['name'] = name
-        challenges_nb = challenges_nbs[key_send]
-        sub_dict['challenges_nb'] = challenges_nb
-        r = rq.get(url + 'fr/Challenges/{}/'.format(name))
-        txt = r.text.replace('\n', '')
-        txt = txt.replace('&nbsp;', '')
-        if r.status_code != 200: return r.text, r.status_code
-        pattern = '<img class=\'vmiddle\' alt="" src="(.*?)" .*?/>'
-        exp = re.findall(pattern, r.text)
-        if not exp: return '', 500
-        sub_dict['logo'] = exp[0]
-        pattern = '<meta name="Description" content="(.*?)"/>'
-        exp = re.findall(pattern, r.text)
-        if not exp: return '', 500
-        sub_dict['description1'] = exp[0]
-        pattern = '<div class="texte crayon rubrique-texte.*?><p>(.*?)</p>'
-        exp = re.findall(pattern, r.text)
-        if not exp:
-            sub_dict['description2'] = ''
-        else:
-            sub_dict['description2'] = exp[0]
-        send[key_send] = sub_dict
-        pattern = '<p>Prérequis\xa0:(.*?)\/p>'
-        exp = re.findall(pattern, txt)
-        if exp == ['<']:
-            pattern = '<p>Prérequis\xa0:(.*?)\/div>'
-            exp = re.findall(pattern, txt)
-        if not exp:
-            prerequisites = dict()
-        else:
-            pattern = '><img.*?>\xa0(.*?)<'
-            exp = re.findall(pattern, exp[0])
-            if not exp: return '', 500
-            prerequisites = dict()
-            for id, prerequisite in enumerate(exp):
-                prerequisite = prerequisite.replace('\xa0', '')
-                prerequisites[id] = prerequisite
-        sub_dict['prerequisites'] = prerequisites
-        challs = dict()
-        pattern = '<tr>(.*?)</tr>'
-        exp = re.findall(pattern, txt)
-        if not exp: return '', 500
-        challs = dict()
-        for key, chall in enumerate(exp):
-            chall_dict = dict()
-            pattern = '<td><img.*?><td.*?><a href=\"(.*?)\" title=\"(.*?)\">(.*?)<'
-            exp = re.findall(pattern, chall)
-            if not exp: return '', 500
-            (path, statement, name) = exp[0]
-            chall_dict['path'] = path
-            chall_dict['statement'] = statement
-            chall_dict['name'] = name
-            pattern = '<span class="gras left text-left".*?>(.*?)%</span>'
-            pattern += '<span class="right"><a.*?>(.*?)</a></span>'
-            exp = re.findall(pattern, chall)
-            if not exp: return '', 500
-            (validations_percentage, validations_nb) = exp[0]
-            chall_dict['validations_percentage'] = validations_percentage
-            chall_dict['validations_nb'] = validations_nb
-            pattern = '<td>(.*?)</td><td class=\".*?\">'
-            pattern += '<a href=\".*?\" title=\"(.*?)\">'
-            exp = re.findall(pattern, chall)
-            if not exp: return '', 500
-            for item in exp:
-                try:
-                    (value, difficulty) = item
-                    num = int(value)
-                    chall_dict['value'] = value
-                    chall_dict['difficulty'] = difficulty.split(':')[0].strip()
-                except Exception as exception:
-                    pass
-            pattern = '<td class="show-for-large-up">(.*?)</td>'
-            exp = re.findall(pattern, chall)
-            if not exp:
-                chall_dict['author'] = ''
-            elif not exp[0]:
-                chall_dict['author'] = ''
-            else:
-                pattern = '<a class=\".*?\"  title=\".*?\" href=\"/(.*?)\?lang=fr\">.*?</a>'
-                exp = re.findall(pattern, exp[0])
-                if not exp: return '', 500
-                chall_dict['author'] = exp[0]
-            pattern = '</td><td><img src="squelettes/img/note/note(\d+).png"'
-            pattern += ' .*?></td><td class=".*?">(\d+)</td>'
-            exp = re.findall(pattern, chall)
-            if not exp: return '', 500
-            (note, solutions_nb) = exp[0]
-            chall_dict['note'] = note
-            chall_dict['solutions_nb'] = solutions_nb
-            challs[key] = chall_dict
-        print(sub_dict)
-        sub_dict['challenges'] = challs
-        print(key_send)
-        print()
-        send[key_send] = sub_dict
-    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+    try:
+        r = rq.get(URL + 'fr/Challenges/')
+        if r.status_code != 200:
+            raise RootMeException(r.status_code)
+
+        categories = extract_categories(r.text)
+
+        response = []
+        for category in categories:
+            response += retrieve_category_info(category)
+            app.logger.info('Fetched category page "{}"'.format(category))
+
+        return jsonify(response)
+
+    except RootMeException as e:
+        app.logger.exception("Root-me did not respond 200")
+        return "RootMe responded {}".format(e.err_code), 502
+
+    except RootMeParsingError:
+        app.logger.exception("Parsing error")
+        raise
 
 
 @app.route("/<username>")
@@ -151,7 +99,7 @@ def get_user(username):
 
 @app.route('/<username>/profile')
 def get_profile(username):
-    r = rq.get(url + username)
+    r = rq.get(URL + username)
     if r.status_code != 200: return r.text, r.status_code
     pattern = '<meta name="author" content="(.*?)"/>'
     pseudo = re.findall(pattern, r.text)
@@ -164,7 +112,7 @@ def get_profile(username):
 
 @app.route('/<username>/contributions')
 def get_contributions(username):
-    r = rq.get(url + username + '?inc=contributions')
+    r = rq.get(URL + username + '?inc=contributions')
     if r.status_code != 200: return r.text, r.status_code
     pattern = '<meta name="author" content="(.*?)"/>'
     exp = re.findall(pattern, r.text)
@@ -188,7 +136,7 @@ def get_contributions(username):
 
 @app.route('/<username>/score')
 def get_score(username):
-    r = rq.get(url + username + '?inc=score')
+    r = rq.get(URL + username + '?inc=score')
     if r.status_code != 200: return 'HTTP Error Code: {}'.format(r.status_code), r.status_code
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
@@ -262,7 +210,7 @@ def get_ctf(username):
     offset = 0;
     stop = False
     while not stop:
-        r = rq.get(url + username + '?inc=ctf&debut_ctf_alltheday_vm_dispo={}'.format(offset))
+        r = rq.get(URL + username + '?inc=ctf&debut_ctf_alltheday_vm_dispo={}'.format(offset))
         if r.status_code != 200: return r.text, r.status_code
         txt = r.text.replace('\n', '')
         txt = txt.replace('&nbsp;', '')
@@ -312,7 +260,7 @@ def get_ctf(username):
 
 @app.route('/<username>/stats')
 def get_stats(username):
-    r = rq.get(url + username + '?inc=statistiques')
+    r = rq.get(URL + username + '?inc=statistiques')
     if r.status_code != 200: return r.text, r.status_code
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
