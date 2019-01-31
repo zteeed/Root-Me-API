@@ -249,6 +249,56 @@ def get_score(username):
                 categories=categories)
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
+@app.route('/<username>/ctf')
+def get_ctf(username):
+    offset = 0; stop = False
+    while not stop:
+        r = rq.get(url+username+'?inc=ctf&debut_ctf_alltheday_vm_dispo={}'.format(offset))
+        if r.status_code != 200: return r.text, r.status_code
+        txt = r.text.replace('\n', '')
+        txt = txt.replace('&nbsp;', '')
+        pattern = "<li><a href='.*?inc=ctf.*?class='lien_pagination gris' rel='nofollow'>(.*?)</a></li>"
+        exp = re.findall(pattern, txt)
+        if not exp: return '', 500
+        stop = (exp[-1]=='<')
+        if offset == 0:
+            pattern = '<meta name="author" content="(.*?)"/>'
+            exp = re.findall(pattern, txt)
+            if not exp: return '', 500
+            pseudo = exp[0]
+            pattern = '<span class=\"color1 txl\".*?>(\d+).*?(\d+).*?<\/span>'
+            exp = re.findall(pattern, txt)
+            if not exp: return '', 500
+            (num_success, num_try) = exp[0]
+            description = '{} machine(s) compromise(s) en {} tentatives'.format(num_success, num_try)
+        """ extract table solve ctf """
+        pattern = '<tr class="row_first gras">(.*?)</tr>'
+        exp = re.findall(pattern, txt)
+        if not exp: return '', 500
+        pattern = '<td.*?>(.*?)</td>'
+        columns = re.findall(pattern, exp[0])
+        if not columns: return '', 500
+        CTFS = dict(); key=0
+        pattern = '<tr class="row_(odd|even)">(.*?)</tr>'
+        ctfs = re.findall(pattern, txt)
+        pattern = "<td><img src=.*?/img/(.*?).png.*?></td>"
+        for i in range(4): pattern += "<td.*?>(.*?)</td>"
+        pattern = pattern.replace('/', '\\/')
+        for id, ctf in enumerate(ctfs):
+            (class_txt, ctf_data) = ctf
+            exp = re.findall(pattern, ctf_data)
+            if not exp: return '', 500
+            extracted_data = exp[0]
+            X = dict()
+            for id, item in enumerate(extracted_data):
+                X[columns[id]] = item
+            CTFS[str(key)] = X 
+            key+=1
+        offset += 50 
+    send = dict(pseudo=pseudo, description=description, num_success=num_success,
+                num_try=num_try, CTFS=CTFS)
+    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
