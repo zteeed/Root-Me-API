@@ -32,7 +32,7 @@ dictConfig({
     }
 })
 app = Flask(__name__)
-cache = Cache(app,config={'CACHE_TYPE': 'simple'})
+cache = Cache(app, config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 60})
 URL = 'https://www.root-me.org/'
 ENDPOINTS = ["/", "/username", "/username/profile", "/username/contributions",
              "/username/score", "/username/ctf", "/username/stats"]
@@ -44,7 +44,7 @@ class RootMeException(BaseException):
 
 
 @app.route("/")
-@cache.cached(timeout=60)
+@cache.cached()
 def root():
     return jsonify(title="Root-Me-API",
                    author="zTeeed",
@@ -90,7 +90,7 @@ def retry_fetch_category_info(category):
 
 
 @app.route("/challenges")
-@cache.cached(timeout=60)
+@cache.cached()
 def challenges():
     try:
         r = rq.get(URL + 'fr/Challenges/')
