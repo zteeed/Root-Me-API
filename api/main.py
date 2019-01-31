@@ -2,20 +2,31 @@
 # -*- coding: utf-8 -*-
 
 import json
+import math
 import random
 import re
 from logging.config import dictConfig
 from multiprocessing.pool import ThreadPool
+from threading import Event, Thread
 from time import sleep
 
 import requests as rq
 from flask import Flask, redirect, jsonify
 from flask_caching import Cache
 
+from cache_updater import CacheUpdater
 from parser.category import extract_categories, extract_category_logo, extract_category_description, \
     extract_category_prereq, extract_challenges_info
 from parser.exceptions import RootMeParsingError
 
+# Constants
+REFRESH_CACHE_INTERVAL = 30
+CACHE_TIMEOUT = 60
+URL = 'https://www.root-me.org/'
+ENDPOINTS = ["/", "/username", "/username/profile", "/username/contributions",
+             "/username/score", "/username/ctf", "/username/stats"]
+
+# Flask config
 dictConfig({
     'version': 1,
     'formatters': {'default': {
@@ -32,10 +43,8 @@ dictConfig({
     }
 })
 app = Flask(__name__)
-cache = Cache(app, config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 60})
-URL = 'https://www.root-me.org/'
-ENDPOINTS = ["/", "/username", "/username/profile", "/username/contributions",
-             "/username/score", "/username/ctf", "/username/stats"]
+cache = Cache(app, config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': CACHE_TIMEOUT})
+cache_updater = CacheUpdater(app)
 
 
 class RootMeException(BaseException):
@@ -44,7 +53,7 @@ class RootMeException(BaseException):
 
 
 @app.route("/")
-@cache.cached()
+@cache.cached(timeout=math.inf)  # Never timeout, this is static.
 def root():
     return jsonify(title="Root-Me-API",
                    author="zTeeed",
@@ -90,8 +99,12 @@ def retry_fetch_category_info(category):
 
 
 @app.route("/challenges")
-@cache.cached()
 def challenges():
+    return jsonify(cached_challenges())
+
+
+@cache.cached(forced_update=cache_updater.should_update, key_prefix="challenges")
+def cached_challenges():
     try:
         r = rq.get(URL + 'fr/Challenges/')
         if r.status_code != 200:
@@ -102,7 +115,7 @@ def challenges():
         with ThreadPool(len(categories)) as tp:
             response = tp.map(retry_fetch_category_info, categories)
 
-        return jsonify(response)
+        return response
 
     except RootMeException as e:
         app.logger.exception("Root-me did not respond 200")
@@ -308,5 +321,36 @@ def get_stats(username):
     return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
 
 
+class UpdateSleepRepeat():
+    def __init__(self):
+        self._event = Event()
+
+    def stop(self):
+        self._event.set()
+
+    def update_cached_endpoints(self):
+        """
+        Keep the cache fresh by updating it at a regular interval.
+        """
+        while True:
+            self._event.wait(REFRESH_CACHE_INTERVAL)
+            if self._event.is_set():
+                return
+
+            app.logger.info("Refreshing the cache...")
+
+            cache_updater.force_update(cached_challenges)
+            app.logger.info("/challenges cache updated")
+
+    def launch(self):
+        def f():
+            self.update_cached_endpoints()
+
+        Thread(target=f).start()
+
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    updater = UpdateSleepRepeat()
+    updater.launch()
+    app.run(host='0.0.0.0', debug=True, use_reloader=False)
+    updater.stop()
