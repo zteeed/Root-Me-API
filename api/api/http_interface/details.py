@@ -14,7 +14,7 @@ def get_user_details(username):
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
     pseudo = extract_pseudo(txt)
-    score = extract_score(txt)
+    score, nb_challenges_solved, nb_challenges_tot = extract_score(txt)
     ranking, ranking_tot = extract_ranking(txt)
     ranking_category = extract_ranking_category(txt)
     categories = extract_challenges(txt)
@@ -22,6 +22,8 @@ def get_user_details(username):
     return [{
         'pseudo': pseudo,
         'score': score,
+        'nb_challenges_solved': nb_challenges_solved,
+        'nb_challenges_tot': nb_challenges_tot,
         'ranking': ranking,
         'ranking_tot': ranking_tot,
         'ranking_category': ranking_category,
