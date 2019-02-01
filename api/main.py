@@ -14,6 +14,7 @@ from api.cache_wrapper import cached
 from api.constants import REFRESH_CACHE_INTERVAL, AUTHORS, ENDPOINTS, GITHUB_ACCOUNTS
 from api.http_interface.challenges import get_all_challenges
 from api.http_interface.profile import get_user_profile
+from api.http_interface.contributions import get_user_contributions
 
 
 @app.route("/")
@@ -41,28 +42,10 @@ def get_profile(username):
     return jsonify(get_user_profile(username))
 
 
+@cached(timeout = 10)
 @app.route('/<username>/contributions')
 def get_contributions(username):
-    r = rq.get(URL + username + '?inc=contributions')
-    if r.status_code != 200: return r.text, r.status_code
-    pattern = '<meta name="author" content="(.*?)"/>'
-    exp = re.findall(pattern, r.text)
-    if not exp: return '', 500
-    pseudo = exp[0]
-    pattern = '<a class="gris" href="(.*?)">(.*?)</a>\n'
-    pattern += '<a href="(.*?)">(.*?)</a>\n'
-    pattern += '<span class="txs gris italic">(.*?)</span>'
-    exp = re.findall(pattern, r.text)
-    if not exp: return '', 500
-    contrib = dict()
-    send = dict(pseudo=pseudo, contrib=contrib)
-    tags = ['path', 'name', 'path_solve', 'solve', 'date']
-    for key, item in enumerate(exp):
-        solve = dict()
-        for tag, data in enumerate(item):
-            solve[tags[tag]] = data
-        contrib[key] = solve
-    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+    return jsonify(get_user_contributions(username))
 
 
 @app.route('/<username>/score')
