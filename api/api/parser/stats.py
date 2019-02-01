@@ -14,7 +14,7 @@ def extract_stats(txt):
     stats_data = ''.join(stats_data)
     pattern = ('evolution_data_total.push\(new Array\("(.*?)",(\d+), "(.*?)", "(.*?)"\)\)'
                'validation_totale\[(\d+)\]\+\=1;')
-    challenges_solved = re.findall(pattern, result)
+    challenges_solved = re.findall(pattern, stats_data)
     result = []
 
     for challenge_solved in challenges_solved:
