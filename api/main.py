@@ -11,7 +11,7 @@ from flask import redirect, jsonify
 from api import repeater
 from api.app import app
 from api.cache_wrapper import cached
-from api.constants import REFRESH_CACHE_INTERVAL
+from api.constants import REFRESH_CACHE_INTERVAL, ENDPOINTS
 from api.http_interface.challenges import get_all_challenges
 
 
