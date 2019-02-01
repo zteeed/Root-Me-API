@@ -1,4 +1,5 @@
 import re
+from html import unescape
 
 from api.parser.exceptions import RootMeParsingError
 
@@ -8,7 +9,7 @@ def extract_pseudo(txt):
     result = re.findall(pattern, txt)
     if not result:
         raise RootMeParsingError("Could not parse the pseudo about a user profile.")
-    return result[0]
+    return unescape(result[0])
 
 
 def extract_score(txt):
