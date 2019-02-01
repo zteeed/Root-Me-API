@@ -1,4 +1,5 @@
 import re
+from html import unescape
 
 from api.parser.challenge import extract_challenge_general_info, extract_validation_info, extract_difficulty, \
     extract_author, extract_solutions_and_note
@@ -47,7 +48,7 @@ def extract_category_description(txt):
     result = re.findall(pattern, txt)
     description2 = result[0] if result else ''
 
-    return description1, description2
+    return unescape(description1), unescape(description2)
 
 
 def extract_category_prereq(txt):
@@ -91,12 +92,12 @@ def extract_info_from_row(row):
 
     return {
         'path': path,
-        'statement': statement,
-        'name': name,
+        'statement': unescape(statement),
+        'name': unescape(name),
         'validations_percentage': validations_percentage,
         'validations_nb': validations_nb,
         'value': value,
-        'difficulty': difficulty,
+        'difficulty': unescape(difficulty),
         'author': author,
         'solutions_nb': solutions_nb,
         'note': note,
