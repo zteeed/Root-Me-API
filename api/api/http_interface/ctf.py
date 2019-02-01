@@ -18,7 +18,7 @@ def extract_ctf_page_data(username, offset):
 
 def get_user_ctf(username):
     offset = 0
-    isLastPage = False
+    is_last_page = False
     ctfs = []
     while not isLastPage:
         ctf_page_data = extract_ctf_page_data(username, offset)
@@ -27,7 +27,7 @@ def get_user_ctf(username):
             pseudo = extract_pseudo(ctf_page_data)
             num_success, num_try = extract_summary(ctf_page_data)
 
-        ctfs, isLastPage = extract_ctf(ctf_page_data, ctfs)
+        ctfs, is_last_page = extract_ctf(ctf_page_data, ctfs)
         offset += 50
 
     description_pattern = '{} machine(s) compromise(s) en {} tentatives'

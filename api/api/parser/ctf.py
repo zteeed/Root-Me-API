@@ -12,16 +12,16 @@ def extract_summary(txt):
     return num_success, num_try
 
 
-def check_isLastPage(ctfPages):
-    return ctfPages[-1] == '&lt;'
+def check_is_last_page(ctf_pages):
+    return ctf_pages[-1] == '&lt;'
 
 
 def extract_ctf(txt, ctfs):
     pattern = "<li><a href='.*?inc=ctf.*?class='lien_pagination gris' rel='nofollow'>(.*?)</a></li>"
-    ctfPages = re.findall(pattern, txt)
-    if not ctfPages:
+    ctf_pages = re.findall(pattern, txt)
+    if not ctf_pages:
         raise RootMeParsingError("Could not parse number pages of ctf data about a user.")
-    isLastPage = check_isLastPage(ctfPages)
+    is_last_page = check_is_last_page(ctf_pages)
 
     pattern = '<tr class="row_(odd|even)">(.*?)</tr>'
     ctfs_data = re.findall(pattern, txt)
@@ -48,4 +48,4 @@ def extract_ctf(txt, ctfs):
         }
         ctfs.append(ctf)
 
-    return ctfs, isLastPage
+    return ctfs, is_last_page
