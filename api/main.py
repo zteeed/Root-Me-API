@@ -11,7 +11,7 @@ from flask import redirect, jsonify
 from api import repeater
 from api.app import app
 from api.cache_wrapper import cached
-from api.constants import REFRESH_CACHE_INTERVAL, ENDPOINTS
+from api.constants import REFRESH_CACHE_INTERVAL, AUTHORS, ENDPOINTS, GITHUB_ACCOUNTS
 from api.http_interface.challenges import get_all_challenges
 
 
@@ -19,8 +19,8 @@ from api.http_interface.challenges import get_all_challenges
 @cached(timeout=math.inf)  # Never timeout, this is static.
 def root():
     return jsonify(title="Root-Me-API",
-                   author="zTeeed",
-                   followme="https://github.com/zteeed",
+                   authors=AUTHORS,
+                   follow_us=GITHUB_ACCOUNTS,
                    paths=ENDPOINTS)
 
 
