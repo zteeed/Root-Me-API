@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import json
 import math
-import re
 
-import requests as rq
 from flask import redirect, jsonify
 
 from api import repeater
