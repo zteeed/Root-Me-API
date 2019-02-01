@@ -13,6 +13,7 @@ from api.app import app
 from api.cache_wrapper import cached
 from api.constants import REFRESH_CACHE_INTERVAL, AUTHORS, ENDPOINTS, GITHUB_ACCOUNTS
 from api.http_interface.challenges import get_all_challenges
+from api.http_interface.profile import get_user_profile
 
 
 @app.route("/")
@@ -34,17 +35,10 @@ def get_user(username):
     return redirect('/{}/profile'.format(username), code=302)
 
 
+@cached(timeout = 10)
 @app.route('/<username>/profile')
 def get_profile(username):
-    r = rq.get(URL + username)
-    if r.status_code != 200: return r.text, r.status_code
-    pattern = '<meta name="author" content="(.*?)"/>'
-    pseudo = re.findall(pattern, r.text)
-    pattern = '<span>(\d+)</span>'
-    score = re.findall(pattern, r.text)
-    if not pseudo or not score: return '', 500
-    send = dict(pseudo=pseudo[0], score=score[0])
-    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+    return jsonify(get_user_profile(username))
 
 
 @app.route('/<username>/contributions')
