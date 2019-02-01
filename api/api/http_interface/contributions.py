@@ -18,4 +18,3 @@ def get_user_contributions(username):
         'pseudo': pseudo,
         'contributions': contributions,
     }]
-    return
