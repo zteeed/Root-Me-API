@@ -6,27 +6,37 @@ from api.parser.profile import extract_pseudo
 from api.parser.ctf import extract_summary, extract_ctf
 
 
-def get_user_ctf(username):
-    offset = 0; stop = False; CTFs = []
-    while not stop:
-        r = rq.get(URL + username + '?inc=ctf&debut_ctf_alltheday_vm_dispo={}'.format(offset))
-        if r.status_code != 200:
-            raise RootMeException(r.status_code)
+def extract_ctf_page_data(username, offset):
+    pattern_url = URL + '{}?inc=ctf&debut_ctf_alltheday_vm_dispo={}'
+    r = rq.get(pattern_url.format(username, offset))
+    if r.status_code != 200:
+        raise RootMeException(r.status_code)
+    txt = r.text.replace('\n', '')
+    txt = txt.replace('&nbsp;', '')
+    return txt
 
-        txt = r.text.replace('\n', '')
-        txt = txt.replace('&nbsp;', '')
+
+def get_user_ctf(username):
+    offset = 0
+    isLastPage = False
+    ctfs = []
+    while not isLastPage:
+        ctf_page_data = extract_ctf_page_data(username, offset)
 
         if offset == 0:
-            pseudo = extract_pseudo(txt)
-            num_success, num_try, description = extract_summary(txt)
+            pseudo = extract_pseudo(ctf_page_data)
+            num_success, num_try = extract_summary(ctf_page_data)
 
-        CTFs, stop = extract_ctf(txt, CTFs=CTFs)
+        ctfs, isLastPage = extract_ctf(ctf_page_data, ctfs)
         offset += 50
+
+    description_pattern = '{} machine(s) compromise(s) en {} tentatives'
+    description = description_pattern.format(num_success, num_try)
 
     return [{
         'pseudo': pseudo,
         'num_success': num_success,
         'num_try': num_try,
         'description': description,
-        'CTFs': CTFs,
+        'ctfs': ctfs,
     }]

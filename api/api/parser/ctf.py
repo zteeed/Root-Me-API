@@ -1,6 +1,4 @@
 import re
-from html import unescape
-import time
 
 from api.parser.exceptions import RootMeParsingError
 
@@ -10,47 +8,44 @@ def extract_summary(txt):
     result = re.findall(pattern, txt)
     if not result:
         raise RootMeParsingError("Could not parse ctf summary data about a user.")
-    (num_success, num_try) = result[0]
-    description = '{} machine(s) compromise(s) en {} tentatives'.format(num_success, num_try)
-    return num_success, num_try, description
+    num_success, num_try = result[0]
+    return num_success, num_try
 
 
-def extract_ctf(txt, CTFs=[]):
+def check_isLastPage(ctfPages):
+    return ctfPages[-1] == '&lt;'
+
+
+def extract_ctf(txt, ctfs):
     pattern = "<li><a href='.*?inc=ctf.*?class='lien_pagination gris' rel='nofollow'>(.*?)</a></li>"
-    result = re.findall(pattern, txt)
-    if not result:
+    ctfPages = re.findall(pattern, txt)
+    if not ctfPages:
         raise RootMeParsingError("Could not parse number pages of ctf data about a user.")
-    stop = (result[-1] == '&lt;')
-
-    pattern = '<tr class="row_first gras">(.*?)</tr>'
-    result = re.findall(pattern, txt)
-    if not result:
-        raise RootMeParsingError("Could not parse ctf data about a user.")
-
-    pattern = '<td.*?>(.*?)</td>'
-    columns = re.findall(pattern, result[0])
-    if not columns:
-        raise RootMeParsingError("Could not parse ctf data about a user.")
+    isLastPage = check_isLastPage(ctfPages)
 
     pattern = '<tr class="row_(odd|even)">(.*?)</tr>'
-    ctfs = re.findall(pattern, txt)
+    ctfs_data = re.findall(pattern, txt)
+
     pattern = "<td><img src=.*?/img/(.*?).png.*?></td>"
-    for i in range(4): pattern += "<td.*?>(.*?)</td>"
+    for i in range(4): 
+        pattern += "<td.*?>(.*?)</td>"
     pattern = pattern.replace('/', '\\/')
 
-    for id, ctf in enumerate(ctfs):
-        (class_txt, ctf_data) = ctf
-        exp = re.findall(pattern, ctf_data)
-        if not exp:
+    for id, ctf_data in enumerate(ctfs_data):
+        class_txt, ctf_info = ctf_data
+        challenge_info = re.findall(pattern, ctf_info)
+
+        if not challenge_info:
             raise RootMeParsingError("Could not parse ctf data about a user.")
-        (validated, name, num_success, num_try, solve_duration) = exp[0]
-        CTF = {
+
+        validated, name, num_success, num_try, solve_duration = challenge_info[0]
+        ctf = {
             'validated': validated,
             'name': name,
             'num_success': num_success,
             'num_try': num_try,
             'solve_duration': solve_duration,
         }
-        CTFs.append(CTF)
+        ctfs.append(ctf)
 
-    return CTFs, stop
+    return ctfs, isLastPage
