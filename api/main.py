@@ -17,6 +17,7 @@ from api.http_interface.profile import get_user_profile
 from api.http_interface.contributions import get_user_contributions
 from api.http_interface.details import get_user_details
 from api.http_interface.ctf import get_user_ctf
+from api.http_interface.stats import get_user_stats
 
 
 @app.route("/")
@@ -56,38 +57,16 @@ def get_score(username):
     return jsonify(get_user_details(username))
 
 
+@cached(timeout = 10)
 @app.route('/<username>/ctf')
 def get_ctf(username):
     return jsonify(get_user_ctf(username))
 
 
+@cached(timeout = 10)
 @app.route('/<username>/stats')
 def get_stats(username):
-    r = rq.get(URL + username + '?inc=statistiques')
-    if r.status_code != 200: return r.text, r.status_code
-    txt = r.text.replace('\n', '')
-    txt = txt.replace('&nbsp;', '')
-    pattern = '<meta name="author" content="(.*?)"/>'
-    exp = re.findall(pattern, txt)
-    if not exp: return '', 500
-    pseudo = exp[0]
-
-    """ Evolution du Score """
-    pattern = '<script type="text/javascript">(.*?)</script>'
-    exp = re.findall(pattern, txt)
-    exp = ''.join(exp)
-    pattern = 'evolution_data_total.push\(new Array\("(.*?)",(\d+), "(.*?)", "(.*?)"\)\)'
-    pattern += 'validation_totale\[(\d+)\]\+\=1;'
-    challenges_solved = re.findall(pattern, exp)
-    challenges = dict()
-    for id, challenge_solved in enumerate(challenges_solved):
-        challenge = dict()
-        (date, score, name, path, difficulty) = challenge_solved
-        challenge = dict(name=name, score=score, path=path,
-                         difficulty=difficulty, date=date)
-        challenges[id] = challenge
-    send = dict(pseudo=pseudo, challenges=challenges)
-    return json.dumps(send, ensure_ascii=False).encode('utf8'), 200
+    return jsonify(get_user_stats(username))
 
 
 @cached(key_prefix="challenges")
