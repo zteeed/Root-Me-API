@@ -13,7 +13,7 @@ from api.http_interface.profile import get_user_profile
 from api.http_interface.stats import get_user_stats
 
 
-@app.route("/")
+@app.route("/v1")
 def root():
     return jsonify(title="Root-Me-API",
                    authors=AUTHORS,
@@ -21,37 +21,37 @@ def root():
                    paths=ENDPOINTS)
 
 
-@app.route("/challenges")
+@app.route("/v1/challenges")
 def challenges():
     return jsonify(get_all_challenges())
 
 
-@app.route("/<username>")
+@app.route("/v1/<username>")
 def get_user(username):
     return redirect('/{}/profile'.format(username), code=302)
 
 
-@app.route('/<username>/profile')
+@app.route('/v1/<username>/profile')
 def get_profile(username):
     return jsonify(get_user_profile(username))
 
 
-@app.route('/<username>/contributions')
+@app.route('/v1/<username>/contributions')
 def get_contributions(username):
     return jsonify(get_user_contributions(username))
 
 
-@app.route('/<username>/details')
+@app.route('/v1/<username>/details')
 def get_score(username):
     return jsonify(get_user_details(username))
 
 
-@app.route('/<username>/ctf')
+@app.route('/v1/<username>/ctf')
 def get_ctf(username):
     return jsonify(get_user_ctf(username))
 
 
-@app.route('/<username>/stats')
+@app.route('/v1/<username>/stats')
 def get_stats(username):
     return jsonify(get_user_stats(username))
 
