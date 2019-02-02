@@ -1,13 +1,13 @@
-import requests as rq
 
 from api.constants import URL
+from api.http_interface import session
 from api.http_interface.exceptions import RootMeException
 from api.parser.profile import extract_pseudo
 from api.parser.details import extract_score, extract_ranking, \
 extract_ranking_category, extract_challenges
 
 def get_user_details(username):
-    r = rq.get(URL + username + '?inc=score')
+    r = session.get(URL + username + '?inc=score')
     if r.status_code != 200:
         raise RootMeException(r.status_code)
 

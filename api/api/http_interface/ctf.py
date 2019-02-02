@@ -1,14 +1,12 @@
-import requests as rq
-
 from api.constants import URL
 from api.http_interface.exceptions import RootMeException
-from api.parser.profile import extract_pseudo
 from api.parser.ctf import extract_summary, extract_ctf
+from api.parser.profile import extract_pseudo
 
 
 def extract_ctf_page_data(username, offset):
     pattern_url = URL + '{}?inc=ctf&debut_ctf_alltheday_vm_dispo={}'
-    r = rq.get(pattern_url.format(username, offset))
+    r = session.get(pattern_url.format(username, offset))
     if r.status_code != 200:
         raise RootMeException(r.status_code)
     txt = r.text.replace('\n', '')
