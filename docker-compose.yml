@@ -1,0 +1,12 @@
+version: '3'
+services:
+  api:
+    build: ./api
+    expose:
+     - "5000"
+  varnish:
+    build: ./varnish
+    environment:
+      VARNISH_PORT: 5001
+    ports:
+      - "5001:5001"
