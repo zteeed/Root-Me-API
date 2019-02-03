@@ -4,7 +4,7 @@
 from flask import redirect, jsonify
 
 from api.app import app
-from api.constants import AUTHORS, ENDPOINTS, GITHUB_ACCOUNTS
+from api.constants import AUTHORS, GITHUB_ACCOUNTS
 from api.http_interface.challenges import get_all_challenges
 from api.http_interface.contributions import get_user_contributions
 from api.http_interface.ctf import get_user_ctf
@@ -22,8 +22,7 @@ def root():
 def rootv1():
     return jsonify(title="Root-Me-API",
                    authors=AUTHORS,
-                   follow_us=GITHUB_ACCOUNTS,
-                   paths=ENDPOINTS)
+                   follow_us=GITHUB_ACCOUNTS)
 
 
 @app.route("/v1/challenges")
