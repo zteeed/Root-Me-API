@@ -13,8 +13,13 @@ from api.http_interface.profile import get_user_profile
 from api.http_interface.stats import get_user_stats
 
 
-@app.route("/v1")
+@app.route("/")
 def root():
+    return redirect('/v1', code=302)
+
+
+@app.route("/v1")
+def rootv1():
     return jsonify(title="Root-Me-API",
                    authors=AUTHORS,
                    follow_us=GITHUB_ACCOUNTS,
