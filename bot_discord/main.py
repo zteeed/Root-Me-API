@@ -7,6 +7,7 @@ from discord.ext import commands
 from bot.colors import grey, red, green, yellow, blue, purple, cyan
 from bot.constants import token
 
+import bot.manage.json_data as jd
 from bot.manage.discord_data import get_channel
 
 
@@ -38,6 +39,10 @@ class RootMeBot():
                 red('{} is not a valid channel name'.format(bot_channel))
                 red('Please update the channel name used by the bot '
                     'in ./bot/constants.py')
+                sys.exit(0)
+            if jd.default() is None:
+                red('Can\'t connect to API, please update URL in '
+                    './bot/constants.py')
                 sys.exit(0)
             green('RootMeBot is coming !')
 
