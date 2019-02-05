@@ -123,13 +123,13 @@ def display_duration(args, delay, delay_msg):
 
     scores = jd.get_scores(users)
     categories = jd.get_categories()
-    challs_selected = []
     pattern = '%Y-%m-%d %H:%M:%S'
     tosend = ''
 
     for d in scores:
         user, score = d['name'], d['score']
         now = datetime.now()
+        challs_selected = []
 
         for chall in jd.get_solved_challenges(user):
             date = datetime.strptime(chall['date'], pattern)
