@@ -45,6 +45,15 @@ class RootMeBot():
                     './bot/constants.py')
                 sys.exit(0)
             green('RootMeBot is coming !')
+            if not jd.is_first():
+                tosend = 'Auto Reboot'
+                await self.bot.send_message(self.channel, tosend)
+            else:
+                tosend = ('Hello, it seems that it\'s the first time you are ' 
+                          'using my services, you might use `!help` to know '
+                          'more about my features.')
+                jd.launched()
+                await self.bot.send_message(self.channel, tosend)
 
 
     def start(self):
