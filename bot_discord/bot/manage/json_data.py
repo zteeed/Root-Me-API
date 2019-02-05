@@ -114,3 +114,7 @@ def get_category(category_selected):
     return None
 
 
+def get_solved_challenges(user):
+    return extract_rootme_stats(user)['solved_challenges']
+
+

@@ -76,3 +76,36 @@ def display_category(category):
     return tosend
 
 
+def find_challenge(challenge_selected):
+    for category in jd.get_categories():
+        challenges = category['challenges']
+        for challenge in challenges:
+            if challenge['name'] == challenge_selected:
+                return challenge
+    return None
+
+
+def user_has_solved(challenge_selected, solved_challenges):
+    test = [ c['name'] == challenge_selected for c in solved_challenges ]
+    return True in test
+
+
+def display_who_solved(challenge_selected):
+    challenge_found = find_challenge(challenge_selected)
+
+    if challenge_found is None:
+        return 'Challenge {} does not exists.'.format(challenge_selected)
+
+    tosend = ''
+    users = jd.select_users()
+    scores = jd.get_scores(users)
+    for d in scores:
+        user, score = d['name'], d['score']
+        solved_challenges = jd.get_solved_challenges(user)
+        if user_has_solved(challenge_selected, solved_challenges):
+            tosend += '- {}\n'.format(user)
+    if not tosend: 
+        tosend = 'Nobody solves {}.'.format(challenge_selected)
+    return tosend
+
+

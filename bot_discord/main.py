@@ -128,6 +128,21 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
+        @self.bot.command(pass_context=True, description = 'return who solved a specific challenge') 
+        async def who_solved(ctx):
+            """ <challenge> """
+            self.lock = True
+
+            challenge = ' '.join(ctx.message.content.strip().split(' ')[1:])
+            challenge_selected = unescape(challenge.strip())
+            if not challenge_selected:
+                await self.interrupt('```ERROR, use !who_solved <challenge>```')
+                return
+
+            tosend = disp.display_who_solved(challenge_selected)
+            await self.interrupt(tosend)
+
+
 
 
     def start(self):
