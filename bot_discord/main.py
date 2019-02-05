@@ -7,6 +7,8 @@ from discord.ext import commands
 from bot.colors import grey, red, green, yellow, blue, purple, cyan
 from bot.constants import token
 
+from bot.manage.discord_data import get_channel
+
 
 class RootMeBot():
 
@@ -31,6 +33,12 @@ class RootMeBot():
     def catch(self):
         @self.bot.event
         async def on_ready():
+            self.channel = get_channel(self.bot)
+            if self.channel is None:
+                red('{} is not a valid channel name'.format(bot_channel))
+                red('Please update the channel name used by the bot '
+                    'in ./bot/constants.py')
+                sys.exit(0)
             green('RootMeBot is coming !')
 
 
