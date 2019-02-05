@@ -41,3 +41,14 @@ def display_remove_user(bot, name):
         jd.delete_user(name)
         return add_emoji(bot, 'User {} successfully removed '
                'from team'.format(name),  emoji2)
+
+
+def display_scoreboard(users):
+    tosend = ''
+    scores = jd.get_scores(users)
+    for rank, d in enumerate(scores):
+        user, score = d['name'], d['score']
+        tosend += '-{}: {} --> Score = {} \n'.format(1+rank, user, score)
+    return tosend
+
+

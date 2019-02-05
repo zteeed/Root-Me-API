@@ -1,6 +1,6 @@
 import json
 from bot.parser.api.extract_all import extract_default, \
-extract_rootme_profile
+extract_rootme_profile, extract_rootme_stats, extract_score, extract_categories
 
 
 def read_json():
@@ -76,5 +76,15 @@ def select_users():
 def last_solved(user):
     data = read_json()
     return [ d['last_solved'] for d in data['team'] if d['name'] == user ][0]
+
+
+def get_scores(users):
+    scores = []
+    data = read_json()
+    for user in data['team']:
+        scores.append(int(extract_score(user['name'])))
+    """ Sort users by score desc """
+    return [ {'name': x, 'score': int(y) } for y, x in sorted(zip(scores,users), 
+                                                    reverse=True) ]
 
 
