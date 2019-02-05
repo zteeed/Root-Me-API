@@ -25,6 +25,9 @@ class RootMeBot():
     async def interrupt(self, message):
         parts = disp.display_parts(message) 
         for part in parts:
+            lines = part.split('\n')
+            for line in lines:
+                yellow(line)
             await self.bot.send_message(self.channel, part)
         self.lock = False
         return

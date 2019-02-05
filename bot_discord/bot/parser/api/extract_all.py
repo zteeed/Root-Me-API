@@ -1,21 +1,23 @@
 import json, requests
 from bot.constants import URL
+from bot.colors import purple, red
 
 
 def request_to(url):
     try:
         return requests.get(url)
     except Exception as exception:
-        print(exception)
+        red(exception)
         return None
 
 
 def extract_json(url):
     try:
+        purple(url)
         r = request_to(url)
         return json.loads(r.content.decode())
     except Exception as exception:
-        print(exception)
+        red(exception)
         return None
 
 
