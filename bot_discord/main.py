@@ -107,6 +107,27 @@ class RootMeBot():
 
 
 
+        @self.bot.command(description = 'Show list of categories') 
+        async def categories():
+            """ """
+            self.lock = True
+            tosend = disp.display_categories()
+            await self.interrupt(tosend)
+
+
+        @self.bot.command(description = 'Show list of challenges from a category') 
+        async def category(*args):
+            """ <category> """
+            self.lock = True
+
+            if len(args) != 1:
+                await self.interrupt('```ERROR, use !category <category>```')
+                return
+
+            tosend = disp.display_category(args[0])
+            await self.interrupt(tosend)
+
+
 
 
     def start(self):

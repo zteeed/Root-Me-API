@@ -88,3 +88,29 @@ def get_scores(users):
                                                     reverse=True) ]
 
 
+def get_categories():
+    categories = extract_categories() 
+    result = [] 
+    for category in categories:
+        result.append(category[0])
+    return result
+
+
+def get_categories_light():
+    categories = extract_categories() 
+    result = [] 
+    for category in categories:
+        c = category[0]
+        result.append({'name': c['name'], 'challenges_nb': c['challenges_nb']})
+    return result
+
+
+def get_category(category_selected):
+    categories = extract_categories() 
+    result = [] 
+    for category in categories:
+        if category[0]['name'] == category_selected:
+            return category
+    return None
+
+
