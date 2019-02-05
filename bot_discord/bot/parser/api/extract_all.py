@@ -5,7 +5,7 @@ from bot.colors import purple, red
 
 def request_to(url):
     try:
-        return requests.get(url)
+        return requests.get(url, timeout=4)
     except Exception as exception:
         red(exception)
         return None
