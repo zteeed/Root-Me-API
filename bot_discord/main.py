@@ -35,6 +35,11 @@ class RootMeBot():
         while not self.bot.is_closed:
             if not self.lock and self.channel is not None:
                 green('RootMeBot open')
+                self.lock = True
+                tosend_cron = disp.display_cron()
+                if tosend_cron:
+                    await self.interrupt(tosend_cron)
+                self.lock = False
             else:
                 red('RootMeBot locked')
             await asyncio.sleep(1)

@@ -188,3 +188,31 @@ def display_diff(user1, user2):
     tosend += display_diff_one_side(user2_diff, user2)
 
     return tosend
+
+
+def next_challenge_solved(solved_user, challenge_name):
+    if len(solved_user) == 1:
+        return solved_user[-1]
+    for key, chall in enumerate(solved_user[:-1]):
+        if chall['name'] == challenge_name:
+            return solved_user[1+key]
+    return None
+
+
+def display_cron():
+    tosend = ''
+    users = jd.select_users()
+    for user in users:
+        last = jd.last_solved(user)
+        solved_user = jd.get_solved_challenges(user)
+        if solved_user and solved_user[-1]['name'] != last:
+            next_chall = next_challenge_solved(solved_user, last)
+            tosend = '[+] New challenge solved by {}:\n'.format(user)
+            c = find_challenge(next_chall['name'])
+            tosend += ('--> {} |  {} points | difficulty: {} | date: {} '
+                      '\n'.format(c['name'], c['value'], 
+                                  c['difficulty'], next_chall['date']))
+            tosend += '--> New score: {} points.'.format(next_chall['score_at_date'])
+            jd.update_user_last(user, c['name'])
+            return tosend
+    return None
