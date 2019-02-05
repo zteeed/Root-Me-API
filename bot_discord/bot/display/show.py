@@ -1,4 +1,5 @@
 from html import unescape
+from datetime import datetime, timedelta
 import bot.manage.json_data as jd
 from bot.constants import emoji1, emoji2, emoji3, emoji4, emoji5
 from bot.display.update import add_emoji
@@ -107,5 +108,58 @@ def display_who_solved(challenge_selected):
     if not tosend: 
         tosend = 'Nobody solves {}.'.format(challenge_selected)
     return tosend
+
+
+def display_duration(args, delay, delay_msg):
+
+    if len(args) == 1:
+        if not jd.user_json_exists(args[0]):
+            return ('User {} is not in team, you might add it with '
+            '`!week (<username>)`'.format(args[0]))
+        else:
+            users = [args[0]]
+    else:
+        users = jd.select_users()
+
+    scores = jd.get_scores(users)
+    categories = jd.get_categories()
+    challs_selected = []
+    pattern = '%Y-%m-%d %H:%M:%S'
+    tosend = ''
+
+    for d in scores:
+        user, score = d['name'], d['score']
+        now = datetime.now()
+
+        for chall in jd.get_solved_challenges(user):
+            date = datetime.strptime(chall['date'], pattern)
+            diff = now - date
+            if diff < delay:
+                challs_selected.append(chall)
+
+        if challs_selected:
+            tosend += 'Challenges solved by {} {}:\n'.format(user, delay_msg)
+        for chall in challs_selected:
+            value = find_challenge(chall['name'])['value']
+            tosend += ('- {} ({} points) - {}\n'.format(chall['name'], 
+                        value, chall['date']))
+        if challs_selected:
+            tosend += '\n\n'
+
+    if len(users) == 1 and not challs_selected:
+        tosend = ('No challenges solved by {} {} '
+                   ':\'('.format(user, delay_msg))
+    elif not tosend:
+        tosend = 'No challenges solved by anyone {} :\'('.format(delay_msg)
+
+    return tosend
+
+
+def display_week(args):
+    return display_duration(args, timedelta(weeks=1), 'last week')
+
+
+def display_today(args):
+    return display_duration(args, timedelta(days=1), 'since last 24h')
 
 

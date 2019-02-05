@@ -143,6 +143,32 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
+        @self.bot.command(description = 'return challenges solved grouped by users for last week') 
+        async def week(*args):
+            """ (<username>) """
+            self.lock = True
+
+            if len(args) > 1:
+                await self.interrupt('```ERROR, use !week (<username>)```')
+                return
+
+            tosend = disp.display_week(args)
+            await self.interrupt(tosend)
+
+
+        @self.bot.command(description = 'return challenges solved grouped by users for last day') 
+        async def today(*args):
+            """ (<username>) """
+            self.lock = True
+
+            if len(args) > 1:
+                await self.interrupt('```ERROR, use !today (<username>)```')
+                return
+
+            tosend = disp.display_today(args)
+            await self.interrupt(tosend)
+
+
 
 
     def start(self):
