@@ -8,6 +8,7 @@ from bot.colors import grey, red, green, yellow, blue, purple, cyan
 from bot.constants import token
 
 import bot.manage.json_data as jd
+import bot.display.show as disp
 from bot.manage.discord_data import get_channel
 
 
@@ -19,6 +20,14 @@ class RootMeBot():
         self.bot = commands.Bot(command_prefix = '!')
         self.channel = None
         self.lock = False
+
+
+    async def interrupt(self, message):
+        parts = disp.display_parts(message) 
+        for part in parts:
+            await self.bot.send_message(self.channel, part)
+        self.lock = False
+        return
 
 
     async def cron(self):
@@ -54,6 +63,34 @@ class RootMeBot():
                           'more about my features.')
                 jd.launched()
                 await self.bot.send_message(self.channel, tosend)
+
+        
+        @self.bot.command(description = 'add a user to team into database') 
+        async def add_user(*args):
+            """ <username> """
+            self.lock = True
+
+            if len(args) != 1:
+                await self.interrupt('```ERROR, use: !add_user <username>```')
+                return
+
+            tosend = disp.display_add_user(self.bot, args[0])
+            await self.interrupt(tosend)
+
+
+        @self.bot.command(description = 'remove a user from team in database') 
+        async def remove_user(*args):
+            """ <username> """
+            self.lock = True
+
+            if len(args) != 1:
+                await self.interrupt('```ERROR, use: !remove_user <username>```')
+                return
+
+            tosend = disp.display_remove_user(self.bot, args[0])
+            await self.interrupt(tosend)
+
+
 
 
     def start(self):
