@@ -163,3 +163,28 @@ def display_today(args):
     return display_duration(args, timedelta(days=1), 'since last 24h')
 
 
+def display_diff_one_side(user_diff, user):
+    tosend = ''
+    if user_diff:
+        tosend += '\n\n[+] Challenges solved by {}:\n'.format(user)
+        tosend_user = ''
+        user_diff.reverse()
+        for c in user_diff:
+            value = find_challenge(c['name'])['value']
+            tosend_user += '- {} ({} points)\n'.format(c['name'], value)
+        tosend += tosend_user
+    return tosend
+
+
+def display_diff(user1, user2):
+
+    solved_user1 = jd.get_solved_challenges(user1)
+    solved_user2 = jd.get_solved_challenges(user2)
+
+    user1_diff, user2_diff = jd.get_diff(solved_user1, solved_user2)
+
+    tosend = display_diff_one_side(user1_diff, user1)
+    tosend += '\n\n'
+    tosend += display_diff_one_side(user2_diff, user2)
+
+    return tosend

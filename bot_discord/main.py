@@ -169,6 +169,18 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
+        @self.bot.command(description = 'return challenges solved grouped by users for last day') 
+        async def diff(*args):
+            """ <username1> <username2> """
+            self.lock = True
+
+            if len(args) != 2:
+                await self.interrupt('```ERROR, use !diff <username1> '
+                                     '<username2>```')
+                return
+
+            tosend = disp.display_diff(args[0], args[1])
+            await self.interrupt(tosend)
 
 
     def start(self):

@@ -118,3 +118,11 @@ def get_solved_challenges(user):
     return extract_rootme_stats(user)['solved_challenges']
 
 
+def get_diff(solved_user1, solved_user2):
+    test1 = [ c['name'] for c in solved_user1 ]
+    test2 = [ c['name'] for c in solved_user2 ]
+    user1_diff = [ c for c in solved_user1 if c['name'] not in test2 ]
+    user2_diff = [ c for c in solved_user2 if c['name'] not in test1 ]
+    user1_diff.reverse()
+    user2_diff.reverse()
+    return user1_diff, user2_diff
