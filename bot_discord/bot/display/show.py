@@ -1,7 +1,7 @@
 from html import unescape
 from datetime import datetime, timedelta
 import bot.manage.json_data as jd
-from bot.constants import emoji1, emoji2, emoji3, emoji4, emoji5
+from bot.constants import emoji1, emoji2, emoji3, emoji4, emoji5, limit_size, medals
 from bot.display.update import add_emoji
 
 
@@ -10,7 +10,7 @@ def display_parts(message):
     tosend = ''
     stored = []
     for part in message:
-        if len(tosend + part + '\n') >= 2000:
+        if len(tosend + part + '\n') >= limit_size:
             stored.append(tosend)
             tosend = ''
         tosend += part + '\n'
@@ -53,14 +53,19 @@ def display_scoreboard():
     scores = jd.get_scores(users)
     for rank, d in enumerate(scores):
         user, score = d['name'], d['score']
-        tosend += '-{}: {} --> Score = {} \n'.format(1+rank, user, score)
+        if rank < len(medals):
+            tosend += '{} {} --> Score = {} \n'.format(medals[rank], user, score)
+        else:
+            tosend += ' • • • {} --> Score = {} \n'.format(user, score)
+
+
     return tosend
 
 
 def display_categories():
     tosend = ''
     for c in jd.get_categories():
-        tosend += '- {} ({} challenges) \n'.format(c['name'], c['challenges_nb'])
+        tosend += ' • {} ({} challenges) \n'.format(c['name'], c['challenges_nb'])
     return tosend
 
 
@@ -73,7 +78,7 @@ def display_category(category):
 
     tosend = ''
     for chall in c[0]['challenges']:
-        tosend += ('- {} ({} points / {}% of success / difficulty: {}) '
+        tosend += (' • {} ({} points / {}% of success / difficulty: {}) '
         '\n'.format(unescape(chall['name']), chall['value'],
                     chall['validations_percentage'], 
                     unescape(chall['difficulty'])))
@@ -107,18 +112,20 @@ def display_who_solved(challenge_selected):
         user, score = d['name'], d['score']
         solved_challenges = jd.get_solved_challenges(user)
         if user_has_solved(challenge_selected, solved_challenges):
-            tosend += '- {}\n'.format(user)
+            tosend += ' • {}\n'.format(user)
     if not tosend: 
         tosend = 'Nobody solves {}.'.format(challenge_selected)
     return tosend
 
 
-def display_duration(args, delay, delay_msg):
+def display_duration(args, delay):
 
     if len(args) == 1:
         if not jd.user_json_exists(args[0]):
-            return ('User {} is not in team, you might add it with '
-            '`!week (<username>)`'.format(args[0]))
+            tosend = ('User {} is not in team.\nYou might add it with '
+            '!add_user <username>'.format(args[0]))
+            tosend_list = [{'user': args[0], 'msg': tosend}]
+            return tosend_list
         else:
             users = [args[0]]
     else:
@@ -127,9 +134,10 @@ def display_duration(args, delay, delay_msg):
     scores = jd.get_scores(users)
     categories = jd.get_categories()
     pattern = '%Y-%m-%d %H:%M:%S'
-    tosend = ''
+    tosend_list = []
 
     for d in scores:
+        tosend = ''
         user, score = d['name'], d['score']
         now = datetime.now()
         challs_selected = []
@@ -140,77 +148,84 @@ def display_duration(args, delay, delay_msg):
             if diff < delay:
                 challs_selected.append(chall)
 
-        if challs_selected:
-            tosend += 'Challenges solved by {} {}:\n'.format(user, delay_msg)
+        challs_selected.reverse()
         for chall in challs_selected:
             value = find_challenge(chall['name'])['value']
-            tosend += ('- {} ({} points) - {}\n'.format(chall['name'], 
+            tosend += (' • {} ({} points) - {}\n'.format(chall['name'], 
                         value, chall['date']))
-        if challs_selected:
-            tosend += '\n\n'
+        tosend_list.append({'user': user, 'msg': tosend})
 
-    if len(users) == 1 and not challs_selected:
-        tosend = ('No challenges solved by {} {} '
-                   ':\'('.format(user, delay_msg))
-    elif not tosend:
-        tosend = 'No challenges solved by anyone {} :\'('.format(delay_msg)
+    test = [ item['msg'] == '' for item in tosend_list ]
+    if len(users) == 1 and False not in test:
+        tosend = 'No challenges solved by {} :frowning:'.format(user)
+        tosend_list = [{'user': None, 'msg': tosend}]
+    elif False not in test:
+        tosend = 'No challenges solved by anyone :frowning:'
+        tosend_list = [{'user': None, 'msg': tosend}]
 
-    return tosend
+    return tosend_list
 
 
 def display_week(args):
-    return display_duration(args, timedelta(weeks=1), 'last week')
+    return display_duration(args, timedelta(weeks=1))
 
 
 def display_today(args):
-    return display_duration(args, timedelta(days=1), 'since last 24h')
+    return display_duration(args, timedelta(days=1))
 
 
 def display_diff_one_side(user_diff, user):
+    if not user_diff:
+        return
     tosend = ''
-    if user_diff:
-        tosend += '\n\n[+] Challenges solved by {}:\n'.format(user)
-        tosend_user = ''
-        user_diff.reverse()
-        for c in user_diff:
-            value = find_challenge(c['name'])['value']
-            tosend_user += '- {} ({} points)\n'.format(c['name'], value)
-        tosend += tosend_user
+    for c in user_diff:
+        value = find_challenge(c['name'])['value']
+        tosend += ' • {} ({} points)\n'.format(c['name'], value)
     return tosend
 
 
 def display_diff(user1, user2):
     
     if not jd.user_json_exists(user1):
-        return 'User {} is not in team.'.format(user1)
+        tosend = 'User {} is not in team.'.format(user1)
+        tosend_list = [{'user': user1, 'msg': tosend}]
+        return tosend_list
     if not jd.user_json_exists(user2):
-        return 'User {} is not in team.'.format(user2)
+        tosend = 'User {} is not in team.'.format(user2)
+        tosend_list = [{'user': user2, 'msg': tosend}]
+        return tosend_list
 
     solved_user1 = jd.get_solved_challenges(user1)
     solved_user2 = jd.get_solved_challenges(user2)
 
     user1_diff, user2_diff = jd.get_diff(solved_user1, solved_user2)
+    tosend_list = []
 
     tosend = display_diff_one_side(user1_diff, user1)
-    tosend += display_diff_one_side(user2_diff, user2)
+    tosend_list.append({'user': user1, 'msg': tosend})
+    tosend = display_diff_one_side(user2_diff, user2)
+    tosend_list.append({'user': user2, 'msg': tosend})
 
-    return tosend
+    return tosend_list
 
 
 def display_diff_with(select_user):
 
     if not jd.user_json_exists(select_user):
-        return 'User {} is not in team.'.format(select_user)
+        tosend = 'User {} is not in team.'.format(select_user)
+        tosend_list = [{'user': select_user, 'msg': tosend}]
+        return tosend_list
 
-    tosend = ''
+    tosend_list = []
     users = jd.select_users()
     for user in users:
         solved_user = jd.get_solved_challenges(user)
         solved_user_select = jd.get_solved_challenges(select_user)
         user_diff, user_diff_select = jd.get_diff(solved_user, solved_user_select)
-        tosend += display_diff_one_side(user_diff, user)
-
-    return tosend
+        if user_diff:
+            tosend = display_diff_one_side(user_diff, user)
+            tosend_list.append({'user': user, 'msg': tosend})
+    return tosend_list
 
 
 def next_challenge_solved(solved_user, challenge_name):
@@ -230,12 +245,12 @@ def display_cron():
         solved_user = jd.get_solved_challenges(user)
         if solved_user and solved_user[-1]['name'] != last:
             next_chall = next_challenge_solved(solved_user, last)
-            tosend = '[+] New challenge solved by {}:\n'.format(user)
+            name = 'New challenge solved by {}'.format(user)
             c = find_challenge(next_chall['name'])
-            tosend += ('--> {} |  {} points | difficulty: {} | date: {} '
-                      '\n'.format(c['name'], c['value'], 
-                                  c['difficulty'], next_chall['date']))
-            tosend += '--> New score: {} points.'.format(next_chall['score_at_date'])
+            tosend = ' • {} ({} points)'.format(c['name'], c['value'])
+            tosend += '\n • Difficulty: {}'.format(c['difficulty'])
+            tosend += '\n • Date: {}'.format(next_chall['date'])
+            tosend += '\n • New score: {}'.format(next_chall['score_at_date'])
             jd.update_user_last(user, c['name'])
-            return tosend
-    return None
+            return name, tosend
+    return None, None
