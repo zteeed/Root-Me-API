@@ -1,6 +1,6 @@
 import json
-from bot.parser.api.extract_all import extract_default, \
-extract_rootme_profile, extract_rootme_stats, extract_score, extract_categories
+from bot.parser.api.extract_all import extract_rootme_profile, \
+extract_rootme_stats, extract_score, extract_categories
 
 
 def read_json():
@@ -13,25 +13,6 @@ def read_json():
 def update_json(data):
     with open("data.json", "w") as json_file:
         json.dump(data, json_file)
-
-
-def default():
-    return extract_default()
-
-
-def is_first():
-    data = read_json()
-    return data['info']['first']
-
-
-def update_first_time(boolean):
-    data = read_json()
-    data['info']['first'] = boolean
-    update_json(data)
-
-
-def launched():
-    update_first_time(False)
 
 
 def user_rootme_exists(user):

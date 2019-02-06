@@ -7,7 +7,7 @@ from discord.ext import commands
 from bot.colors import grey, red, green, yellow, blue, purple, cyan
 from bot.constants import token
 
-import bot.manage.json_data as jd
+import bot.manage.started_data as sd
 import bot.display.show as disp
 from bot.manage.discord_data import get_channel
 
@@ -57,19 +57,19 @@ class RootMeBot():
                 red('Please update the channel name used by the bot '
                     'in ./bot/constants.py')
                 sys.exit(0)
-            if jd.default() is None:
+            if sd.default() is None:
                 red('Can\'t connect to API, please update URL in '
                     './bot/constants.py')
                 sys.exit(0)
             green('RootMeBot is coming !')
-            if not jd.is_first():
+            if not sd.is_first():
                 tosend = 'Auto Reboot'
                 await self.bot.send_message(self.channel, tosend)
             else:
                 tosend = ('Hello, it seems that it\'s the first time you are ' 
                           'using my services, you might use `!help` to know '
                           'more about my features.')
-                jd.launched()
+                sd.launched()
                 await self.bot.send_message(self.channel, tosend)
 
         
