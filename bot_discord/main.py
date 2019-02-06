@@ -184,6 +184,19 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
+        @self.bot.command(description = 'Return difference of solved challenges between a user and all team.') 
+        async def diff_with(*args):
+            """ <username> """
+            self.lock = True
+
+            if len(args) != 1:
+                await self.interrupt('```ERROR, use !diff_with <username> ```')
+                return
+
+            tosend = disp.display_diff_with(args[0])
+            await self.interrupt(tosend)
+
+
     def start(self):
         if token == 'token':
             red('Please update your token in ./bot/constants.py')

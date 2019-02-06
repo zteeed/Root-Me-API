@@ -197,6 +197,22 @@ def display_diff(user1, user2):
     return tosend
 
 
+def display_diff_with(select_user):
+
+    if not jd.user_json_exists(select_user):
+        return 'User {} is not in team.'.format(select_user)
+
+    tosend = ''
+    users = jd.select_users()
+    for user in users:
+        solved_user = jd.get_solved_challenges(user)
+        solved_user_select = jd.get_solved_challenges(select_user)
+        user_diff, user_diff_select = jd.get_diff(solved_user, solved_user_select)
+        tosend += display_diff_one_side(user_diff, user)
+
+    return tosend
+
+
 def next_challenge_solved(solved_user, challenge_name):
     if len(solved_user) == 1:
         return solved_user[-1]
