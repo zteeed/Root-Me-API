@@ -8,4 +8,4 @@ token = 'token'
 """ Private API """
 URL = 'http://localhost:8001/v1'
 """ Public API """
-URL = 'http://localhost:8001/v1'
+URL = 'https://root-me-api.hackademint.org/v1'
