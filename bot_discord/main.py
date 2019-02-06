@@ -45,7 +45,7 @@ class RootMeBot():
                 self.lock = False
             else:
                 red('RootMeBot locked')
-            await asyncio.sleep(1)
+            await asyncio.sleep(5)
 
 
     def catch(self):
