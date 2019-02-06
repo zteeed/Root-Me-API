@@ -180,6 +180,11 @@ def display_diff_one_side(user_diff, user):
 
 
 def display_diff(user1, user2):
+    
+    if not jd.user_json_exists(user1):
+        return 'User {} is not in team.'.format(user1)
+    if not jd.user_json_exists(user2):
+        return 'User {} is not in team.'.format(user2)
 
     solved_user1 = jd.get_solved_challenges(user1)
     solved_user2 = jd.get_solved_challenges(user2)
