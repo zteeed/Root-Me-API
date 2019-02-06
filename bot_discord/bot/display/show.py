@@ -192,7 +192,6 @@ def display_diff(user1, user2):
     user1_diff, user2_diff = jd.get_diff(solved_user1, solved_user2)
 
     tosend = display_diff_one_side(user1_diff, user1)
-    tosend += '\n\n'
     tosend += display_diff_one_side(user2_diff, user2)
 
     return tosend
