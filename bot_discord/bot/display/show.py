@@ -45,8 +45,11 @@ def display_remove_user(bot, name):
                'from team'.format(name),  emoji2)
 
 
-def display_scoreboard(users):
+def display_scoreboard():
     tosend = ''
+    users = jd.select_users()
+    if not users:
+        return '```No users in team, you might add some with !add_user <username>```'
     scores = jd.get_scores(users)
     for rank, d in enumerate(scores):
         user, score = d['name'], d['score']

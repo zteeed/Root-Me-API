@@ -103,14 +103,7 @@ class RootMeBot():
         async def scoreboard():
             """ """
             self.lock = True
-
-            users = jd.select_users()
-            if not users:
-                await self.interrupt('```No users in team, you might add '
-                      'some with !add_user <username>```')
-                return
-
-            tosend = disp.display_scoreboard(users)
+            tosend = disp.display_scoreboard()
             await self.interrupt(tosend)
 
 
