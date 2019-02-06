@@ -1,11 +1,11 @@
 import json, requests
-from bot.constants import URL
+from bot.constants import URL, timeout
 from bot.colors import purple, red
 
 
 def request_to(url):
     try:
-        return requests.get(url, timeout=4)
+        return requests.get(url, timeout=timeout)
     except Exception as exception:
         red(exception)
         return None

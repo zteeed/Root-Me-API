@@ -6,6 +6,7 @@ emoji4 = 'thinking'
 emoji5 = 'thumbsdown'
 limit_size = 1000
 medals = [':first_place:', ':second_place:', ':third_place:']
+timeout = 6
 token = 'token'
 """ Private API """
 URL = 'http://localhost:8001/v1'
