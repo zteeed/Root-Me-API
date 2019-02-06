@@ -73,7 +73,7 @@ class RootMeBot():
                 await self.bot.send_message(self.channel, tosend)
 
         
-        @self.bot.command(description = 'add a user to team into database') 
+        @self.bot.command(description = 'Add a user to team into database.') 
         async def add_user(*args):
             """ <username> """
             self.lock = True
@@ -86,7 +86,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(description = 'remove a user from team in database') 
+        @self.bot.command(description = 'Remove a user from team in database.') 
         async def remove_user(*args):
             """ <username> """
             self.lock = True
@@ -99,7 +99,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(description = 'show list of users from team') 
+        @self.bot.command(description = 'Show list of users from team.') 
         async def scoreboard():
             """ """
             self.lock = True
@@ -115,7 +115,7 @@ class RootMeBot():
 
 
 
-        @self.bot.command(description = 'Show list of categories') 
+        @self.bot.command(description = 'Show list of categories.') 
         async def categories():
             """ """
             self.lock = True
@@ -123,7 +123,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(description = 'Show list of challenges from a category') 
+        @self.bot.command(description = 'Show list of challenges from a category.') 
         async def category(*args):
             """ <category> """
             self.lock = True
@@ -136,7 +136,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(pass_context=True, description = 'return who solved a specific challenge') 
+        @self.bot.command(pass_context=True, description = 'Return who solved a specific challenge.') 
         async def who_solved(ctx):
             """ <challenge> """
             self.lock = True
@@ -151,7 +151,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(description = 'return challenges solved grouped by users for last week') 
+        @self.bot.command(description = 'Return challenges solved grouped by users for last week.') 
         async def week(*args):
             """ (<username>) """
             self.lock = True
@@ -164,7 +164,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(description = 'return challenges solved grouped by users for last day') 
+        @self.bot.command(description = 'Return challenges solved grouped by users for last day.') 
         async def today(*args):
             """ (<username>) """
             self.lock = True
@@ -177,7 +177,7 @@ class RootMeBot():
             await self.interrupt(tosend)
 
 
-        @self.bot.command(description = 'return challenges solved grouped by users for last day') 
+        @self.bot.command(description = 'Return difference of solved challenges between two users.') 
         async def diff(*args):
             """ <username1> <username2> """
             self.lock = True
