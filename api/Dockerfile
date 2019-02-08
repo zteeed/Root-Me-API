@@ -1,15 +1,7 @@
-FROM python:3-alpine
-
-EXPOSE 5000
-
-ENV GUNICORN_WORKER_COUNT 4
-ENV GUNICORN_PORT 5000
+FROM tiangolo/uwsgi-nginx-flask:python3.7-alpine3.8
 
 COPY ./requirements.txt .
-RUN pip3 install -r requirements.txt
-RUN pip3 install gunicorn
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY main.py . 
-COPY api/ ./api
-
-CMD ["sh", "-c", "gunicorn -w $GUNICORN_WORKER_COUNT -b 0.0.0.0:$GUNICORN_PORT main:app"]
+COPY main.py /app/main.py
+COPY api /app/api

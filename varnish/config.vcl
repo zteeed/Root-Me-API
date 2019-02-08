@@ -1,8 +1,8 @@
 vcl 4.0;
 
 backend default {
-  .host = "web_server";
-  .port = "5000";
+  .host = "api";
+  .port = "80";
 }
 
 /*
