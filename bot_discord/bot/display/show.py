@@ -1,5 +1,6 @@
 from html import unescape
 from datetime import datetime, timedelta
+import bot.manage.channel_data as cd
 import bot.manage.json_data as jd
 from bot.constants import emoji1, emoji2, emoji3, emoji4, emoji5, limit_size, medals
 from bot.display.update import add_emoji
@@ -226,6 +227,13 @@ def display_diff_with(select_user):
             tosend = display_diff_one_side(user_diff, user)
             tosend_list.append({'user': user, 'msg': tosend})
     return tosend_list
+
+
+async def display_flush(bot, channel):
+    result = await cd.flush(bot, channel)
+    if channel is None or not result:
+        return 'An error occurs while trying to flush channel data.'
+    return 'Data from channel has been flushed successfully.'
 
 
 def next_challenge_solved(solved_user, challenge_name):

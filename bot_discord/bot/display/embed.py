@@ -202,6 +202,14 @@ async def diff_with(self, args):
     await display_by_blocks_diff(self, tosend_list, 0xFF00FF)
 
 
+async def flush(self):
+    self.lock = True
+
+    tosend = await show.display_flush(self.bot, self.channel)
+    embed_color, embed_name = 0xB315A8, 'Flushing channel' 
+    await interrupt(self, tosend, embed_color=embed_color, embed_name=embed_name)
+
+
 async def cron(self):
     self.lock = True
     name, tosend_cron = show.display_cron()

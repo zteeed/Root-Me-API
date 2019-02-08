@@ -98,6 +98,12 @@ class RootMeBot():
             await disp.diff_with(self, args)
 
 
+        @self.bot.command(description = 'Flush all data from bot channel excepted events') 
+        async def flush(*args):
+            """ """
+            await disp.flush(self)
+
+
     def start(self):
         if token == 'token':
             red('Please update your token in ./bot/constants.py')
