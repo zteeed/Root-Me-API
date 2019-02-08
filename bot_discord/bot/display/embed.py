@@ -1,3 +1,4 @@
+from html import unescape
 import discord
 import sys
 
