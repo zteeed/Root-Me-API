@@ -4,6 +4,7 @@ import bot.manage.channel_data as cd
 import bot.manage.json_data as jd
 from bot.constants import emoji1, emoji2, emoji3, emoji4, emoji5, limit_size, medals
 from bot.display.update import add_emoji
+from bot.colors import blue, green, red
 
 
 def display_parts(message):
@@ -251,14 +252,20 @@ def display_cron():
     for user in users:
         last = jd.last_solved(user)
         solved_user = jd.get_solved_challenges(user)
-        if solved_user and solved_user[-1]['name'] != last:
-            next_chall = next_challenge_solved(solved_user, last)
-            name = 'New challenge solved by {}'.format(user)
-            c = find_challenge(next_chall['name'])
-            tosend = ' • {} ({} points)'.format(c['name'], c['value'])
-            tosend += '\n • Difficulty: {}'.format(c['difficulty'])
-            tosend += '\n • Date: {}'.format(next_chall['date'])
-            tosend += '\n • New score: {}'.format(next_chall['score_at_date'])
-            jd.update_user_last(user, c['name'])
-            return name, tosend
+        blue(solved_user[-1]['name'] + "  |  " + last + "\n")
+        if not solved_user or solved_user[-1]['name'] == last:
+            continue
+        next_chall = next_challenge_solved(solved_user, last)
+        if next_chall is None:
+            red('Error with {} user --> last chall: {}\n'.format(user, last))
+            continue
+        name = 'New challenge solved by {}'.format(user)
+        c = find_challenge(next_chall['name'])
+        green('{} --> {}'.format(user, c['name']))
+        tosend = ' • {} ({} points)'.format(c['name'], c['value'])
+        tosend += '\n • Difficulty: {}'.format(c['difficulty'])
+        tosend += '\n • Date: {}'.format(next_chall['date'])
+        tosend += '\n • New score: {}'.format(next_chall['score_at_date'])
+        jd.update_user_last(user, c['name'])
+        return name, tosend
     return None, None
