@@ -113,6 +113,8 @@ def display_who_solved(challenge_selected):
     for d in scores:
         user, score = d['name'], d['score']
         solved_challenges = jd.get_solved_challenges(user)
+        if solved_challenges is None:
+            return None
         if user_has_solved(challenge_selected, solved_challenges):
             tosend += ' • {}\n'.format(user)
     if not tosend: 
@@ -252,9 +254,9 @@ def display_cron():
     for user in users:
         last = jd.last_solved(user)
         solved_user = jd.get_solved_challenges(user)
-        blue(solved_user[-1]['name'] + "  |  " + last + "\n")
         if not solved_user or solved_user[-1]['name'] == last:
             continue
+        blue(solved_user[-1]['name'] + "  |  " + last + "\n")
         next_chall = next_challenge_solved(solved_user, last)
         if next_chall is None:
             red('Error with {} user --> last chall: {}\n'.format(user, last))

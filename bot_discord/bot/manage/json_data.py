@@ -1,6 +1,7 @@
 import json
 from bot.parser.api.extract_all import extract_rootme_profile, \
 extract_rootme_stats, extract_score, extract_categories
+from bot.colors import red
 
 
 def read_json():
@@ -96,7 +97,11 @@ def get_category(category_selected):
 
 
 def get_solved_challenges(user):
-    return extract_rootme_stats(user)['solved_challenges']
+    solved_challenges_data = extract_rootme_stats(user)
+    if solved_challenges_data is None:
+        red('user {} name might have changed in rootme profile link'.format(user))
+        return None
+    return solved_challenges_data['solved_challenges']
 
 
 def get_diff(solved_user1, solved_user2):
