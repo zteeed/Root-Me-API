@@ -1,10 +1,11 @@
-from html import unescape
 from datetime import datetime, timedelta
+from html import unescape
+
 import bot.manage.channel_data as cd
 import bot.manage.json_data as jd
-from bot.constants import emoji1, emoji2, emoji3, emoji4, emoji5, limit_size, medals
-from bot.display.update import add_emoji
 from bot.colors import blue, green, red
+from bot.constants import emoji2, emoji3, emoji5, limit_size, medals
+from bot.display.update import add_emoji
 
 
 def display_parts(message):
@@ -25,16 +26,16 @@ def display_add_user(bot, name):
     if not jd.user_rootme_exists(name):
         tosend = 'RootMe profile for {} can\'t be established'.format(name)
         return add_emoji(bot, 'RootMe profile for {} '
-              'can\'t be established'.format(name), emoji3)
+                              'can\'t be established'.format(name), emoji3)
 
     """ Add user to data.json """
     if jd.user_json_exists(name):
         return add_emoji(bot, 'User {} already '
-              'exists in team'.format(name), emoji5)
+                              'exists in team'.format(name), emoji5)
     else:
         jd.create_user(name)
         return add_emoji(bot, 'User {} successfully '
-               'added in team'.format(name), emoji2)
+                              'added in team'.format(name), emoji2)
 
 
 def display_remove_user(bot, name):
@@ -44,7 +45,7 @@ def display_remove_user(bot, name):
     else:
         jd.delete_user(name)
         return add_emoji(bot, 'User {} successfully removed '
-               'from team'.format(name),  emoji2)
+                              'from team'.format(name), emoji2)
 
 
 def display_scoreboard():
@@ -59,7 +60,6 @@ def display_scoreboard():
             tosend += '{} {} --> Score = {} \n'.format(medals[rank], user, score)
         else:
             tosend += ' • • • {} --> Score = {} \n'.format(user, score)
-
 
     return tosend
 
@@ -81,9 +81,9 @@ def display_category(category):
     tosend = ''
     for chall in c[0]['challenges']:
         tosend += (' • {} ({} points / {}% of success / difficulty: {}) '
-        '\n'.format(unescape(chall['name']), chall['value'],
-                    chall['validations_percentage'], 
-                    unescape(chall['difficulty'])))
+                   '\n'.format(unescape(chall['name']), chall['value'],
+                               chall['validations_percentage'],
+                               unescape(chall['difficulty'])))
     return tosend
 
 
@@ -97,7 +97,7 @@ def find_challenge(challenge_selected):
 
 
 def user_has_solved(challenge_selected, solved_challenges):
-    test = [ c['name'] == challenge_selected for c in solved_challenges ]
+    test = [c['name'] == challenge_selected for c in solved_challenges]
     return True in test
 
 
@@ -117,17 +117,16 @@ def display_who_solved(challenge_selected):
             return None
         if user_has_solved(challenge_selected, solved_challenges):
             tosend += ' • {}\n'.format(user)
-    if not tosend: 
+    if not tosend:
         tosend = 'Nobody solves {}.'.format(challenge_selected)
     return tosend
 
 
 def display_duration(args, delay):
-
     if len(args) == 1:
         if not jd.user_json_exists(args[0]):
             tosend = ('User {} is not in team.\nYou might add it with '
-            '!add_user <username>'.format(args[0]))
+                      '!add_user <username>'.format(args[0]))
             tosend_list = [{'user': args[0], 'msg': tosend}]
             return tosend_list
         else:
@@ -155,11 +154,11 @@ def display_duration(args, delay):
         challs_selected.reverse()
         for chall in challs_selected:
             value = find_challenge(chall['name'])['value']
-            tosend += (' • {} ({} points) - {}\n'.format(chall['name'], 
-                        value, chall['date']))
+            tosend += (' • {} ({} points) - {}\n'.format(chall['name'],
+                                                         value, chall['date']))
         tosend_list.append({'user': user, 'msg': tosend})
 
-    test = [ item['msg'] == '' for item in tosend_list ]
+    test = [item['msg'] == '' for item in tosend_list]
     if len(users) == 1 and False not in test:
         tosend = 'No challenges solved by {} :frowning:'.format(user)
         tosend_list = [{'user': None, 'msg': tosend}]
@@ -189,7 +188,6 @@ def display_diff_one_side(user_diff, user):
 
 
 def display_diff(user1, user2):
-    
     if not jd.user_json_exists(user1):
         tosend = 'User {} is not in team.'.format(user1)
         tosend_list = [{'user': user1, 'msg': tosend}]
@@ -214,7 +212,6 @@ def display_diff(user1, user2):
 
 
 def display_diff_with(select_user):
-
     if not jd.user_json_exists(select_user):
         tosend = 'User {} is not in team.'.format(select_user)
         tosend_list = [{'user': select_user, 'msg': tosend}]
@@ -244,7 +241,7 @@ def next_challenge_solved(solved_user, challenge_name):
         return solved_user[-1]
     for key, chall in enumerate(solved_user[:-1]):
         if chall['name'] == challenge_name:
-            return solved_user[1+key]
+            return solved_user[1 + key]
     return None
 
 

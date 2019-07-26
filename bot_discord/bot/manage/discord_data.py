@@ -1,5 +1,6 @@
-from bot.constants import bot_channel
 from discord.utils import get
+
+from bot.constants import bot_channel
 
 
 def get_channel(bot):

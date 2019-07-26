@@ -1,6 +1,8 @@
-import json, requests
-from bot.constants import URL, timeout
+import json
+import requests
+
 from bot.colors import purple, red
+from bot.constants import URL, timeout
 
 
 def request_to(url):

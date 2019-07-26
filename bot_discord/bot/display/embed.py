@@ -1,12 +1,12 @@
-from html import unescape
-import discord
 import sys
+from html import unescape
 
+import discord
+
+import bot.display.show as show
+import bot.manage.started_data as sd
 from bot.colors import green, red, yellow
 from bot.constants import bot_channel
-import bot.manage.started_data as sd
-import bot.manage.json_data as jd
-import bot.display.show as show
 
 
 def display(part):
@@ -16,8 +16,7 @@ def display(part):
 
 
 async def interrupt(self, message, **kwargs):
-
-    parts = show.display_parts(message) 
+    parts = show.display_parts(message)
     for part in parts:
 
         display(part)
@@ -25,7 +24,7 @@ async def interrupt(self, message, **kwargs):
             await self.bot.send_message(self.channel, part)
         else:
             embed_color, embed_name = kwargs['embed_color'], kwargs['embed_name']
-            embed=discord.Embed(color=embed_color)
+            embed = discord.Embed(color=embed_color)
             embed.add_field(name=embed_name, value=part, inline=False)
             await self.bot.send_message(self.channel, embed=embed)
 
@@ -34,7 +33,6 @@ async def interrupt(self, message, **kwargs):
 
 
 def check(self):
-
     if self.channel is None:
         red('{} is not a valid channel name'.format(bot_channel))
         red('Please update the channel name used by the bot '
@@ -48,7 +46,6 @@ def check(self):
 
 
 async def ready(self):
-
     check(self)
     green('RootMeBot is coming !')
 
@@ -56,7 +53,7 @@ async def ready(self):
         tosend = 'Hello back !'
     else:
         sd.launched()
-        tosend = ('Hello, it seems that it\'s the first time you are ' 
+        tosend = ('Hello, it seems that it\'s the first time you are '
                   'using my services.\nYou might use `!help` to know '
                   'more about my features.')
 
@@ -68,7 +65,7 @@ async def add_user(self, args):
     self.lock = True
 
     if len(args) != 1:
-        tosend = 'Use !add_user <username>' 
+        tosend = 'Use !add_user <username>'
         await interrupt(self, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -99,6 +96,7 @@ async def categories(self):
     tosend = show.display_categories()
     await interrupt(self, tosend, embed_color=0xB315A8, embed_name="Categories")
 
+
 async def category(self, args):
     self.lock = True
 
@@ -128,7 +126,6 @@ async def who_solved(self, ctx):
 
 
 async def display_by_blocks_duration(self, tosend_list, color, **kwargs):
-
     for block in tosend_list:
         red(block)
         tosend = block['msg']
@@ -141,7 +138,7 @@ async def display_by_blocks_duration(self, tosend_list, color, **kwargs):
 
         if tosend:
             embed_name = ("Challenges solved by {} "
-            "{}".format(block['user'], kwargs['duration_msg']))
+                          "{}".format(block['user'], kwargs['duration_msg']))
             await interrupt(self, tosend, embed_color=color, embed_name=embed_name)
 
 
@@ -171,7 +168,6 @@ async def today(self, args):
 
 
 async def display_by_blocks_diff(self, tosend_list, color, **kwargs):
-
     for block in tosend_list:
         if block['msg']:
             embed_name = "Challenges solved by {} ".format(block['user'])
@@ -206,7 +202,7 @@ async def flush(self):
     self.lock = True
 
     tosend = await show.display_flush(self.bot, self.channel)
-    embed_color, embed_name = 0xB315A8, 'Flushing channel' 
+    embed_color, embed_name = 0xB315A8, 'Flushing channel'
     await interrupt(self, tosend, embed_color=embed_color, embed_name=embed_name)
 
 

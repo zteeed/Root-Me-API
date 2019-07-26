@@ -1,4 +1,5 @@
-from bot.colors import red, yellow
+from bot.colors import red
+
 
 async def flush(bot, selected_channel):
     for server in bot.servers:
