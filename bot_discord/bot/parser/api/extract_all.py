@@ -14,13 +14,10 @@ def request_to(url):
 
 
 def extract_json(url):
-    try:
-        purple(url)
-        r = request_to(url)
+    purple(url)
+    r = request_to(url)
+    if r is not None:
         return json.loads(r.content.decode())
-    except Exception as exception:
-        red(exception)
-        return None
 
 
 def extract_default():

@@ -7,6 +7,7 @@ import bot.display.show as show
 import bot.manage.started_data as sd
 from bot.colors import green, red, yellow
 from bot.constants import bot_channel
+from bot.manage.discord_data import get_command_args
 
 
 def display(part):
@@ -15,20 +16,20 @@ def display(part):
         yellow(line)
 
 
-async def interrupt(self, message, **kwargs):
+async def interrupt(self, message, embed_color=None, embed_name=None, keep_locking=False):
     parts = show.display_parts(message)
     for part in parts:
 
         display(part)
-        if 'embed_color' not in kwargs or 'embed_name' not in kwargs:
+        if embed_color is None or embed_name is None:
             await self.bot.send_message(self.channel, part)
         else:
-            embed_color, embed_name = kwargs['embed_color'], kwargs['embed_name']
             embed = discord.Embed(color=embed_color)
             embed.add_field(name=embed_name, value=part, inline=False)
-            await self.bot.send_message(self.channel, embed=embed)
+            await self.channel.send(embed=embed)
 
-    self.lock = False
+    if not keep_locking:
+        self.lock = False
     return
 
 
@@ -61,8 +62,9 @@ async def ready(self):
     await interrupt(self, tosend, embed_color=embed_color, embed_name=embed_name)
 
 
-async def add_user(self, args):
+async def add_user(self, context):
     self.lock = True
+    args = get_command_args(context)
 
     if len(args) != 1:
         tosend = 'Use !add_user <username>'
@@ -73,8 +75,9 @@ async def add_user(self, args):
     await interrupt(self, tosend, embed_color=0x16B841, embed_name="Add user")
 
 
-async def remove_user(self, args):
+async def remove_user(self, context):
     self.lock = True
+    args = get_command_args(context)
 
     if len(args) != 1:
         tosend = 'Use !remove_user <username>'
@@ -97,8 +100,9 @@ async def categories(self):
     await interrupt(self, tosend, embed_color=0xB315A8, embed_name="Categories")
 
 
-async def category(self, args):
+async def category(self, context):
     self.lock = True
+    args = get_command_args(context)
 
     if len(args) != 1:
         tosend = 'Use !category <category>'
@@ -110,22 +114,22 @@ async def category(self, args):
     await interrupt(self, tosend, embed_color=0xB315A8, embed_name=embed_name)
 
 
-async def who_solved(self, ctx):
+async def who_solved(self, context):
     self.lock = True
 
-    challenge = ' '.join(ctx.message.content.strip().split(' ')[1:])
+    challenge = ' '.join(context.message.content.strip().split(' ')[1:])
     challenge_selected = unescape(challenge.strip())
     if not challenge_selected:
         tosend = 'Use !who_solved <challenge>'
         await interrupt(self, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_who_solved(challenge_selected)
+    tosend = show.display_who_solved(self.bot, challenge_selected)
     embed_name = f"Who solved {challenge_selected} ?"
     await interrupt(self, tosend, embed_color=0x29C1C5, embed_name=embed_name)
 
 
-async def display_by_blocks_duration(self, tosend_list, color, **kwargs):
+async def display_by_blocks_duration(self, tosend_list, color, duration_msg=''):
     for block in tosend_list:
         red(block)
         tosend = block['msg']
@@ -141,73 +145,79 @@ async def display_by_blocks_duration(self, tosend_list, color, **kwargs):
             await interrupt(self, tosend, embed_color=color, embed_name=embed_name)
 
 
-async def duration(self, args, **kwargs):
+async def duration(self, context, duration_command='today', duration_msg='since last 24h'):
     self.lock = True
+    args = get_command_args(context)
 
     if len(args) > 1:
         tosend = f'Use !{duration_command} (<username>)'
         await interrupt(self, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    if kwargs['duration_command'] == 'week':
-        tosend_list = show.display_week(args)
-    elif kwargs['duration_command'] == 'today':
-        tosend_list = show.display_today(args)
+    if duration_command == 'week':
+        tosend_list = show.display_week(self.bot, args)
+    elif duration_command == 'today':
+        tosend_list = show.display_today(self.bot, args)
     else:
         return
-    await display_by_blocks_duration(self, tosend_list, 0x00C7FF, **kwargs)
+    await display_by_blocks_duration(self, tosend_list, 0x00C7FF, duration_msg=duration_msg)
 
 
-async def week(self, args):
-    await duration(self, args, duration_command='week', duration_msg='last week')
+async def week(self, context):
+    await duration(self, context, duration_command='week', duration_msg='last week')
 
 
-async def today(self, args):
-    await duration(self, args, duration_command='today', duration_msg='since last 24h')
+async def today(self, context):
+    await duration(self, context, duration_command='today', duration_msg='since last 24h')
 
 
-async def display_by_blocks_diff(self, tosend_list, color, **kwargs):
+async def display_by_blocks_diff(self, tosend_list, color):
     for block in tosend_list:
         if block['msg']:
             embed_name = f"Challenges solved by {block['user']} "
-            await interrupt(self, block['msg'], embed_color=color, embed_name=embed_name)
+            await interrupt(self, block['msg'], embed_color=color, embed_name=embed_name, keep_locking=True)
 
 
-async def diff(self, args):
+async def diff(self, context):
     self.lock = True
+    args = get_command_args(context)
 
     if len(args) != 2:
         tosend = 'Use !diff <username1> <username2>'
         await interrupt(self, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend_list = show.display_diff(args[0], args[1])
+    pseudo1, pseudo2 = args[0], args[1]
+    tosend_list = show.display_diff(self.bot, pseudo1, pseudo2)
     await display_by_blocks_diff(self, tosend_list, 0xFF00FF)
 
 
-async def diff_with(self, args):
+async def diff_with(self, context):
     self.lock = True
+    args = get_command_args(context)
 
     if len(args) != 1:
         tosend = 'Use !diff_with <username>'
         await interrupt(self, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend_list = show.display_diff_with(args[0])
+    pseudo = args[0]
+    tosend_list = show.display_diff_with(self.bot, pseudo)
     await display_by_blocks_diff(self, tosend_list, 0xFF00FF)
 
 
-async def flush(self):
+async def flush(self, context):
     self.lock = True
-
-    tosend = await show.display_flush(self.bot, self.channel)
-    embed_color, embed_name = 0xB315A8, 'Flushing channel'
+    embed_color, embed_name = 0xD81948, 'FLUSH'
+    tosend = f'{context.author} just launched !flush command.'
+    await interrupt(self, tosend, embed_color=embed_color, embed_name=embed_name)
+    tosend = await show.display_flush(self.channel, context)
     await interrupt(self, tosend, embed_color=embed_color, embed_name=embed_name)
 
 
 async def cron(self):
     self.lock = True
-    name, tosend_cron = show.display_cron()
+    name, tosend_cron = show.display_cron(self.bot)
     if tosend_cron is not None:
         await interrupt(self, tosend_cron, embed_color=0xFFCC00, embed_name=name)
     self.lock = False

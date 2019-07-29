@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
 from html import unescape
 
-import bot.manage.channel_data as cd
-import bot.manage.json_data as jd
+import bot.manage.channel_data as channel_data
+import bot.manage.json_data as json_data
 from bot.colors import blue, green, red
 from bot.constants import emoji2, emoji3, emoji5, limit_size, medals
 from bot.display.update import add_emoji
+from bot.wraps import stop_if_args_none
 
 
 def display_parts(message):
@@ -23,33 +24,33 @@ def display_parts(message):
 
 def display_add_user(bot, name):
     """ Check if user exist in RootMe """
-    if not jd.user_rootme_exists(name):
+    if not json_data.user_rootme_exists(name):
         tosend = f'RootMe profile for {name} can\'t be established'
         return add_emoji(bot, f'RootMe profile for {name} can\'t be established', emoji3)
 
     """ Add user to data.json """
-    if jd.user_json_exists(name):
+    if json_data.user_json_exists(name):
         return add_emoji(bot, f'User {name} already exists in team', emoji5)
     else:
-        jd.create_user(name)
+        json_data.create_user(name)
         return add_emoji(bot, f'User {name} successfully added in team', emoji2)
 
 
 def display_remove_user(bot, name):
     """ Remove user from data.json """
-    if not jd.user_json_exists(name):
+    if not json_data.user_json_exists(name):
         return add_emoji(bot, f'User {name} was not in team', emoji5)
     else:
-        jd.delete_user(name)
+        json_data.delete_user(name)
         return add_emoji(bot, f'User {name} successfully removed from team', emoji2)
 
 
 def display_scoreboard():
     tosend = ''
-    users = jd.select_users()
+    users = json_data.select_users()
     if not users:
         return '```No users in team, you might add some with !add_user <username>```'
-    scores = jd.get_scores(users)
+    scores = json_data.get_scores(users)
     for rank, d in enumerate(scores):
         user, score = d['name'], d['score']
         if rank < len(medals):
@@ -62,13 +63,13 @@ def display_scoreboard():
 
 def display_categories():
     tosend = ''
-    for c in jd.get_categories():
+    for c in json_data.get_categories():
         tosend += f' • {c["name"]} ({c["challenges_nb"]} challenges) \n'
     return tosend
 
 
 def display_category(category):
-    c = jd.get_category(category)
+    c = json_data.get_category(category)
 
     if c is None:
         tosend = f'Category {category} does not exists.'
@@ -81,8 +82,8 @@ success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
 
 
-def find_challenge(challenge_selected):
-    for category in jd.get_categories():
+def find_challenge(bot, challenge_selected):
+    for category in bot.rootme_challenges:
         challenges = category['challenges']
         for challenge in challenges:
             if challenge['name'] == challenge_selected:
@@ -95,18 +96,19 @@ def user_has_solved(challenge_selected, solved_challenges):
     return True in test
 
 
-def display_who_solved(challenge_selected):
-    challenge_found = find_challenge(challenge_selected)
+def display_who_solved(bot, challenge_selected):
+    challenge_found = find_challenge(bot, challenge_selected)
 
     if challenge_found is None:
         return f'Challenge {challenge_selected} does not exists.'
 
     tosend = ''
-    users = jd.select_users()
-    scores = jd.get_scores(users)
+    users = json_data.select_users()
+    #  TODO: async requests to the API
+    scores = json_data.get_scores(users)
     for d in scores:
         user, score = d['name'], d['score']
-        solved_challenges = jd.get_solved_challenges(user)
+        solved_challenges = json_data.get_solved_challenges(user)
         if solved_challenges is None:
             return None
         if user_has_solved(challenge_selected, solved_challenges):
@@ -116,19 +118,19 @@ def display_who_solved(challenge_selected):
     return tosend
 
 
-def display_duration(args, delay):
+def display_duration(bot, args, delay):
     if len(args) == 1:
-        if not jd.user_json_exists(args[0]):
+        if not json_data.user_json_exists(args[0]):
             tosend = f'User {args[0]} is not in team.\nYou might add it with !add_user <username>'
             tosend_list = [{'user': args[0], 'msg': tosend}]
             return tosend_list
         else:
             users = [args[0]]
     else:
-        users = jd.select_users()
+        users = json_data.select_users()
 
-    scores = jd.get_scores(users)
-    categories = jd.get_categories()
+    scores = json_data.get_scores(users)
+    #  categories = json_data.get_categories()
     pattern = '%Y-%m-%d %H:%M:%S'
     tosend_list = []
 
@@ -138,7 +140,7 @@ def display_duration(args, delay):
         now = datetime.now()
         challs_selected = []
 
-        for chall in jd.get_solved_challenges(user):
+        for chall in json_data.get_solved_challenges(user):
             date = datetime.strptime(chall['date'], pattern)
             diff = now - date
             if diff < delay:
@@ -146,7 +148,7 @@ def display_duration(args, delay):
 
         challs_selected.reverse()
         for chall in challs_selected:
-            value = find_challenge(chall['name'])['value']
+            value = find_challenge(bot, chall['name'])['value']
             tosend += f' • {chall["name"]} ({value} points) - {chall["date"]}\n'
         tosend_list.append({'user': user, 'msg': tosend})
 
@@ -161,71 +163,71 @@ def display_duration(args, delay):
     return tosend_list
 
 
-def display_week(args):
-    return display_duration(args, timedelta(weeks=1))
+def display_week(bot, args):
+    return display_duration(bot, args, timedelta(weeks=1))
 
 
-def display_today(args):
-    return display_duration(args, timedelta(days=1))
+def display_today(bot, args):
+    return display_duration(bot, args, timedelta(days=1))
 
 
-def display_diff_one_side(user_diff, user):
-    if not user_diff:
-        return
+@stop_if_args_none
+def display_diff_one_side(bot, user_diff):
     tosend = ''
     for c in user_diff:
-        value = find_challenge(c['name'])['value']
-        tosend += ' • {} ({} points)\n'.format(c['name'], value)
+        value = find_challenge(bot, c['name'])['value']
+        tosend += f' • {c["name"]} ({value} points)\n'
     return tosend
 
 
-def display_diff(user1, user2):
-    if not jd.user_json_exists(user1):
-        tosend = 'User {} is not in team.'.format(user1)
+def display_diff(bot, user1, user2):
+    if not json_data.user_json_exists(user1):
+        tosend = f'User {user1} is not in team.'
         tosend_list = [{'user': user1, 'msg': tosend}]
         return tosend_list
-    if not jd.user_json_exists(user2):
-        tosend = 'User {} is not in team.'.format(user2)
+    if not json_data.user_json_exists(user2):
+        tosend = f'User {user2} is not in team.'
         tosend_list = [{'user': user2, 'msg': tosend}]
         return tosend_list
 
-    solved_user1 = jd.get_solved_challenges(user1)
-    solved_user2 = jd.get_solved_challenges(user2)
+    solved_user1 = json_data.get_solved_challenges(user1)
+    solved_user2 = json_data.get_solved_challenges(user2)
 
-    user1_diff, user2_diff = jd.get_diff(solved_user1, solved_user2)
+    user1_diff, user2_diff = json_data.get_diff(solved_user1, solved_user2)
     tosend_list = []
 
-    tosend = display_diff_one_side(user1_diff, user1)
+    tosend = display_diff_one_side(bot, user1_diff)
     tosend_list.append({'user': user1, 'msg': tosend})
-    tosend = display_diff_one_side(user2_diff, user2)
+    tosend = display_diff_one_side(bot, user2_diff)
     tosend_list.append({'user': user2, 'msg': tosend})
 
     return tosend_list
 
 
-def display_diff_with(select_user):
-    if not jd.user_json_exists(select_user):
-        tosend = 'User {} is not in team.'.format(select_user)
-        tosend_list = [{'user': select_user, 'msg': tosend}]
+def display_diff_with(bot, selected_user):
+    if not json_data.user_json_exists(selected_user):
+        tosend = f'User {selected_user} is not in team.'
+        tosend_list = [{'user': selected_user, 'msg': tosend}]
         return tosend_list
 
     tosend_list = []
-    users = jd.select_users()
+    users = json_data.select_users()
+    solved_user_select = json_data.get_solved_challenges(selected_user)
     for user in users:
-        solved_user = jd.get_solved_challenges(user)
-        solved_user_select = jd.get_solved_challenges(select_user)
-        user_diff, user_diff_select = jd.get_diff(solved_user, solved_user_select)
+        # TODO: make async requests on get_solved_challenges(user) to reduce delay
+        solved_user = json_data.get_solved_challenges(user)
+        user_diff, user_diff_select = json_data.get_diff(solved_user, solved_user_select)
         if user_diff:
-            tosend = display_diff_one_side(user_diff, user)
+            tosend = display_diff_one_side(bot, user_diff)
             tosend_list.append({'user': user, 'msg': tosend})
     return tosend_list
 
 
-async def display_flush(bot, channel):
-    result = await cd.flush(bot, channel)
+async def display_flush(channel, context):
+    result = await channel_data.flush(channel)
     if channel is None or not result:
         return 'An error occurs while trying to flush channel data.'
-    return 'Data from channel has been flushed successfully.'
+    return f'Data from channel has been flushed successfully by {context.author}.'
 
 
 def next_challenge_solved(solved_user, challenge_name):
@@ -237,12 +239,11 @@ def next_challenge_solved(solved_user, challenge_name):
     return None
 
 
-def display_cron():
-    tosend = ''
-    users = jd.select_users()
+def display_cron(bot):
+    users = json_data.select_users()
     for user in users:
-        last = jd.last_solved(user)
-        solved_user = jd.get_solved_challenges(user)
+        last = json_data.last_solved(user)
+        solved_user = json_data.get_solved_challenges(user)
         if not solved_user or solved_user[-1]['name'] == last:
             continue
         blue(solved_user[-1]['name'] + "  |  " + last + "\n")
@@ -250,13 +251,13 @@ def display_cron():
         if next_chall is None:
             red(f'Error with {user} user --> last chall: {last}\n')
             continue
-        c = find_challenge(next_chall['name'])
-        jd.update_user_last(user, c['name'])
         name = f'New challenge solved by {user}'
+        c = find_challenge(bot, next_chall['name'])
         green(f'{user} --> {c["name"]}')
         tosend = f' • {c["name"]} ({c["value"]} points)'
         tosend += f'\n • Difficulty: {c["difficulty"]}'
         tosend += f'\n • Date: {next_chall["date"]}'
         tosend += f'\n • New score: {next_chall["score_at_date"]}'
+        json_data.update_user_last(user, c['name'])
         return name, tosend
     return None, None

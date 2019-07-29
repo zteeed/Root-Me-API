@@ -1,8 +1,7 @@
 import json
 
 from bot.colors import red
-from bot.parser.api.extract_all import extract_rootme_profile, \
-    extract_rootme_stats, extract_score, extract_categories
+from bot.parser.api.extract_all import extract_rootme_profile, extract_rootme_stats, extract_score, extract_categories
 
 
 def read_json():
@@ -62,13 +61,10 @@ def last_solved(user):
 
 
 def get_scores(users):
-    scores = []
-    data = read_json()
-    for user in data['team']:
-        scores.append(int(extract_score(user['name'])))
+    # TODO: async requests to API
+    scores = [int(extract_score(user)) for user in users]
     """ Sort users by score desc """
-    return [{'name': x, 'score': int(y)} for y, x in sorted(zip(scores, users),
-                                                            reverse=True)]
+    return [{'name': x, 'score': int(y)} for y, x in sorted(zip(scores, users), reverse=True)]
 
 
 def get_categories():
@@ -90,7 +86,6 @@ def get_categories_light():
 
 def get_category(category_selected):
     categories = extract_categories()
-    result = []
     for category in categories:
         if category[0]['name'] == category_selected:
             return category
@@ -100,16 +95,16 @@ def get_category(category_selected):
 def get_solved_challenges(user):
     solved_challenges_data = extract_rootme_stats(user)
     if solved_challenges_data is None:
-        red('user {} name might have changed in rootme profile link'.format(user))
+        red(f'user {user} name might have changed in rootme profile link')
         return None
     return solved_challenges_data['solved_challenges']
 
 
 def get_diff(solved_user1, solved_user2):
-    test1 = [c['name'] for c in solved_user1]
-    test2 = [c['name'] for c in solved_user2]
-    user1_diff = [c for c in solved_user1 if c['name'] not in test2]
-    user2_diff = [c for c in solved_user2 if c['name'] not in test1]
-    user1_diff.reverse()
-    user2_diff.reverse()
+    if solved_user1 == solved_user2:
+        return None, None
+    test1 = map(lambda x: x['name'], solved_user1)
+    test2 = map(lambda x: x['name'], solved_user2)
+    user1_diff = list(filter(lambda x: x['name'] not in list(test2), solved_user1))[::-1]
+    user2_diff = list(filter(lambda x: x['name'] not in list(test1), solved_user2))[::-1]
     return user1_diff, user2_diff
