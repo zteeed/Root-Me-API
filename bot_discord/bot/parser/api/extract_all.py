@@ -24,15 +24,15 @@ def extract_json(url):
 
 
 def extract_default():
-    return extract_json('{}'.format(URL))
+    return extract_json(f'{URL}')
 
 
 def extract_rootme_profile(user):
-    return extract_json('{}/{}/profile'.format(URL, user))
+    return extract_json(f'{URL}/{user}/profile')
 
 
 def extract_rootme_stats(user):
-    return extract_json('{}/{}/stats'.format(URL, user))
+    return extract_json(f'{URL}/{user}/stats')
 
 
 def extract_score(user):
@@ -40,4 +40,4 @@ def extract_score(user):
 
 
 def extract_categories():
-    return extract_json('{}/challenges'.format(URL))
+    return extract_json(f'{URL}/challenges')

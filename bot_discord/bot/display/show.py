@@ -24,28 +24,24 @@ def display_parts(message):
 def display_add_user(bot, name):
     """ Check if user exist in RootMe """
     if not jd.user_rootme_exists(name):
-        tosend = 'RootMe profile for {} can\'t be established'.format(name)
-        return add_emoji(bot, 'RootMe profile for {} '
-                              'can\'t be established'.format(name), emoji3)
+        tosend = f'RootMe profile for {name} can\'t be established'
+        return add_emoji(bot, f'RootMe profile for {name} can\'t be established', emoji3)
 
     """ Add user to data.json """
     if jd.user_json_exists(name):
-        return add_emoji(bot, 'User {} already '
-                              'exists in team'.format(name), emoji5)
+        return add_emoji(bot, f'User {name} already exists in team', emoji5)
     else:
         jd.create_user(name)
-        return add_emoji(bot, 'User {} successfully '
-                              'added in team'.format(name), emoji2)
+        return add_emoji(bot, f'User {name} successfully added in team', emoji2)
 
 
 def display_remove_user(bot, name):
     """ Remove user from data.json """
     if not jd.user_json_exists(name):
-        return add_emoji(bot, 'User {} was not in team'.format(name), emoji5)
+        return add_emoji(bot, f'User {name} was not in team', emoji5)
     else:
         jd.delete_user(name)
-        return add_emoji(bot, 'User {} successfully removed '
-                              'from team'.format(name), emoji2)
+        return add_emoji(bot, f'User {name} successfully removed from team', emoji2)
 
 
 def display_scoreboard():
@@ -57,9 +53,9 @@ def display_scoreboard():
     for rank, d in enumerate(scores):
         user, score = d['name'], d['score']
         if rank < len(medals):
-            tosend += '{} {} --> Score = {} \n'.format(medals[rank], user, score)
+            tosend += f'{medals[rank]} {user} --> Score = {score} \n'
         else:
-            tosend += ' • • • {} --> Score = {} \n'.format(user, score)
+            tosend += f' • • • {user} --> Score = {score} \n'
 
     return tosend
 
@@ -67,7 +63,7 @@ def display_scoreboard():
 def display_categories():
     tosend = ''
     for c in jd.get_categories():
-        tosend += ' • {} ({} challenges) \n'.format(c['name'], c['challenges_nb'])
+        tosend += f' • {c["name"]} ({c["challenges_nb"]} challenges) \n'
     return tosend
 
 
@@ -75,15 +71,13 @@ def display_category(category):
     c = jd.get_category(category)
 
     if c is None:
-        tosend = 'Category {} does not exists.'.format(category)
+        tosend = f'Category {category} does not exists.'
         return tosend
 
     tosend = ''
     for chall in c[0]['challenges']:
-        tosend += (' • {} ({} points / {}% of success / difficulty: {}) '
-                   '\n'.format(unescape(chall['name']), chall['value'],
-                               chall['validations_percentage'],
-                               unescape(chall['difficulty'])))
+        tosend += f' • {unescape(chall["name"])} ({chall["value"]} points / {chall["validations_percentage"]}% of \
+success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
 
 
@@ -105,7 +99,7 @@ def display_who_solved(challenge_selected):
     challenge_found = find_challenge(challenge_selected)
 
     if challenge_found is None:
-        return 'Challenge {} does not exists.'.format(challenge_selected)
+        return f'Challenge {challenge_selected} does not exists.'
 
     tosend = ''
     users = jd.select_users()
@@ -116,17 +110,16 @@ def display_who_solved(challenge_selected):
         if solved_challenges is None:
             return None
         if user_has_solved(challenge_selected, solved_challenges):
-            tosend += ' • {}\n'.format(user)
+            tosend += f' • {user}\n'
     if not tosend:
-        tosend = 'Nobody solves {}.'.format(challenge_selected)
+        tosend = f'Nobody solves {challenge_selected}.'
     return tosend
 
 
 def display_duration(args, delay):
     if len(args) == 1:
         if not jd.user_json_exists(args[0]):
-            tosend = ('User {} is not in team.\nYou might add it with '
-                      '!add_user <username>'.format(args[0]))
+            tosend = f'User {args[0]} is not in team.\nYou might add it with !add_user <username>'
             tosend_list = [{'user': args[0], 'msg': tosend}]
             return tosend_list
         else:
@@ -154,13 +147,12 @@ def display_duration(args, delay):
         challs_selected.reverse()
         for chall in challs_selected:
             value = find_challenge(chall['name'])['value']
-            tosend += (' • {} ({} points) - {}\n'.format(chall['name'],
-                                                         value, chall['date']))
+            tosend += f' • {chall["name"]} ({value} points) - {chall["date"]}\n'
         tosend_list.append({'user': user, 'msg': tosend})
 
     test = [item['msg'] == '' for item in tosend_list]
     if len(users) == 1 and False not in test:
-        tosend = 'No challenges solved by {} :frowning:'.format(user)
+        tosend = f'No challenges solved by {user} :frowning:'
         tosend_list = [{'user': None, 'msg': tosend}]
     elif False not in test:
         tosend = 'No challenges solved by anyone :frowning:'
@@ -256,15 +248,15 @@ def display_cron():
         blue(solved_user[-1]['name'] + "  |  " + last + "\n")
         next_chall = next_challenge_solved(solved_user, last)
         if next_chall is None:
-            red('Error with {} user --> last chall: {}\n'.format(user, last))
+            red(f'Error with {user} user --> last chall: {last}\n')
             continue
-        name = 'New challenge solved by {}'.format(user)
         c = find_challenge(next_chall['name'])
-        green('{} --> {}'.format(user, c['name']))
-        tosend = ' • {} ({} points)'.format(c['name'], c['value'])
-        tosend += '\n • Difficulty: {}'.format(c['difficulty'])
-        tosend += '\n • Date: {}'.format(next_chall['date'])
-        tosend += '\n • New score: {}'.format(next_chall['score_at_date'])
         jd.update_user_last(user, c['name'])
+        name = f'New challenge solved by {user}'
+        green(f'{user} --> {c["name"]}')
+        tosend = f' • {c["name"]} ({c["value"]} points)'
+        tosend += f'\n • Difficulty: {c["difficulty"]}'
+        tosend += f'\n • Date: {next_chall["date"]}'
+        tosend += f'\n • New score: {next_chall["score_at_date"]}'
         return name, tosend
     return None, None

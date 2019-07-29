@@ -34,7 +34,7 @@ async def interrupt(self, message, **kwargs):
 
 def check(self):
     if self.channel is None:
-        red('{} is not a valid channel name'.format(bot_channel))
+        red(f'{bot_channel} is not a valid channel name')
         red('Please update the channel name used by the bot '
             'in ./bot/constants.py')
         sys.exit(0)
@@ -106,7 +106,7 @@ async def category(self, args):
         return
 
     tosend = show.display_category(args[0])
-    embed_name = "Category {}".format(args[0])
+    embed_name = f"Category {args[0]}"
     await interrupt(self, tosend, embed_color=0xB315A8, embed_name=embed_name)
 
 
@@ -121,7 +121,7 @@ async def who_solved(self, ctx):
         return
 
     tosend = show.display_who_solved(challenge_selected)
-    embed_name = "Who solved {} ?".format(challenge_selected)
+    embed_name = f"Who solved {challenge_selected} ?"
     await interrupt(self, tosend, embed_color=0x29C1C5, embed_name=embed_name)
 
 
@@ -131,14 +131,13 @@ async def display_by_blocks_duration(self, tosend_list, color, **kwargs):
         tosend = block['msg']
 
         if block['user'] is None:
-            embed_name = "Challenges solved {}".format(kwargs['duration_msg'])
+            embed_name = f"Challenges solved {duration_msg}"
             tosend = tosend_list[0]['msg']
             await interrupt(self, tosend, embed_color=color, embed_name=embed_name)
             return
 
         if tosend:
-            embed_name = ("Challenges solved by {} "
-                          "{}".format(block['user'], kwargs['duration_msg']))
+            embed_name = f"Challenges solved by {block['user']} {duration_msg}"
             await interrupt(self, tosend, embed_color=color, embed_name=embed_name)
 
 
@@ -146,7 +145,7 @@ async def duration(self, args, **kwargs):
     self.lock = True
 
     if len(args) > 1:
-        tosend = 'Use !{} (<username>)'.format(kwargs['duration_command'])
+        tosend = f'Use !{duration_command} (<username>)'
         await interrupt(self, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -170,7 +169,7 @@ async def today(self, args):
 async def display_by_blocks_diff(self, tosend_list, color, **kwargs):
     for block in tosend_list:
         if block['msg']:
-            embed_name = "Challenges solved by {} ".format(block['user'])
+            embed_name = f"Challenges solved by {block['user']} "
             await interrupt(self, block['msg'], embed_color=color, embed_name=embed_name)
 
 
