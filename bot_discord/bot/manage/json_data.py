@@ -103,8 +103,8 @@ def get_solved_challenges(user):
 def get_diff(solved_user1, solved_user2):
     if solved_user1 == solved_user2:
         return None, None
-    test1 = map(lambda x: x['name'], solved_user1)
-    test2 = map(lambda x: x['name'], solved_user2)
-    user1_diff = list(filter(lambda x: x['name'] not in list(test2), solved_user1))[::-1]
-    user2_diff = list(filter(lambda x: x['name'] not in list(test1), solved_user2))[::-1]
+    test1 = list(map(lambda x: x['name'], solved_user1))
+    test2 = list(map(lambda x: x['name'], solved_user2))
+    user1_diff = list(filter(lambda x: x['name'] not in test2, solved_user1))[::-1]
+    user2_diff = list(filter(lambda x: x['name'] not in test1, solved_user2))[::-1]
     return user1_diff, user2_diff
