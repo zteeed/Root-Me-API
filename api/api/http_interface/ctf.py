@@ -6,8 +6,8 @@ from api.parser.profile import extract_pseudo
 
 
 def extract_ctf_page_data(username, offset):
-    pattern_url = URL + '{}?inc=ctf&debut_ctf_alltheday_vm_dispo={}'
-    r = session.get(pattern_url.format(username, offset))
+    pattern_url = f'{URL}{username}?inc=ctf&debut_ctf_alltheday_vm_dispo={offset}'
+    r = session.get(pattern_url)
     if r.status_code != 200:
         raise RootMeException(r.status_code)
     txt = r.text.replace('\n', '')
@@ -23,8 +23,7 @@ def get_user_ctf(username):
     ctf_page_data = extract_ctf_page_data(username, offset)
     pseudo = extract_pseudo(ctf_page_data)
     num_success, num_try = extract_summary(ctf_page_data)
-    description_pattern = '{} machine(s) compromise(s) en {} tentatives'
-    description = description_pattern.format(num_success, num_try)
+    description = f'{num_success} machine(s) compromise(s) en {num_try} tentatives'
 
     while not is_last_page:
         offset += 50

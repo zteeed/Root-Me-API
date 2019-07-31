@@ -27,7 +27,7 @@ def challenges():
 
 @app.route("/v1/<string:username>")
 def get_user(username):
-    return redirect('/v1/{}/profile'.format(username), code=302)
+    return redirect(f'/v1/{username}/profile', code=302)
 
 
 @app.route('/v1/<string:username>/profile')

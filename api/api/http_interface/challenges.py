@@ -10,7 +10,7 @@ from api.parser.exceptions import RootMeParsingError
 
 
 def retrieve_category_info(category):
-    r = session.get(URL + 'fr/Challenges/{}/'.format(category))
+    r = session.get(URL + f'fr/Challenges/{category}/')
     if r.status_code != 200:
         raise RootMeException(r.status_code)
 
@@ -19,7 +19,7 @@ def retrieve_category_info(category):
     prereq = extract_category_prereq(r.text)
     challenges = extract_challenges_info(r.text)
 
-    app.logger.info('Fetched category page "{}"'.format(category))
+    app.logger.info(f'Fetched category page "{category}"')
 
     return [{
         'name': category,
@@ -47,7 +47,7 @@ def get_all_challenges():
 
     except RootMeException as e:
         app.logger.exception("Root-me did not respond 200")
-        return "RootMe responded {}".format(e.err_code), 502
+        return f"RootMe responded {e.err_code}", 502
 
     except RootMeParsingError:
         app.logger.exception("Parsing error")
