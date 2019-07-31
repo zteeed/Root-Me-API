@@ -22,7 +22,7 @@ def user_rootme_exists(user):
 
 def user_json_exists(user_check):
     data = read_json()
-    return (True in [user['name'] == user_check for user in data['team']])
+    return True in [user['name'] == user_check for user in data['team']]
 
 
 def create_user(user):
