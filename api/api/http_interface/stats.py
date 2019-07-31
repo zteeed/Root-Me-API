@@ -4,6 +4,7 @@ from api.http_interface.exceptions import RootMeException
 from api.parser.profile import extract_pseudo
 from api.parser.stats import extract_stats
 
+
 def get_user_stats(username):
     r = session.get(URL + username + '?inc=statistiques')
     if r.status_code != 200:

@@ -19,7 +19,7 @@ def get_user_ctf(username):
     offset = 0
     is_last_page = False
     ctfs = []
-        
+
     ctf_page_data = extract_ctf_page_data(username, offset)
     pseudo = extract_pseudo(ctf_page_data)
     num_success, num_try = extract_summary(ctf_page_data)

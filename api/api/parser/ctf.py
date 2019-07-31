@@ -27,7 +27,7 @@ def extract_ctf(txt, ctfs):
     ctfs_data = re.findall(pattern, txt)
 
     pattern = "<td><img src=.*?/img/(.*?).png.*?></td>"
-    for i in range(4): 
+    for i in range(4):
         pattern += "<td.*?>(.*?)</td>"
     pattern = pattern.replace('/', '\\/')
 

@@ -1,10 +1,10 @@
-
 from api.constants import URL
 from api.http_interface import session
 from api.http_interface.exceptions import RootMeException
-from api.parser.profile import extract_pseudo
 from api.parser.details import extract_score, extract_ranking, \
-extract_ranking_category, extract_challenges
+    extract_ranking_category, extract_challenges
+from api.parser.profile import extract_pseudo
+
 
 def get_user_details(username):
     r = session.get(URL + username + '?inc=score')

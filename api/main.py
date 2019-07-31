@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
 from flask import redirect, jsonify
 
 from api.app import app
@@ -19,10 +16,8 @@ def root():
 
 
 @app.route("/v1")
-def rootv1():
-    return jsonify(title="Root-Me-API",
-                   authors=AUTHORS,
-                   follow_us=GITHUB_ACCOUNTS)
+def root_v1():
+    return jsonify(title="Root-Me-API", authors=AUTHORS, follow_us=GITHUB_ACCOUNTS)
 
 
 @app.route("/v1/challenges")
