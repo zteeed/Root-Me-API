@@ -18,7 +18,7 @@ def retrieve_category_info(category):
     prereq = extract_category_prereq(r.content)
     challenges = extract_challenges_info(r.content)
 
-    print(f'Fetched category page \'{category}\'')
+    print(f"Fetched category page '{category}'")
 
     return [{
         'name': category.strip(),
