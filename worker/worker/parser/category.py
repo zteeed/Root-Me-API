@@ -55,6 +55,8 @@ def extract_category_prereq(content):
     if not result:
         result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]/p[starts-with(., '
                             '"Préreq")])')
+    #  RootMe does not list prerequisites with ul/li HTML tags.
+    #  I need to make some chemistry to extract the data i want.
     result = [prerequisite for prerequisite in result.split('\xa0')[1:] if '\n' not in prerequisite]
     return result
 
