@@ -16,8 +16,8 @@ def extract_challenge_ids(txt):
     return result
 
 
-def extract_categories(r):
-    tree = html.fromstring(r.content)
+def extract_categories(content):
+    tree = html.fromstring(content)
     result = tree.xpath('//li/a[starts-with(@class, "submenu")][starts-with(@href, "fr/Challenges")]/@href')
     result = [name.split('/')[2] for name in result]
     if not result:
@@ -25,16 +25,16 @@ def extract_categories(r):
     return result
 
 
-def extract_category_logo(r):
-    tree = html.fromstring(r.content)
+def extract_category_logo(content):
+    tree = html.fromstring(content)
     result = tree.xpath('//h1/img[@class="vmiddle"][starts-with(@src, "local")]/@src')
     if not result or not result[0]:
         raise RootMeParsingError("Could not parse logo from challenge.")
     return result[0]
 
 
-def extract_category_description(r):
-    tree = html.fromstring(r.content)
+def extract_category_description(content):
+    tree = html.fromstring(content)
     result = tree.xpath('//meta[@name="Description"]/@content')
     if not result or not result[0]:
         raise RootMeParsingError('Could not parse description.')
@@ -48,8 +48,8 @@ def extract_category_description(r):
     return description1, description2
 
 
-def extract_category_prereq(r):
-    tree = html.fromstring(r.content)
+def extract_category_prereq(content):
+    tree = html.fromstring(content)
     result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]/p[starts-with(., '
                         '"Préreq")]/following-sibling::p)')  # if prerequisites are on two "p" html tags
     if not result:
@@ -59,45 +59,45 @@ def extract_category_prereq(r):
     return result
 
 
-def extract_paths(r):
-    tree = html.fromstring(r.content)
+def extract_paths(content):
+    tree = html.fromstring(content)
     paths = tree.xpath('//td[@class="text-left"]/a[starts-with(@href, "fr/Challenges")]/@href')
     return paths
 
 
-def extract_statements(r):
-    tree = html.fromstring(r.content)
+def extract_statements(content):
+    tree = html.fromstring(content)
     statements = tree.xpath('//td[@class="text-left"]/a[starts-with(@href, "fr/Challenges")]/@title')
     return statements
 
 
-def extract_names(r):
-    tree = html.fromstring(r.content)
+def extract_names(content):
+    tree = html.fromstring(content)
     names = tree.xpath('//td[@class="text-left"]/a[starts-with(@href, "fr/Challenges")]/text()')
     return names
 
 
-def extract_validations_percentages(r):
-    tree = html.fromstring(r.content)
+def extract_validations_percentages(content):
+    tree = html.fromstring(content)
     validations_percentages = tree.xpath('//span[starts-with(@class, "gras left text-left")]/text()')
     return validations_percentages
 
 
-def extract_validations_nbs(r):
-    tree = html.fromstring(r.content)
+def extract_validations_nbs(content):
+    tree = html.fromstring(content)
     validations_nbs = tree.xpath('//span[@class="right"]/a/text()')
     return validations_nbs
 
 
-def extract_difficulties(r):
-    tree = html.fromstring(r.content)
+def extract_difficulties(content):
+    tree = html.fromstring(content)
     difficulties = tree.xpath('//td[@class="show-for-medium-up"]/a[starts-with(@href,"tag")]/@title')
     difficulties = [difficulty.split(':')[0].strip() for difficulty in difficulties]
     return difficulties
 
 
-def extract_values(r):
-    tree = html.fromstring(r.content)
+def extract_values(content):
+    tree = html.fromstring(content)
     values = tree.xpath('//td[@class="show-for-medium-up"]/a[starts-with(@href,'
                         '"tag")]/parent::td/preceding-sibling::td/text()')
     values = [value for value in values if '\n' not in value]
@@ -105,8 +105,8 @@ def extract_values(r):
     return values
 
 
-def extract_authors(r):
-    tree = html.fromstring(r.content)
+def extract_authors(content):
+    tree = html.fromstring(content)
     all_authors = tree.xpath('//td[@class="show-for-large-up"]')
     #  all_authors = [author.getchildren() for author in all_authors]  #  getchildren is a deprecated method
     all_authors = [[elements for elements in td] for td in all_authors]  # match "a" elements in td elements
@@ -120,32 +120,32 @@ def extract_authors(r):
     return authors
 
 
-def extract_notes(r):
-    tree = html.fromstring(r.content)
+def extract_notes(content):
+    tree = html.fromstring(content)
     notes = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/@src')
     notes = [re.match('.*note(.*?)\.png', note).group(1) for note in notes]
     notes = [int(note) for note in notes if note.isdigit()]
     return notes
 
 
-def extract_solutions_nbs(r):
-    tree = html.fromstring(r.content)
+def extract_solutions_nbs(content):
+    tree = html.fromstring(content)
     solutions = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/parent::td/following-sibling::td/text()')
     solutions = [int(solution) for solution in solutions if solution.isdigit()]
     return solutions
 
 
-def extract_challenges_info(r):
-    paths = extract_paths(r)
-    statements = extract_statements(r)
-    names = extract_names(r)
-    validations_percentages = extract_validations_percentages(r)
-    validations_nbs = extract_validations_nbs(r)
-    difficulties = extract_difficulties(r)
-    values = extract_values(r)
-    authors = extract_authors(r)
-    notes = extract_notes(r)
-    solutions_nbs = extract_solutions_nbs(r)
+def extract_challenges_info(content):
+    paths = extract_paths(content)
+    statements = extract_statements(content)
+    names = extract_names(content)
+    validations_percentages = extract_validations_percentages(content)
+    validations_nbs = extract_validations_nbs(content)
+    difficulties = extract_difficulties(content)
+    values = extract_values(content)
+    authors = extract_authors(content)
+    notes = extract_notes(content)
+    solutions_nbs = extract_solutions_nbs(content)
 
     # TODO: verify that every lists have same lengths
     response = [{
