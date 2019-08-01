@@ -1,3 +1,4 @@
+import redis
 from requests import Session
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
@@ -11,3 +12,5 @@ retry = Retry(
 adapter = HTTPAdapter(max_retries=retry, pool_maxsize=100, pool_block=True)
 session.mount('http://', adapter)
 session.mount('https://', adapter)
+
+redis_app = redis.Redis(host='localhost', port=32768, db=0)

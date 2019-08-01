@@ -1,6 +1,6 @@
 import re
 
-from api.parser.exceptions import RootMeParsingError
+from worker.parser.exceptions import RootMeParsingError
 
 
 def extract_score(txt):

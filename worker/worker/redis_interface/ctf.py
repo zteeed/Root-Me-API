@@ -1,8 +1,10 @@
-from api.constants import URL
-from api.http_interface import session
-from api.http_interface.exceptions import RootMeException
-from api.parser.ctf import extract_summary, extract_ctf
-from api.parser.profile import extract_pseudo
+import json
+
+from worker.constants import URL
+from worker.parser.ctf import extract_summary, extract_ctf
+from worker.parser.profile import extract_pseudo
+from worker.redis_interface import session, redis_app
+from worker.redis_interface.exceptions import RootMeException
 
 
 def extract_ctf_page_data(username, offset):
@@ -15,7 +17,7 @@ def extract_ctf_page_data(username, offset):
     return txt
 
 
-def get_user_ctf(username):
+def set_user_ctf(username):
     offset = 0
     is_last_page = False
     ctfs = []
@@ -23,17 +25,21 @@ def get_user_ctf(username):
     ctf_page_data = extract_ctf_page_data(username, offset)
     pseudo = extract_pseudo(ctf_page_data)
     num_success, num_try = extract_summary(ctf_page_data)
-    description = f'{num_success} machine(s) compromise(s) en {num_try} tentatives'
+    if num_success is None and num_try is None:
+        return None
 
+    description = f'{num_success} machine(s) compromise(s) en {num_try} tentatives'
     while not is_last_page:
         offset += 50
         ctfs, is_last_page = extract_ctf(ctf_page_data, ctfs)
         ctf_page_data = extract_ctf_page_data(username, offset)
 
-    return [{
+    response = [{
         'pseudo': pseudo,
         'num_success': num_success,
         'num_try': num_try,
         'description': description,
         'ctfs': ctfs,
     }]
+
+    redis_app.set(f'{username}.ctfs', json.dumps(response))

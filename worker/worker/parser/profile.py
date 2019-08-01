@@ -1,7 +1,7 @@
 import re
 from html import unescape
 
-from api.parser.exceptions import RootMeParsingError
+from worker.parser.exceptions import RootMeParsingError
 
 
 def extract_pseudo(txt):

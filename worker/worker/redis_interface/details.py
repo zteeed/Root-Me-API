@@ -1,12 +1,14 @@
-from api.constants import URL
-from api.http_interface import session
-from api.http_interface.exceptions import RootMeException
-from api.parser.details import extract_score, extract_ranking, \
+import json
+
+from worker.constants import URL
+from worker.parser.details import extract_score, extract_ranking, \
     extract_ranking_category, extract_challenges
-from api.parser.profile import extract_pseudo
+from worker.parser.profile import extract_pseudo
+from worker.redis_interface import session, redis_app
+from worker.redis_interface.exceptions import RootMeException
 
 
-def get_user_details(username):
+def set_user_details(username):
     r = session.get(URL + username + '?inc=score')
     if r.status_code != 200:
         raise RootMeException(r.status_code)
@@ -19,7 +21,7 @@ def get_user_details(username):
     ranking_category = extract_ranking_category(txt)
     categories = extract_challenges(txt)
 
-    return [{
+    response = [{
         'pseudo': pseudo,
         'score': score,
         'nb_challenges_solved': nb_challenges_solved,
@@ -29,3 +31,5 @@ def get_user_details(username):
         'ranking_category': ranking_category,
         'categories': categories,
     }]
+
+    redis_app.set(f'{username}.details', json.dumps(response))

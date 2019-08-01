@@ -1,13 +1,15 @@
 import re
 
-from api.parser.exceptions import RootMeParsingError
+from worker.parser.exceptions import RootMeParsingError
 
 
 def extract_summary(txt):
     pattern = '<span class=\"color1 txl\".*?>(\d+).*?(\d+).*?<\/span>'
     result = re.findall(pattern, txt)
     if not result:
-        raise RootMeParsingError("Could not parse ctf summary data about a user.")
+        #  raise RootMeParsingError("Could not parse ctf summary data about a user.")
+        print("Could not parse ctf summary data about a user.")
+        return None, None
     num_success, num_try = result[0]
     return num_success, num_try
 

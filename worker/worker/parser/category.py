@@ -1,9 +1,9 @@
 import re
 from html import unescape
 
-from api.parser.challenge import extract_challenge_general_info, extract_validation_info, extract_difficulty, \
+from worker.parser.challenge import extract_challenge_general_info, extract_validation_info, extract_difficulty, \
     extract_author, extract_solutions_and_note
-from api.parser.exceptions import RootMeParsingError
+from worker.parser.exceptions import RootMeParsingError
 
 
 def extract_challenge_ids(txt):
@@ -91,14 +91,14 @@ def extract_info_from_row(row):
     note, solutions_nb = extract_solutions_and_note(row)
 
     return {
-        'path': path,
-        'statement': unescape(statement),
-        'name': unescape(name),
+        'path': path.strip(),
+        'statement': unescape(statement).strip(),
+        'name': unescape(name).strip(),
         'validations_percentage': validations_percentage,
         'validations_nb': validations_nb,
         'value': value,
         'difficulty': unescape(difficulty),
-        'author': author,
+        'author': author.strip(),
         'solutions_nb': solutions_nb,
         'note': note,
     }
@@ -106,9 +106,7 @@ def extract_info_from_row(row):
 
 def extract_challenges_info(txt):
     challenge_rows = extract_challenge_rows(txt)
-
     challs = []
     for row in challenge_rows:
         challs += [extract_info_from_row(row)]
-
     return challs

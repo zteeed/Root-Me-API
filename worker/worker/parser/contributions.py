@@ -1,8 +1,6 @@
 import re
 from html import unescape
 
-from api.parser.exceptions import RootMeParsingError
-
 
 def extract_contributions(txt):
     pattern = ('<a class="gris" href="(.*?)">(.*?)</a>\n'
@@ -10,7 +8,10 @@ def extract_contributions(txt):
                '<span class="txs gris italic">(.*?)</span>')
     contributions_data = re.findall(pattern, txt)
     if not contributions_data:
-        raise RootMeParsingError("Could not parse contributions data about a user.")
+        #  raise RootMeParsingError("Could not parse contributions data about a user.")
+        # TODO: think about raising an error here
+        print("Could not parse contributions data about a user.")
+        return None
     contributions = []
     for item in contributions_data:
         path, name, path_solve, solve, date = item
