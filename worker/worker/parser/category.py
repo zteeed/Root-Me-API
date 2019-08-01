@@ -28,7 +28,7 @@ def extract_categories(content):
 def extract_category_logo(content):
     tree = html.fromstring(content)
     result = tree.xpath('//h1/img[@class="vmiddle"][starts-with(@src, "local")]/@src')
-    if not result or not result[0]:
+    if not result:
         raise RootMeParsingError()
     return result[0]
 
@@ -36,7 +36,7 @@ def extract_category_logo(content):
 def extract_category_description(content):
     tree = html.fromstring(content)
     result = tree.xpath('//meta[@name="Description"]/@content')
-    if not result or not result[0]:
+    if not result:
         raise RootMeParsingError()
     description1 = result[0]
 
