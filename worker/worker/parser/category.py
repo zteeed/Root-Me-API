@@ -110,7 +110,6 @@ def extract_values(content):
 def extract_authors(content):
     tree = html.fromstring(content)
     all_authors = tree.xpath('//td[@class="show-for-large-up"]')
-    #  all_authors = [author.getchildren() for author in all_authors]  #  getchildren is a deprecated method
     all_authors = [[elements for elements in td] for td in all_authors]  # match "a" elements in td elements
     authors = []
     for challenge_authors in all_authors:
