@@ -115,7 +115,7 @@ def extract_authors(content):
         result = []
         if challenge_authors:  # challenge_authors != []
             result = [author.get('href') for author in challenge_authors]
-            result = [re.match('\/(.*?)\?', author_name).group(1) for author_name in result]
+            result = [re.match(r'\/(.*?)\?', author_name).group(1) for author_name in result]
         authors.append(result)
     return authors
 
@@ -123,7 +123,7 @@ def extract_authors(content):
 def extract_notes(content):
     tree = html.fromstring(content)
     notes = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/@src')
-    notes = [re.match('.*note(.*?)\.png', note).group(1) for note in notes]
+    notes = [re.match(r'.*note(.*?)\.png', note).group(1) for note in notes]
     notes = [int(note) for note in notes if note.isdigit()]
     return notes
 
