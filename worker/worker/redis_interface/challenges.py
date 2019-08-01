@@ -1,6 +1,7 @@
 import json
 from multiprocessing.pool import ThreadPool
 
+from worker import log
 from worker.constants import URL
 from worker.parser.category import extract_categories, extract_category_logo, extract_category_description, \
     extract_category_prereq, extract_challenges_info
@@ -18,7 +19,7 @@ def retrieve_category_info(category):
     prereq = extract_category_prereq(r.content)
     challenges = extract_challenges_info(r.content)
 
-    print(f"Fetched category page '{category}'")
+    log.msg(f"Fetched category page '{category}'")
 
     return [{
         'name': category.strip(),
