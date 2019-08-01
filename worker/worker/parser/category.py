@@ -101,15 +101,15 @@ def extract_challenges_values(content):
 
 def extract_challenges_authors(content):
     tree = html.fromstring(content)
-    all_authors = tree.xpath('//td[@class="show-for-large-up"]')
-    all_authors = [[elements for elements in td] for td in all_authors]  # match "a" elements in td elements
+    html_elements = tree.xpath('//td[@class="show-for-large-up"]')
+    html_elements = [[elements for elements in td] for td in html_elements]  # match "a" elements in td elements
     authors = []
-    for challenge_authors in all_authors:
-        result = []
-        if challenge_authors:  # challenge_authors != []
-            result = [author.get('href') for author in challenge_authors]
-            result = [re.match(r'\/(.*?)\?', author_name).group(1) for author_name in result]
-        authors.append(result)
+    for html_element in html_elements:
+        author = []
+        if html_element:  # challenge_authors != []
+            author = [author_url_profile.get('href') for author_url_profile in html_element]
+            author = [re.match(r'\/(.*?)\?', author_name).group(1) for author_name in author]
+        authors.append(author)
     return authors
 
 
