@@ -40,5 +40,5 @@ def set_all_challenges():
         response = tp.map(retrieve_category_info, categories)
     redis_app.set('challenges', json.dumps(response))
     redis_app.set('categories', json.dumps(categories))
-    for category in response:
-        redis_app.set(f'categories.{category[0]["name"]}', json.dumps(category))
+    for category_data in response:
+        redis_app.set(f'categories.{category_data[0]["name"]}', json.dumps(category_data))
