@@ -7,7 +7,7 @@ def extract_score(txt):
     pattern = '<span class="color1 tl">(\d+)Points<span class="gris tm">(\d+)/(\d+)</span>'
     result = re.findall(pattern, txt)
     if not result:
-        raise RootMeParsingError("Could not parse score.")
+        raise RootMeParsingError()
     [score, nb_challenges_solved, nb_challenges_tot] = result[0]
     return score, nb_challenges_solved, nb_challenges_tot
 
@@ -16,7 +16,7 @@ def extract_ranking(txt):
     pattern = '<span class="color1 tl">(\d+)<span class="gris">/(\d+)</span>'
     result = re.findall(pattern, txt)
     if not result:
-        raise RootMeParsingError("Could not parse ranking informations.")
+        raise RootMeParsingError()
     (ranking, ranking_tot) = result[0]
     return ranking, ranking_tot
 
@@ -25,7 +25,7 @@ def extract_ranking_category(txt):
     pattern = '<span class="color1 tl">(\w+)<a'
     result = re.findall(pattern, txt)
     if not result:
-        raise RootMeParsingError("Could not parse ranking category.")
+        raise RootMeParsingError()
     return result[0]
 
 
@@ -37,7 +37,7 @@ def extract_challenges(txt):
     pattern = '<li><a class="submenu.*?" href="(.*?)".*?>(.*?)</a></li>'
     categories_data = re.findall(pattern, txt)
     if not categories_data:
-        raise RootMeParsingError("Could not parse categories.")
+        raise RootMeParsingError()
     categories_data = select_categories_data(categories_data)
     categories = []
     for key1, item in enumerate(categories_data):
@@ -46,7 +46,7 @@ def extract_challenges(txt):
         pattern = '<span class="gris">(\d+)Points(\d+)/(\d+)</span><ul(.*?)>(.*?)</ul>'
         category_data = re.findall(pattern, txt)
         if not category_data:
-            raise RootMeParsingError("Could not parse category data.")
+            raise RootMeParsingError()
         for key2, category_item in enumerate(category_data):
             (score_category, num, tot, useless, challenges_list) = category_item
             if key1 == key2:

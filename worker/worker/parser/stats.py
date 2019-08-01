@@ -9,7 +9,7 @@ def extract_stats(txt):
     pattern = '<script type="text/javascript">(.*?)</script>'
     stats_data = re.findall(pattern, txt)
     if not stats_data:
-        raise RootMeParsingError("Could not parse stats data about a user.")
+        raise RootMeParsingError()
 
     stats_data = ''.join(stats_data)
     pattern = ('evolution_data_total.push\(new Array\("(.*?)",(\d+), "(.*?)", "(.*?)"\)\)'

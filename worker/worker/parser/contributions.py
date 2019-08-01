@@ -7,10 +7,7 @@ def extract_contributions(txt):
                '<a href="(.*?)">(.*?)</a>\n'
                '<span class="txs gris italic">(.*?)</span>')
     contributions_data = re.findall(pattern, txt)
-    if not contributions_data:
-        #  raise RootMeParsingError("Could not parse contributions data about a user.")
-        # TODO: think about raising an error here
-        print("Could not parse contributions data about a user.")
+    if not contributions_data:  # Could not parse contributions data about a user
         return None
     contributions = []
     for item in contributions_data:

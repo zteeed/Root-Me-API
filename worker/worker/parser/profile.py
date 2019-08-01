@@ -10,7 +10,7 @@ def extract_pseudo(r):
     tree = html.fromstring(r.content)
     result = tree.xpath('//meta[@name="author"]/@content')
     if not result or not result[0]:
-        raise RootMeParsingError("Could not parse the pseudo about a user profile.")
+        raise RootMeParsingError()
     return unescape(result[0])
 
 
@@ -19,5 +19,5 @@ def extract_score(r):
     result = tree.xpath('//ul[@class="spip"]/li[contains(., "Score")]/span/text()')
     result = [int(score) for score in result if score.isdigit()]
     if not result and not result[0]:
-        raise RootMeParsingError("Could not parse the score about a user profile.")
+        raise RootMeParsingError()
     return result[0]

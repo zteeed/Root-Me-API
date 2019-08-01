@@ -12,7 +12,7 @@ def extract_challenge_ids(txt):
     pattern = r'<div class="clearfix"></div><span><b>(.*?)</b>.*?</span><p'
     result = re.findall(pattern, txt)
     if not result:
-        raise RootMeParsingError("Could not parse and extract challenge IDs from Root-Me.")
+        raise RootMeParsingError()
     return result
 
 
@@ -21,7 +21,7 @@ def extract_categories(content):
     result = tree.xpath('//li/a[starts-with(@class, "submenu")][starts-with(@href, "fr/Challenges")]/@href')
     result = [name.split('/')[2] for name in result]
     if not result:
-        raise RootMeParsingError("Could not parse categories.")
+        raise RootMeParsingError()
     return result
 
 
@@ -29,7 +29,7 @@ def extract_category_logo(content):
     tree = html.fromstring(content)
     result = tree.xpath('//h1/img[@class="vmiddle"][starts-with(@src, "local")]/@src')
     if not result or not result[0]:
-        raise RootMeParsingError("Could not parse logo from challenge.")
+        raise RootMeParsingError()
     return result[0]
 
 
@@ -37,7 +37,7 @@ def extract_category_description(content):
     tree = html.fromstring(content)
     result = tree.xpath('//meta[@name="Description"]/@content')
     if not result or not result[0]:
-        raise RootMeParsingError('Could not parse description.')
+        raise RootMeParsingError()
     description1 = result[0]
 
     result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]//p)')
