@@ -3,8 +3,6 @@ from html import unescape
 
 from lxml import html
 
-from worker.parser.challenge import extract_challenge_general_info, extract_validation_info, extract_difficulty, \
-    extract_author, extract_solutions_and_note
 from worker.parser.exceptions import RootMeParsingError
 
 
@@ -21,7 +19,7 @@ def extract_challenge_ids(txt):
 def extract_categories(r):
     tree = html.fromstring(r.content)
     result = tree.xpath('//li/a[starts-with(@class, "submenu")][starts-with(@href, "fr/Challenges")]/@href')
-    result = list(map(lambda x: x.split('/')[2], result))
+    result = [name.split('/')[2] for name in result]
     if not result:
         raise RootMeParsingError("Could not parse categories.")
     return result
@@ -57,7 +55,7 @@ def extract_category_prereq(r):
     if not result:
         result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]/p[starts-with(., '
                             '"Préreq")])')
-    result = list(filter(lambda x: '\n' not in x, result.split('\xa0')[1:]))
+    result = [prerequisite for prerequisite in result.split('\xa0')[1:] if '\n' not in prerequisite]
     return result
 
 
@@ -94,7 +92,7 @@ def extract_validations_nbs(r):
 def extract_difficulties(r):
     tree = html.fromstring(r.content)
     difficulties = tree.xpath('//td[@class="show-for-medium-up"]/a[starts-with(@href,"tag")]/@title')
-    difficulties = list(map(lambda x: x.split(':')[0].strip(), difficulties))
+    difficulties = [difficulty.split(':')[0].strip() for difficulty in difficulties]
     return difficulties
 
 
@@ -102,22 +100,22 @@ def extract_values(r):
     tree = html.fromstring(r.content)
     values = tree.xpath('//td[@class="show-for-medium-up"]/a[starts-with(@href,'
                         '"tag")]/parent::td/preceding-sibling::td/text()')
-    values = list(filter(lambda x: '\n' not in x, values))
-    values = list(map(int, values))
+    values = [value for value in values if '\n' not in value]
+    values = [int(value) for value in values if value.isdigit()]
     return values
 
 
 def extract_authors(r):
     tree = html.fromstring(r.content)
     all_authors = tree.xpath('//td[@class="show-for-large-up"]')
-    #  all_authors = list(map(lambda author: author.getchildren(), all_authors))  #  getchildren is a deprecated method
+    #  all_authors = [author.getchildren() for author in all_authors]  #  getchildren is a deprecated method
     all_authors = [[elements for elements in td] for td in all_authors]  # match "a" elements in td elements
     authors = []
     for challenge_authors in all_authors:
         result = []
         if challenge_authors:  # challenge_authors != []
             result = [author.get('href') for author in challenge_authors]
-            result = list(map(lambda x: re.match('\/(.*?)\?', x).group(1), result))
+            result = [re.match('\/(.*?)\?', author_name).group(1) for author_name in result]
         authors.append(result)
     return authors
 
@@ -125,15 +123,15 @@ def extract_authors(r):
 def extract_notes(r):
     tree = html.fromstring(r.content)
     notes = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/@src')
-    notes = list(map(lambda x: re.match('.*note(.*?)\.png', x).group(1), notes))
-    notes = list(map(int, notes))
+    notes = [re.match('.*note(.*?)\.png', note).group(1) for note in notes]
+    notes = [int(note) for note in notes if note.isdigit()]
     return notes
 
 
 def extract_solutions_nbs(r):
     tree = html.fromstring(r.content)
     solutions = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/parent::td/following-sibling::td/text()')
-    solutions = list(map(int, solutions))
+    solutions = [int(solution) for solution in solutions if solution.isdigit()]
     return solutions
 
 
