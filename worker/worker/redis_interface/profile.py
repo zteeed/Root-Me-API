@@ -11,8 +11,8 @@ def set_user_profile(username):
     if r.status_code != 200:
         raise RootMeException(r.status_code)
 
-    pseudo = extract_pseudo(r.text)
-    score = extract_score(r.text)
+    pseudo = extract_pseudo(r)
+    score = extract_score(r)
     response = [{
         'pseudo': pseudo,
         'score': score,
