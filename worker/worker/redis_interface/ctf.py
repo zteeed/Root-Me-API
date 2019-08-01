@@ -1,17 +1,18 @@
 import json
 
+from worker import log
 from worker.constants import URL
 from worker.parser.ctf import extract_summary, extract_ctf
 from worker.parser.profile import extract_pseudo
 from worker.redis_interface import session, redis_app
-from worker.redis_interface.exceptions import RootMeException
 
 
 def extract_ctf_page_data(username, offset):
     pattern_url = f'{URL}{username}?inc=ctf&debut_ctf_alltheday_vm_dispo={offset}'
     r = session.get(pattern_url)
     if r.status_code != 200:
-        raise RootMeException(r.status_code)
+        log.warning(f'HTTP {r.status_code} for user {username}')
+        return
     txt = r.text.replace('\n', '')
     txt = txt.replace('&nbsp;', '')
     return txt
