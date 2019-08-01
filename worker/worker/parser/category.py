@@ -3,6 +3,7 @@ from html import unescape
 
 from lxml import html
 
+from worker.zip import zip_equal
 from worker.parser.exceptions import RootMeParsingError
 
 
@@ -143,8 +144,8 @@ def extract_challenges_info(content):
     #  zip_equal function verifies that every lists have same lengths or raise an exception
     response = []
     for path, statement, name, validations_percentage, validations_nb, value, difficulty, author, solutions_nb, \
-        note in zip(paths, statements, names, validations_percentages, validations_nbs, values, difficulties,
-                    authors, solutions_nbs, notes):
+        note in zip_equal(paths, statements, names, validations_percentages, validations_nbs, values, difficulties,
+                          authors, solutions_nbs, notes):
         response.append({
             'path': path,
             'statement': statement,
