@@ -12,8 +12,8 @@ def set_user_profile(username):
         log.warning(f'HTTP {r.status_code} for user {username}')
         return
 
-    pseudo = extract_pseudo(r)
-    score = extract_score(r)
+    pseudo = extract_pseudo(r.content)
+    score = extract_score(r.content)
     response = [{
         'pseudo': pseudo,
         'score': score,
