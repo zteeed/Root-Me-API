@@ -1,20 +1,22 @@
-import re
 from html import unescape
+
+from lxml import html
 
 from worker.parser.exceptions import RootMeParsingError
 
 
-def extract_pseudo(txt):
-    pattern = '<meta name="author" content="(.*?)"/>'
-    result = re.findall(pattern, txt)
+def extract_pseudo(content):
+    tree = html.fromstring(content)
+    result = tree.xpath('//meta[@name="author"]/@content')
     if not result:
-        raise RootMeParsingError("Could not parse the pseudo about a user profile.")
+        raise RootMeParsingError()
     return unescape(result[0])
 
 
-def extract_score(txt):
-    pattern = '<span>(\d+)</span>'
-    result = re.findall(pattern, txt)
-    if not result:
-        raise RootMeParsingError("Could not parse the score about a user profile.")
+def extract_score(content):
+    tree = html.fromstring(content)
+    result = tree.xpath('//ul[@class="spip"]/li[contains(., "Score")]/span/text()')
+    result = [int(score) for score in result]
+    if not result and not result[0]:  # result can be equal to [''] with this xpath search
+        raise RootMeParsingError()
     return result[0]

@@ -1,25 +1,25 @@
 import json
 
+from worker import log
 from worker.constants import URL
-from worker.parser.details import extract_score, extract_ranking, \
+from worker.parser.details import extract_score, extract_nb_challenges_solved, extract_ranking, \
     extract_ranking_category, extract_challenges
 from worker.parser.profile import extract_pseudo
 from worker.redis_interface import session, redis_app
-from worker.redis_interface.exceptions import RootMeException
 
 
 def set_user_details(username):
     r = session.get(URL + username + '?inc=score')
     if r.status_code != 200:
-        raise RootMeException(r.status_code)
+        log.warning(f'HTTP {r.status_code} for username {username}.')
+        return
 
-    txt = r.text.replace('\n', '')
-    txt = txt.replace('&nbsp;', '')
-    pseudo = extract_pseudo(txt)
-    score, nb_challenges_solved, nb_challenges_tot = extract_score(txt)
-    ranking, ranking_tot = extract_ranking(txt)
-    ranking_category = extract_ranking_category(txt)
-    categories = extract_challenges(txt)
+    pseudo = extract_pseudo(r.content)
+    score = extract_score(r.content)
+    nb_challenges_solved, nb_challenges_tot = extract_nb_challenges_solved(r.content)
+    ranking, ranking_tot = extract_ranking(r.content)
+    ranking_category = extract_ranking_category(r.content)
+    categories = extract_challenges(r.content)
 
     response = [{
         'pseudo': pseudo,
