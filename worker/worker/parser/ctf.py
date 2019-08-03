@@ -1,51 +1,41 @@
 import re
+from lxml import html
 
 from worker.parser.exceptions import RootMeParsingError
 
 
-def extract_summary(txt):
-    pattern = '<span class=\"color1 txl\".*?>(\d+).*?(\d+).*?<\/span>'
-    result = re.findall(pattern, txt)
-    if not result:  # Could not parse ctf summary data about a user
-        return None, None
-    num_success, num_try = result[0]
-    return num_success, num_try
+def is_not_participating(content):
+    tree = html.fromstring(content)
+    return not tree.xpath('//div[@class="t-body tb-padding"]/div/h3[contains(.,"ne participe pas")]')
 
 
-def check_is_last_page(ctf_pages):
-    return ctf_pages[-1] == '&lt;'
-
-
-def extract_ctf(txt, ctfs):
-    pattern = "<li><a href='.*?inc=ctf.*?class='lien_pagination gris' rel='nofollow'>(.*?)</a></li>"
-    ctf_pages = re.findall(pattern, txt)
-    if not ctf_pages:
+def extract_summary(content):
+    tree = html.fromstring(content)
+    success = tree.xpath('//div[@class="t-body tb-padding"]/div/p/span[2]/text()')[0]
+    success = re.findall(r'(\d+)', success)
+    if len(success) != 2:
         raise RootMeParsingError()
-    is_last_page = check_is_last_page(ctf_pages)
+    num_success, num_try = success
+    return int(num_success), int(num_try)
 
-    pattern = '<tr class="row_(odd|even)">(.*?)</tr>'
-    ctfs_data = re.findall(pattern, txt)
 
-    pattern = "<td><img src=.*?/img/(.*?).png.*?></td>"
-    for i in range(4):
-        pattern += "<td.*?>(.*?)</td>"
-    pattern = pattern.replace('/', '\\/')
-
-    for id, ctf_data in enumerate(ctfs_data):
-        class_txt, ctf_info = ctf_data
-        challenge_info = re.findall(pattern, ctf_info)
-
-        if not challenge_info:
-            raise RootMeParsingError()
-
-        validated, name, num_success, num_try, solve_duration = challenge_info[0]
+def extract_ctf(content):
+    ctfs = []
+    tree = html.fromstring(content)
+    td_elements = tree.xpath('//table[@class="text-center mauto"]/tbody/tr')
+    for td_element in td_elements:
+        validated = td_element.xpath('td[1]/img/@src')[0]
+        validated = re.match(r'.*/(.*?)\.png', validated).group(1)
+        name = td_element.xpath('td[2]/text()')[0].replace('\xa0', '')
+        num_success = td_element.xpath('td[3]/text()')[0]
+        num_try = td_element.xpath('td[4]/text()')[0]
+        solve_duration = td_element.xpath('td[5]/text()')[0]
         ctf = {
             'validated': validated,
             'name': name,
-            'num_success': num_success,
-            'num_try': num_try,
+            'num_success': int(num_success),
+            'num_try': int(num_try),
             'solve_duration': solve_duration,
         }
         ctfs.append(ctf)
-
-    return ctfs, is_last_page
+    return ctfs
