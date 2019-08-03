@@ -35,7 +35,7 @@ def format_contributions_challenges(username, nb_challenges_pages):
     tp_function = partial(get_challenge_contributions, username)
     tp_argument = list(range(nb_challenges_pages))
     with ThreadPool(nb_challenges_pages) as tp:
-        response_challenges = tp.map(tp_function, tp_argument)  # list of requests.content
+        response_challenges = tp.map(tp_function, tp_argument)
     challenges_contributions = list(itertools.chain(response_challenges))  # concatenate all challenges lists
     return challenges_contributions
 
@@ -48,7 +48,7 @@ def format_contributions_solutions(username, nb_solutions_pages):
     tp_function = partial(get_solution_contributions, username)
     tp_argument = list(range(nb_solutions_pages))
     with ThreadPool(nb_solutions_pages) as tp:
-        response_solutions = tp.map(tp_function, tp_argument)  # list of requests.content
+        response_solutions = tp.map(tp_function, tp_argument)
     solutions_contributions = list(itertools.chain(response_solutions))  # concatenate all solutions lists
     return solutions_contributions
 
