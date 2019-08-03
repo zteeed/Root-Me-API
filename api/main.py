@@ -1,58 +1,86 @@
 from flask import redirect, jsonify
+import json
 
-from api.app import app
+from api.app import app, redis_app
 from api.constants import AUTHORS, GITHUB_ACCOUNTS
-from api.http_interface.challenges import get_all_challenges
-from api.http_interface.contributions import get_user_contributions
-from api.http_interface.ctf import get_user_ctf
-from api.http_interface.details import get_user_details
-from api.http_interface.profile import get_user_profile
-from api.http_interface.stats import get_user_stats
+
+
+version = 'v2'
 
 
 @app.route("/")
 def root():
-    return redirect('/v1', code=302)
+    return redirect(f'/{version}', code=302)
 
 
-@app.route("/v1")
+@app.route(f'/{version}')
 def root_v1():
     return jsonify(title="Root-Me-API", authors=AUTHORS, follow_us=GITHUB_ACCOUNTS)
 
 
-@app.route("/v1/challenges")
+@app.route(f'/{version}/categories')
+def categories():
+    result = redis_app.get('categories')
+    return jsonify(json.loads(result))
+
+
+@app.route(f'/{version}/category/<string:category>')
+def category_data(category):
+    result = redis_app.get(f'categories.{category}')
+    return jsonify(json.loads(result))
+
+
+@app.route(f'/{version}/challenges')
 def challenges():
-    return jsonify(get_all_challenges())
+    result = redis_app.get(f'challenges')
+    return jsonify(json.loads(result))
 
 
-@app.route("/v1/<string:username>")
+@app.route(f'/{version}/<string:username>')
 def get_user(username):
-    return redirect(f'/v1/{username}/profile', code=302)
+    return redirect(f'/{version}/{username}/profile', code=302)
 
 
-@app.route('/v1/<string:username>/profile')
+@app.route(f'/{version}/<string:username>/profile')
 def get_profile(username):
-    return jsonify(get_user_profile(username))
+    result = redis_app.get(f'{username}.profile')
+    return jsonify(json.loads(result))
 
 
-@app.route('/v1/<string:username>/contributions')
+@app.route(f'/{version}/<string:username>/contributions')
 def get_contributions(username):
-    return jsonify(get_user_contributions(username))
+    result = redis_app.get(f'{username}.contributions')
+    return jsonify(json.loads(result))
 
 
-@app.route('/v1/<string:username>/details')
-def get_score(username):
-    return jsonify(get_user_details(username))
+@app.route(f'/{version}/<string:username>/contributions/challenges')
+def get_contributions_challenges(username):
+    result = redis_app.get(f'{username}.contributions.challenges')
+    return jsonify(json.loads(result))
 
 
-@app.route('/v1/<string:username>/ctf')
+@app.route(f'/{version}/<string:username>/contributions/solutions')
+def get_contributions_solutions(username):
+    result = redis_app.get(f'{username}.contributions.solutions')
+    return jsonify(json.loads(result))
+
+
+@app.route(f'/{version}/<string:username>/details')
+def get_details(username):
+    result = redis_app.get(f'{username}.details')
+    return jsonify(json.loads(result))
+
+
+@app.route(f'/{version}/<string:username>/ctf')
 def get_ctf(username):
-    return jsonify(get_user_ctf(username))
+    result = redis_app.get(f'{username}.ctfs')
+    return jsonify(json.loads(result))
 
 
-@app.route('/v1/<string:username>/stats')
+@app.route(f'/{version}/<string:username>/stats')
 def get_stats(username):
-    return jsonify(get_user_stats(username))
+    result = redis_app.get(f'{username}.stats')
+    return jsonify(json.loads(result))
 
 
 if __name__ == "__main__":

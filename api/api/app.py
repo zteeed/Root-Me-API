@@ -1,7 +1,7 @@
 # Flask config
 from logging.config import dictConfig
-
 from flask import Flask
+import redis
 
 dictConfig({
     'version': 1,
@@ -19,3 +19,4 @@ dictConfig({
     }
 })
 app = Flask(__name__)
+redis_app = redis.Redis(host='localhost', port=32768, db=0)
