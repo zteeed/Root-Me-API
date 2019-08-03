@@ -13,11 +13,8 @@ def set_user_stats(username):
         log.warning(f'HTTP {r.status_code} for username {username}.')
         return
 
-    txt = r.text.replace('\n', '')
-    txt = txt.replace('&nbsp;', '')
-
-    pseudo = extract_pseudo(txt)
-    solved_challenges = extract_stats(txt)
+    pseudo = extract_pseudo(r.content)
+    solved_challenges = extract_stats(r.content)
 
     response = {
         'pseudo': pseudo,
