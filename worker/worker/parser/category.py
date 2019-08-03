@@ -10,14 +10,12 @@ def extract_categories(content):
     return [name.split('/')[2] for name in result]
 
 
-def extract_category_logo(content):
-    tree = html.fromstring(content)
+def _extract_category_logo(tree):
     result = tree.xpath('//h1/img[@class="vmiddle"][starts-with(@src, "local")]/@src')
     return result[0]
 
 
-def extract_category_description(content):
-    tree = html.fromstring(content)
+def _extract_category_description(tree):
     result = tree.xpath('//meta[@name="Description"]/@content')
     description1 = result[0]
 
@@ -29,8 +27,7 @@ def extract_category_description(content):
     return description1, description2
 
 
-def extract_category_prereq(content):
-    tree = html.fromstring(content)
+def _extract_category_prereq(tree):
     result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]/p[2]/following-sibling::p)')
     if not result:  # if prerequisites are not on two "p" html tags
         result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-tex")]/p[contains(., "Préreq")])')
@@ -89,9 +86,7 @@ def _extract_challenge_solutions_nb(node):
     return int(solution)
 
 
-def extract_challenges_info(content: str):
-    tree = html.fromstring(content)
-
+def _extract_challenges_info(tree):
     challenge_nodes = tree.xpath('//*[@id="main"]/div/div[2]/div/div/div/table/tbody/tr')
     result = []
     for node in challenge_nodes:
@@ -109,3 +104,22 @@ def extract_challenges_info(content: str):
         })
 
     return result
+
+
+def extract_category_info(content, category):
+    tree = html.fromstring(content)
+
+    logo = _extract_category_logo(tree)
+    desc1, desc2 = _extract_category_description(tree)
+    prereq = _extract_category_prereq(tree)
+    challenges = _extract_challenges_info(tree)
+
+    return [{
+        'name': category.strip(),
+        'logo': logo.strip(),
+        'description1': desc1.strip(),
+        'description2': desc2.strip(),
+        'prerequisites': prereq,
+        'challenges': challenges,
+        'challenges_nb': len(challenges),
+    }]
