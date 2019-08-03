@@ -10,7 +10,6 @@ def extract_pseudo(content):
     result = tree.xpath('//meta[@name="author"]/@content')
     if not result:
         raise RootMeParsingError()
-    print(result[0])
     return unescape(result[0])
 
 
