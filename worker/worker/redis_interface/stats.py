@@ -22,3 +22,4 @@ def set_user_stats(username):
     }
 
     redis_app.set(f'{username}.stats', json.dumps(response))
+    log.debug('set_user_stats_success', username=username)

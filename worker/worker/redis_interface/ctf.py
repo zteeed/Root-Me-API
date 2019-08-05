@@ -46,3 +46,4 @@ def set_user_ctf(username):
         'ctfs': ctfs,
     }]
     redis_app.set(f'{username}.ctfs', json.dumps(response))
+    log.debug('set_user_ctf_success', username=username)
