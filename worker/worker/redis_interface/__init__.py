@@ -13,4 +13,4 @@ adapter = HTTPAdapter(max_retries=retry, pool_maxsize=100, pool_block=True)
 session.mount('http://', adapter)
 session.mount('https://', adapter)
 
-redis_app = redis.Redis(host='localhost', port=32768, db=0)
+redis_app = redis.Redis(host='localhost', port=6379, db=0)

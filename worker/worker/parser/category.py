@@ -3,42 +3,20 @@ from html import unescape
 
 from lxml import html
 
-from worker.zip import zip_equal
-from worker.parser.exceptions import RootMeParsingError
-
-
-def extract_challenge_ids(txt):
-    txt = txt.replace('\n', '')
-    txt = txt.replace('&nbsp;', '')
-    pattern = r'<div class="clearfix"></div><span><b>(.*?)</b>.*?</span><p'
-    result = re.findall(pattern, txt)
-    if not result:
-        raise RootMeParsingError()
-    return result
-
 
 def extract_categories(content):
     tree = html.fromstring(content)
     result = tree.xpath('//li/a[starts-with(@class, "submenu")][starts-with(@href, "fr/Challenges")]/@href')
-    result = [name.split('/')[2] for name in result]
-    if not result:
-        raise RootMeParsingError()
-    return result
+    return [name.split('/')[2] for name in result]
 
 
-def extract_category_logo(content):
-    tree = html.fromstring(content)
+def _extract_category_logo(tree):
     result = tree.xpath('//h1/img[@class="vmiddle"][starts-with(@src, "local")]/@src')
-    if not result:
-        raise RootMeParsingError()
     return result[0]
 
 
-def extract_category_description(content):
-    tree = html.fromstring(content)
+def _extract_category_description(tree):
     result = tree.xpath('//meta[@name="Description"]/@content')
-    if not result:
-        raise RootMeParsingError()
     description1 = result[0]
 
     result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]//p)')
@@ -49,8 +27,7 @@ def extract_category_description(content):
     return description1, description2
 
 
-def extract_category_prereq(content):
-    tree = html.fromstring(content)
+def _extract_category_prereq(tree):
     result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-texte")]/p[2]/following-sibling::p)')
     if not result:  # if prerequisites are not on two "p" html tags
         result = tree.xpath('string(//div[starts-with(@class, "texte crayon rubrique-tex")]/p[contains(., "Préreq")])')
@@ -59,108 +36,90 @@ def extract_category_prereq(content):
     return [prerequisite for prerequisite in result.split('\xa0')[1:] if '\n' not in prerequisite]
 
 
-def extract_challenges_url_paths(content):
-    tree = html.fromstring(content)
-    paths = tree.xpath('//td[@class="text-left"]/a[starts-with(@href, "fr/Challenges")]/@href')
-    return [path.strip() for path in paths]
+def _extract_challenge_url_path(node):
+    path = node.xpath('./td/a[starts-with(@href, "fr/Challenges")]/@href')
+    return path.pop().strip()
 
 
-def extract_challenges_statements(content):
-    tree = html.fromstring(content)
-    statements = tree.xpath('//td[@class="text-left"]/a[starts-with(@href, "fr/Challenges")]/@title')
-    return [unescape(statement).strip() for statement in statements]
+def _extract_challenge_statement(node):
+    statement = node.xpath('./td/a[starts-with(@href, "fr/Challenges")]/@title').pop()
+    return unescape(statement).strip()
 
 
-def extract_challenges_names(content):
-    tree = html.fromstring(content)
-    names = tree.xpath('//td[@class="text-left"]/a[starts-with(@href, "fr/Challenges")]/text()')
-    return [unescape(name.strip()) for name in names]
+def _extract_challenge_name(node):
+    name = node.xpath('./td/a[starts-with(@href, "fr/Challenges")]/text()').pop()
+    return unescape(name.strip())
 
 
-def extract_challenges_validations_percentages(content):
-    tree = html.fromstring(content)
-    return tree.xpath('//span[starts-with(@class, "gras left text-left")]/text()')
+def _extract_challenge_validations_percentage(node):
+    return node.xpath('./td/span[starts-with(@class, "gras left text-left")]/text()').pop()
 
 
-def extract_challenges_validations_nbs(content):
-    tree = html.fromstring(content)
-    return tree.xpath('//span[@class="right"]/a/text()')
+def _extract_challenge_validations_nb(node):
+    validations = node.xpath('./td/span[@class="right"]/a/text()').pop()
+    return int(validations)
 
 
-def extract_challenges_difficulties(content):
-    tree = html.fromstring(content)
-    difficulties = tree.xpath('//td[@class="show-for-medium-up"]/a[starts-with(@href,"tag")]/@title')
-    return [unescape(difficulty.split(':')[0]).strip() for difficulty in difficulties]
+def _extract_challenge_difficulty(node):
+    difficulty = node.xpath('./td/a[starts-with(@href,"tag")]/@title').pop()
+    return unescape(difficulty.split(':')[0]).strip()
 
 
-def extract_challenges_values(content):
-    tree = html.fromstring(content)
-    values = tree.xpath('//table[@class="text-center"]/tbody/tr/td[4]/text()')
-    return [int(value) for value in values]
+def _extract_challenge_value(node):
+    value = node.xpath('./td[4]/text()').pop()
+    return int(value)
 
 
-def extract_challenges_authors(content):
-    tree = html.fromstring(content)
-    html_elements = tree.xpath('//td[@class="show-for-large-up"]')
-    html_elements = [[elements for elements in td] for td in html_elements]  # match "a" elements in td elements
-    authors = []
-    for html_element in html_elements:
-        author = []
-        if not html_element:  # challenge_authors == []
-            authors.append(author)
-            continue
-        author_names = []
-        for author_url_profile in html_element:
-            link = author_url_profile.get('href')
-            author_name = re.match(r'\/(.*?)\?', link).group(1)
-            author_names.append(author_name)
-        authors.append(author_names)
-    return authors
+def _extract_challenge_author(node):
+    html_elements = node.xpath('./td[@class="show-for-large-up"]/a/@href')
+    return [re.match(r'^/(.*)\?lang=..$', link).group(1) for link in html_elements]
 
 
-def extract_challenges_notes(content):
-    tree = html.fromstring(content)
-    notes = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/@src')
+def _extract_challenge_note(node):
+    note_img = node.xpath('./td/img[starts-with(@src, "squelettes/img/note")]/@src').pop()
+    note = re.match(r'.*note(.*?)\.png', note_img).group(1)
+    return int(note)
+
+
+def _extract_challenge_solutions_nb(node):
+    solution = node.xpath('./td[8]/text()').pop()
+    return int(solution)
+
+
+def _extract_challenges_info(tree):
+    challenge_nodes = tree.xpath('//*[@id="main"]/div/div[2]/div/div/div/table/tbody/tr')
     result = []
-    for note in notes:
-        note = re.match(r'.*note(.*?)\.png', note).group(1)
-        result.append(int(note))
+    for node in challenge_nodes:
+        result.append({
+            'author': _extract_challenge_author(node),
+            'difficulty': _extract_challenge_difficulty(node),
+            'name': _extract_challenge_name(node),
+            'note': _extract_challenge_note(node),
+            'path': _extract_challenge_url_path(node),
+            'solutions_nb': _extract_challenge_solutions_nb(node),
+            'statement': _extract_challenge_statement(node),
+            'validations_nb': _extract_challenge_validations_nb(node),
+            'validations_percentage': _extract_challenge_validations_percentage(node),
+            'value': _extract_challenge_value(node),
+        })
+
     return result
 
 
-def extract_challenges_solutions_nbs(content):
+def extract_category_info(content, category):
     tree = html.fromstring(content)
-    solutions = tree.xpath('//td/img[starts-with(@src, "squelettes/img/note")]/parent::td/following-sibling::td/text()')
-    return [int(solution) for solution in solutions]
 
+    logo = _extract_category_logo(tree)
+    desc1, desc2 = _extract_category_description(tree)
+    prereq = _extract_category_prereq(tree)
+    challenges = _extract_challenges_info(tree)
 
-def extract_challenges_info(content):
-    paths = extract_challenges_url_paths(content)
-    statements = extract_challenges_statements(content)
-    names = extract_challenges_names(content)
-    validations_percentages = extract_challenges_validations_percentages(content)
-    validations_nbs = extract_challenges_validations_nbs(content)
-    difficulties = extract_challenges_difficulties(content)
-    values = extract_challenges_values(content)
-    authors = extract_challenges_authors(content)
-    notes = extract_challenges_notes(content)
-    solutions_nbs = extract_challenges_solutions_nbs(content)
-
-    #  zip_equal function verifies that every lists have same lengths or raise an exception
-    response = []
-    for path, statement, name, validations_percentage, validations_nb, value, difficulty, author, solutions_nb, \
-        note in zip_equal(paths, statements, names, validations_percentages, validations_nbs, values, difficulties,
-                          authors, solutions_nbs, notes):
-        response.append({
-            'path': path,
-            'statement': statement,
-            'name': name,
-            'validations_percentage': validations_percentage,
-            'validations_nb': validations_nb,
-            'value': value,
-            'difficulty': difficulty,
-            'author': author,
-            'solutions_nb': solutions_nb,
-            'note': note,
-        })
-    return response
+    return [{
+        'name': category.strip(),
+        'logo': logo.strip(),
+        'description1': desc1.strip(),
+        'description2': desc2.strip(),
+        'prerequisites': prereq,
+        'challenges': challenges,
+        'challenges_nb': len(challenges),
+    }]
