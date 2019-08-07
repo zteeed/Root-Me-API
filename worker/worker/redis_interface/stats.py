@@ -2,19 +2,20 @@ import json
 
 from worker import log
 from worker.constants import URL
+from worker.http_client import http_get
 from worker.parser.profile import extract_pseudo
 from worker.parser.stats import extract_stats
-from worker.redis_interface import session, redis_app
+from worker.redis_interface import redis_app
 
 
 def set_user_stats(username):
-    r = session.get(URL + username + '?inc=statistiques')
-    if r.status_code != 200:
-        log.warning(f'HTTP {r.status_code} for username {username}.')
+    html = http_get(URL + username + '?inc=statistiques')
+    if html is None:
+        log.warning(f'could_not_get_user_stats', username=username)
         return
 
-    pseudo = extract_pseudo(r.content)
-    solved_challenges = extract_stats(r.content)
+    pseudo = extract_pseudo(html)
+    solved_challenges = extract_stats(html)
 
     response = {
         'pseudo': pseudo,

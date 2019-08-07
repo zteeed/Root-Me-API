@@ -3,21 +3,22 @@ from multiprocessing.pool import ThreadPool
 
 from worker import log
 from worker.constants import URL
+from worker.http_client import http_get
 from worker.parser.category import extract_categories, extract_category_logo, extract_category_description, \
     extract_category_prereq, extract_challenges_info
-from worker.redis_interface import session, redis_app
+from worker.redis_interface import redis_app
 
 
 def retrieve_category_info(category):
-    r = session.get(f'{URL}fr/Challenges/{category}/')
-    if r.status_code != 200:
-        log.warning(f'HTTP {r.status_code} for category {category}.')
-        return
+    html = http_get(f'{URL}fr/Challenges/{category}/')
+    if html is None:
+        log.warn('category_not_found', category=category)
+        return None
 
-    logo = extract_category_logo(r.content)
-    desc1, desc2 = extract_category_description(r.content)
-    prereq = extract_category_prereq(r.content)
-    challenges = extract_challenges_info(r.content)
+    logo = extract_category_logo(html)
+    desc1, desc2 = extract_category_description(html)
+    prereq = extract_category_prereq(html)
+    challenges = extract_challenges_info(html)
 
     log.debug("fetched_category_page", category=category)
 
@@ -33,12 +34,12 @@ def retrieve_category_info(category):
 
 
 def set_all_challenges():
-    r = session.get(URL + 'fr/Challenges/')
-    if r.status_code != 200:
-        log.warning('set_all_challenges_http_error', status_code=r.status_code)
+    html = http_get(URL + 'fr/Challenges/')
+    if html is None:
+        log.error('challenges_page_not_found')
         return
 
-    categories = extract_categories(r.content)
+    categories = extract_categories(html)
     log.debug('fetched_categories', categories=categories)
 
     with ThreadPool(len(categories)) as tp:
