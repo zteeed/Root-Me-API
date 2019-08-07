@@ -8,26 +8,30 @@ from worker.redis_interface import session, redis_app
 
 
 def retrieve_category_info(category):
-    r = session.get(f'{URL}fr/Challenges/{category}/')
-    if r.status_code != 200:
-        log.warning(f'HTTP {r.status_code} for category {category}.')
-        return
+    html = http_get(f'{URL}fr/Challenges/{category}/')
+    if html is None:
+        log.warn('category_not_found', category=category)
+        return None
 
     log.msg(f"Fetched category page '{category}'")
-
     return extract_category_info(r.content, category)
 
 
 def set_all_challenges():
-    r = session.get(URL + 'fr/Challenges/')
-    if r.status_code != 200:
-        log.warning(f'HTTP {r.status_code} for challenges.')
+    html = http_get(URL + 'fr/Challenges/')
+    if html is None:
+        log.error('challenges_page_not_found')
         return
 
-    categories = extract_categories(r.content)
+    categories = extract_categories(html)
+    log.debug('fetched_categories', categories=categories)
+
     with ThreadPool(len(categories)) as tp:
         response = tp.map(retrieve_category_info, categories)
+
     redis_app.set('challenges', json.dumps(response))
     redis_app.set('categories', json.dumps(categories))
     for category_data in response:
         redis_app.set(f'categories.{category_data[0]["name"]}', json.dumps(category_data))
+
+    log.debug('set_all_challenges_success')
