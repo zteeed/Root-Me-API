@@ -20,7 +20,7 @@ def retrieve_category_info(category):
     prereq = extract_category_prereq(html)
     challenges = extract_challenges_info(html)
 
-    log.msg(f"Fetched category page '{category}'")
+    log.debug("fetched_category_page", category=category)
 
     return [{
         'name': category.strip(),
@@ -44,7 +44,10 @@ def set_all_challenges():
 
     with ThreadPool(len(categories)) as tp:
         response = tp.map(retrieve_category_info, categories)
+
     redis_app.set('challenges', json.dumps(response))
     redis_app.set('categories', json.dumps(categories))
     for category_data in response:
         redis_app.set(f'categories.{category_data[0]["name"]}', json.dumps(category_data))
+
+    log.debug('set_all_challenges_success')

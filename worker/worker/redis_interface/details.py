@@ -34,3 +34,4 @@ def set_user_details(username):
     }]
 
     redis_app.set(f'{username}.details', json.dumps(response))
+    log.debug('set_user_details_success', username=username)

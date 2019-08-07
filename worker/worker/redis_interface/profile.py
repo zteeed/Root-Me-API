@@ -21,3 +21,5 @@ def set_user_profile(username):
     }]
     redis_app.set(f'{username}', json.dumps(response))
     redis_app.set(f'{username}.profile', json.dumps(response))
+
+    log.debug('set_user_profile_success', username=username)
