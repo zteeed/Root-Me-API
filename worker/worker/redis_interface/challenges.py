@@ -3,8 +3,7 @@ from multiprocessing.pool import ThreadPool
 
 from worker import log
 from worker.constants import URL
-from worker.parser.category import extract_categories, extract_category_logo, extract_category_description, \
-    extract_category_prereq, extract_challenges_info
+from worker.parser.category import extract_categories, extract_category_info
 from worker.redis_interface import session, redis_app
 
 
@@ -14,22 +13,9 @@ def retrieve_category_info(category):
         log.warning(f'HTTP {r.status_code} for category {category}.')
         return
 
-    logo = extract_category_logo(r.content)
-    desc1, desc2 = extract_category_description(r.content)
-    prereq = extract_category_prereq(r.content)
-    challenges = extract_challenges_info(r.content)
-
     log.msg(f"Fetched category page '{category}'")
 
-    return [{
-        'name': category.strip(),
-        'logo': logo.strip(),
-        'description1': desc1.strip(),
-        'description2': desc2.strip(),
-        'prerequisites': prereq,
-        'challenges': challenges,
-        'challenges_nb': len(challenges),
-    }]
+    return extract_category_info(r.content, category)
 
 
 def set_all_challenges():
