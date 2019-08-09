@@ -18,7 +18,6 @@ class InfoHandler(RequestHandler):
 
     def get(self):
         """List of routes for this API."""
-        self.set_status(200)
         self.write(InfoHandler.info)
 
 
@@ -29,7 +28,6 @@ class RootMeStaticHandler(RequestHandler):
 
     async def get(self):
         """Construct and send a JSON response with appropriate status code."""
-        self.set_status(200)
         data = await self.application.redis.get(self.key)
         self.write(data)
 
@@ -52,7 +50,6 @@ class RootMeDynamicHandler(RequestHandler):
         if data is None:
             self.write_error(status_code=404)
         else:
-            self.set_status(200)
             self.write(data)
 
 
