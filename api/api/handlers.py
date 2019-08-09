@@ -7,8 +7,6 @@ from api.routes import routes
 
 
 class RedirectHandler(RequestHandler):
-    """Only allow GET requests. Overrides attribute in RequestHandler """
-    SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, url):
         self.url = url
@@ -18,8 +16,6 @@ class RedirectHandler(RequestHandler):
 
 
 class InfoHandler(RequestHandler):
-    """Only allow GET requests. Overrides attribute in RequestHandler """
-    SUPPORTED_METHODS = ["GET"]
 
     def get(self):
         """List of routes for this API."""
@@ -30,8 +26,6 @@ class InfoHandler(RequestHandler):
 
 
 class RootMeStaticHandler(RequestHandler):
-    """Only allow GET requests. Overrides attribute in RequestHandler """
-    SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, key):
         self.key = key
@@ -44,8 +38,6 @@ class RootMeStaticHandler(RequestHandler):
 
 
 class RootMeDynamicHandler(RequestHandler):
-    """Only allow GET requests. Overrides attribute in RequestHandler """
-    SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, key):
         if 'categories' in key:
