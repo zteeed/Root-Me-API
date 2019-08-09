@@ -14,13 +14,12 @@ class RedirectHandler(RequestHandler):
 
 
 class InfoHandler(RequestHandler):
+    info = dict(title="Root-Me-API", authors=AUTHORS, follow_us=GITHUB_ACCOUNTS, routes=routes)
 
     def get(self):
         """List of routes for this API."""
         self.set_status(200)
-        #  routes imported from api.routes
-        info = dict(title="Root-Me-API", authors=AUTHORS, follow_us=GITHUB_ACCOUNTS, routes=routes)
-        self.write(info)
+        self.write(InfoHandler.info)
 
 
 class RootMeStaticHandler(RequestHandler):
