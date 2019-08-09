@@ -49,17 +49,18 @@ class RootMeDynamicHandler(RequestHandler):
             self.write(data)
 
 
+pattern = '([\\w-]+)'
 handlers = [
     ('/', RedirectHandler, {'url': f'/{VERSION}'}),
     (f'/{VERSION}', InfoHandler),
     (f'/{VERSION}/categories', RootMeStaticHandler, {'key': 'categories'}),
-    (f'/{VERSION}/category/([\\w-]+)', RootMeDynamicHandler, {'key': 'categories.{}'}),
+    (f'/{VERSION}/category/{pattern}', RootMeDynamicHandler, {'key': 'categories.{}'}),
     (f'/{VERSION}/challenges', RootMeStaticHandler, {'key': 'challenges'}),
-    (f'/{VERSION}/([\\w-]+)/profile', RootMeDynamicHandler, {'key': '{}.profile'}),
-    (f'/{VERSION}/([\\w-]+)/contributions', RootMeDynamicHandler, {'key': '{}.contributions'}),
-    (f'/{VERSION}/([\\w-]+)/contributions/challenges', RootMeDynamicHandler, {'key': '{}.contributions.challenges'}),
-    (f'/{VERSION}/([\\w-]+)/contributions/solutions', RootMeDynamicHandler, {'key': '{}.contributions.solutions'}),
-    (f'/{VERSION}/([\\w-]+)/details', RootMeDynamicHandler, {'key': '{}.details'}),
-    (f'/{VERSION}/([\\w-]+)/ctf', RootMeDynamicHandler, {'key': '{}.ctfs'}),
-    (f'/{VERSION}/([\\w-]+)/stats', RootMeDynamicHandler, {'key': '{}.stats'})
+    (f'/{VERSION}/{pattern}/profile', RootMeDynamicHandler, {'key': '{}.profile'}),
+    (f'/{VERSION}/{pattern}/contributions', RootMeDynamicHandler, {'key': '{}.contributions'}),
+    (f'/{VERSION}/{pattern}/contributions/challenges', RootMeDynamicHandler, {'key': '{}.contributions.challenges'}),
+    (f'/{VERSION}/{pattern}/contributions/solutions', RootMeDynamicHandler, {'key': '{}.contributions.solutions'}),
+    (f'/{VERSION}/{pattern}/details', RootMeDynamicHandler, {'key': '{}.details'}),
+    (f'/{VERSION}/{pattern}/ctf', RootMeDynamicHandler, {'key': '{}.ctfs'}),
+    (f'/{VERSION}/{pattern}/stats', RootMeDynamicHandler, {'key': '{}.stats'})
 ]
