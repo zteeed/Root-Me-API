@@ -14,8 +14,7 @@ class RedirectHandler(RequestHandler):
         self.url = url
 
     def get(self):
-        self.set_status(302)
-        self.redirect(self.url)
+        self.redirect(self.url, status=302)
 
 
 class InfoHandler(RequestHandler):
