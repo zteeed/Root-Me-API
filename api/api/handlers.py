@@ -1,4 +1,3 @@
-from abc import ABC
 import json
 
 from tornado.web import RequestHandler
@@ -7,8 +6,8 @@ from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
 from api.routes import routes
 
 
-class RedirectHandler(RequestHandler, ABC):
     """Only allow GET requests."""
+class RedirectHandler(RequestHandler):
     SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, url):
@@ -19,8 +18,8 @@ class RedirectHandler(RequestHandler, ABC):
         self.redirect(self.url)
 
 
-class InfoHandler(RequestHandler, ABC):
     """Only allow GET requests."""
+class InfoHandler(RequestHandler):
     SUPPORTED_METHODS = ["GET"]
 
     def set_default_headers(self):
@@ -35,8 +34,8 @@ class InfoHandler(RequestHandler, ABC):
         self.write(json.dumps(info))
 
 
-class RootMeStaticHandler(RequestHandler, ABC):
     """Only allow GET requests."""
+class RootMeStaticHandler(RequestHandler):
     SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, key):
@@ -53,8 +52,8 @@ class RootMeStaticHandler(RequestHandler, ABC):
         self.write(data)
 
 
-class RootMeDynamicHandler(RequestHandler, ABC):
     """Only allow GET requests."""
+class RootMeDynamicHandler(RequestHandler):
     SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, key):
