@@ -58,7 +58,7 @@ class RootMeDynamicHandler(RequestHandler):
         self.key = self.key.format(url_argument)
         data = await self.application.redis.get(self.key)
         if data is None:
-            self.set_status(404)  # raise raise tornado.web.HTTPError ?
+            self.write_error(status_code=404)
         else:
             self.set_status(200)
             self.write(data)
