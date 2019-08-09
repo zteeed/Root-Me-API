@@ -1,7 +1,5 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.7-alpine3.8
-
+FROM python:3.7
 COPY ./requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-COPY main.py /app/main.py
-COPY api /app/api
+RUN pip install -r requirements.txt
+COPY ./ .
+CMD python3 main.py

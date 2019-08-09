@@ -4,15 +4,7 @@
 #
 #    pip-compile
 #
-certifi==2019.6.16        # via requests
-chardet==3.0.4            # via requests
-click==7.0                # via flask
-flask==1.1.1
-idna==2.8                 # via requests
-itsdangerous==1.1.0       # via flask
-jinja2==2.10.1            # via flask
-markupsafe==1.1.1         # via jinja2
-redis==3.3.5
-requests==2.22.0
-urllib3==1.25.3           # via requests
-werkzeug==0.15.5          # via flask
+aioredis==1.2.0
+async-timeout==3.0.1      # via aioredis
+hiredis==1.0.0
+tornado==6.0.3
