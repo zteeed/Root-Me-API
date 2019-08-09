@@ -21,10 +21,6 @@ class InfoHandler(RequestHandler):
     """Only allow GET requests. Overrides attribute in RequestHandler """
     SUPPORTED_METHODS = ["GET"]
 
-    def set_default_headers(self):
-        """Set the default response header to be JSON."""
-        self.set_header("Content-Type", 'application/json; charset="utf-8"')
-
     def get(self):
         """List of routes for this API."""
         self.set_status(200)
@@ -39,10 +35,6 @@ class RootMeStaticHandler(RequestHandler):
 
     def initialize(self, key):
         self.key = key
-
-    def set_default_headers(self):
-        """Set the default response header to be JSON."""
-        self.set_header("Content-Type", 'application/json; charset="utf-8"')
 
     async def get(self):
         """Construct and send a JSON response with appropriate status code."""
@@ -60,10 +52,6 @@ class RootMeDynamicHandler(RequestHandler):
             self.key = key + '.{}'
         else:  # url_argument is an username
             self.key = '{}.' + key
-
-    def set_default_headers(self):
-        """Set the default response header to be JSON."""
-        self.set_header("Content-Type", 'application/json; charset="utf-8"')
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
