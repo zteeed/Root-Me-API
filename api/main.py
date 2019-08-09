@@ -1,8 +1,9 @@
 import asyncio
-import aioredis
 
-from tornado.web import Application
+import aioredis
+from tornado.ioloop import IOLoop
 from tornado.options import define, options
+from tornado.web import Application
 
 from api.constants import REDIS_HOST, REDIS_PORT
 from api.handlers import handlers
@@ -17,3 +18,4 @@ if __name__ == '__main__':
         aioredis.create_redis_pool((REDIS_HOST, REDIS_PORT), loop=loop)
     )
     loop.run_forever()
+    IOLoop.current().start()
