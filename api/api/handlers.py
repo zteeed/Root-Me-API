@@ -41,8 +41,7 @@ class RootMeDynamicHandler(RequestHandler):
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
-        self.key = self.key.format(url_argument)
-        data = await self.application.redis.get(self.key)
+        data = await self.application.redis.get(self.key.format(url_argument))
         if data is None:
             self.write_error(status_code=404)
         else:
