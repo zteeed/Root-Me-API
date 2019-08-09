@@ -41,7 +41,7 @@ class RootMeDynamicHandler(RequestHandler):
 
     def format(self, url_argument):
         if 'categories' in self.key:
-            self.key = f'{self.key}.{self.url_argument}'
+            self.key = f'{self.key}.{url_argument}'
         else:  # url_argument is an username
             self.key = f'{url_argument}.{self.key}'
 
