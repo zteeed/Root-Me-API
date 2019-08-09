@@ -37,14 +37,17 @@ class RootMeStaticHandler(RequestHandler):
 class RootMeDynamicHandler(RequestHandler):
 
     def initialize(self, key):
-        if 'categories' in key:
-            self.key = key + '.{}'
+        self.key = key
+
+    def format(self, url_argument):
+        if 'categories' in self.key:
+            self.key = f'{self.key}.{self.url_argument}'
         else:  # url_argument is an username
-            self.key = '{}.' + key
+            self.key = f'{url_argument}.{self.key}'
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
-        self.key = self.key.format(url_argument)
+        self.format(url_argument)
         data = await self.application.redis.get(self.key)
         if data is None:
             self.write_error(status_code=404)
