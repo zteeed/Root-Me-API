@@ -1,6 +1,7 @@
 import asyncio
 
 import aioredis
+from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.options import define, options
 from tornado.web import Application
@@ -11,7 +12,10 @@ from api.handlers import handlers
 if __name__ == '__main__':
     define('port', default=3000, help='port to listen on')
     application = Application(handlers)
-    application.listen(options.port)
+
+    server = HTTPServer(application)
+    server.bind(options.port)
+    server.start(0)  # forks one process per cpu
 
     loop = asyncio.get_event_loop()
     application.redis = loop.run_until_complete(
