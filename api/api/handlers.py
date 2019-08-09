@@ -57,13 +57,13 @@ handlers = [
     ('/', RedirectHandler, {'url': f'/{VERSION}'}),
     (f'/{VERSION}', InfoHandler),
     (f'/{VERSION}/categories', RootMeStaticHandler, {'key': 'categories'}),
-    (f'/{VERSION}/category/[\\w-]+', RootMeDynamicHandler, {'key': 'categories'}),
+    (f'/{VERSION}/category/([\\w-]+)', RootMeDynamicHandler, {'key': 'categories'}),
     (f'/{VERSION}/challenges', RootMeStaticHandler, {'key': 'challenges'}),
-    (f'/{VERSION}/[\\w-]+/profile', RootMeDynamicHandler, {'key': 'profile'}),
-    (f'/{VERSION}/[\\w-]+/contributions', RootMeDynamicHandler, {'key': 'contributions'}),
-    (f'/{VERSION}/[\\w-]+/contributions/challenges', RootMeDynamicHandler, {'key': 'contributions.challenges'}),
-    (f'/{VERSION}/[\\w-]+/contributions/solutions', RootMeDynamicHandler, {'key': 'contributions.solutions'}),
-    (f'/{VERSION}/[\\w-]+/details', RootMeDynamicHandler, {'key': 'details'}),
-    (f'/{VERSION}/[\\w-]+/ctf', RootMeDynamicHandler, {'key': 'ctfs'}),
-    (f'/{VERSION}/[\\w-]+/stats', RootMeDynamicHandler, {'key': 'stats'})
+    (f'/{VERSION}/([\\w-]+)/profile', RootMeDynamicHandler, {'key': 'profile'}),
+    (f'/{VERSION}/([\\w-]+)/contributions', RootMeDynamicHandler, {'key': 'contributions'}),
+    (f'/{VERSION}/([\\w-]+)/contributions/challenges', RootMeDynamicHandler, {'key': 'contributions.challenges'}),
+    (f'/{VERSION}/([\\w-]+)/contributions/solutions', RootMeDynamicHandler, {'key': 'contributions.solutions'}),
+    (f'/{VERSION}/([\\w-]+)/details', RootMeDynamicHandler, {'key': 'details'}),
+    (f'/{VERSION}/([\\w-]+)/ctf', RootMeDynamicHandler, {'key': 'ctfs'}),
+    (f'/{VERSION}/([\\w-]+)/stats', RootMeDynamicHandler, {'key': 'stats'})
 ]
