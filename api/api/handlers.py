@@ -6,8 +6,8 @@ from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
 from api.routes import routes
 
 
-    """Only allow GET requests."""
 class RedirectHandler(RequestHandler):
+    """Only allow GET requests. Overrides attribute in RequestHandler """
     SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, url):
@@ -18,8 +18,8 @@ class RedirectHandler(RequestHandler):
         self.redirect(self.url)
 
 
-    """Only allow GET requests."""
 class InfoHandler(RequestHandler):
+    """Only allow GET requests. Overrides attribute in RequestHandler """
     SUPPORTED_METHODS = ["GET"]
 
     def set_default_headers(self):
@@ -34,8 +34,8 @@ class InfoHandler(RequestHandler):
         self.write(json.dumps(info))
 
 
-    """Only allow GET requests."""
 class RootMeStaticHandler(RequestHandler):
+    """Only allow GET requests. Overrides attribute in RequestHandler """
     SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, key):
@@ -52,8 +52,8 @@ class RootMeStaticHandler(RequestHandler):
         self.write(data)
 
 
-    """Only allow GET requests."""
 class RootMeDynamicHandler(RequestHandler):
+    """Only allow GET requests. Overrides attribute in RequestHandler """
     SUPPORTED_METHODS = ["GET"]
 
     def initialize(self, key):
