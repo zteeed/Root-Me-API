@@ -1,7 +1,8 @@
-from api.app import Application
-from tornado.options import define, options
 import asyncio
 
+from tornado.options import define, options
+
+from api.app import Application
 
 if __name__ == '__main__':
     define('port', default=3000, help='port to listen on')

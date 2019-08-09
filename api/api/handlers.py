@@ -1,11 +1,11 @@
-from abc import ABC
 import asyncio
 import json
+from abc import ABC
 
 import tornado
+import tornado.gen
 import tornado.ioloop
 import tornado.web
-import tornado.gen
 
 from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
 from api.routes import routes
