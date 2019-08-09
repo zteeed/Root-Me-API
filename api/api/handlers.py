@@ -1,5 +1,3 @@
-import json
-
 from tornado.web import RequestHandler
 
 from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
@@ -22,7 +20,7 @@ class InfoHandler(RequestHandler):
         self.set_status(200)
         #  routes imported from api.routes
         info = dict(title="Root-Me-API", authors=AUTHORS, follow_us=GITHUB_ACCOUNTS, routes=routes)
-        self.write(json.dumps(info))
+        self.write(info)
 
 
 class RootMeStaticHandler(RequestHandler):
