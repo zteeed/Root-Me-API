@@ -6,7 +6,6 @@ import tornado
 import tornado.ioloop
 import tornado.web
 import tornado.gen
-from tornado.web import RequestHandler
 
 from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
 from api.routes import routes
@@ -72,12 +71,12 @@ class RedirectHandler(AsyncRequestHandler, ABC):
         self.url = url
 
     @asyncio.coroutine
-    def get(self):
+    def get_async(self):
         self.set_status(302)
         self.redirect(self.url)
 
 
-class InfoHandler(RequestHandler, ABC):
+class InfoHandler(AsyncRequestHandler, ABC):
     """Only allow GET requests."""
     SUPPORTED_METHODS = ["GET"]
 
@@ -86,7 +85,7 @@ class InfoHandler(RequestHandler, ABC):
         self.set_header("Content-Type", 'application/json; charset="utf-8"')
 
     @asyncio.coroutine
-    def get(self):
+    def get_async(self):
         """List of routes for this API."""
         self.set_status(200)
         #  routes imported from api.routes
@@ -94,7 +93,7 @@ class InfoHandler(RequestHandler, ABC):
         self.write(json.dumps(info))
 
 
-class RootMeStaticHandler(RequestHandler, ABC):
+class RootMeStaticHandler(AsyncRequestHandler, ABC):
     """Only allow GET requests."""
     SUPPORTED_METHODS = ["GET"]
 
@@ -106,14 +105,14 @@ class RootMeStaticHandler(RequestHandler, ABC):
         self.set_header("Content-Type", 'application/json; charset="utf-8"')
 
     @asyncio.coroutine
-    def get(self):
+    def get_async(self):
         """Construct and send a JSON response with appropriate status code."""
         self.set_status(200)
         data = yield from self.application.redis.get(self.key)
         self.write(data)
 
 
-class RootMeDynamicHandler(RequestHandler, ABC):
+class RootMeDynamicHandler(AsyncRequestHandler, ABC):
     """Only allow GET requests."""
     SUPPORTED_METHODS = ["GET"]
 
@@ -128,7 +127,7 @@ class RootMeDynamicHandler(RequestHandler, ABC):
         self.set_header("Content-Type", 'application/json; charset="utf-8"')
 
     @asyncio.coroutine
-    def get(self, url_argument):
+    def get_async(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
         self.key = self.key.format(url_argument)
         data = yield from self.application.redis.get(self.key)
