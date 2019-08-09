@@ -35,13 +35,6 @@ class AsyncRequestHandler(tornado.web.RequestHandler, ABC):
         """
         yield self._run_method('get', *args, **kwargs)
 
-    @tornado.gen.coroutine
-    def post(self, *args, **kwargs):
-        """Handle POST request asyncronously, delegates to
-        ``self.post_async()`` coroutine.
-        """
-        yield self._run_method('post', *args, **kwargs)
-
     @asyncio.coroutine
     def _run_async(self, coroutine, future_, *args, **kwargs):
         """Perform coroutine and set result to ``Future`` object."""
