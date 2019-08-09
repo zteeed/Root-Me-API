@@ -39,15 +39,9 @@ class RootMeDynamicHandler(RequestHandler):
     def initialize(self, key):
         self.key = key
 
-    def format(self, url_argument):
-        if 'categories' in self.key:
-            self.key = f'{self.key}.{url_argument}'
-        else:  # url_argument is an username
-            self.key = f'{url_argument}.{self.key}'
-
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
-        self.format(url_argument)
+        self.key = self.key.format(url_argument)
         data = await self.application.redis.get(self.key)
         if data is None:
             self.write_error(status_code=404)
@@ -60,13 +54,13 @@ handlers = [
     ('/', RedirectHandler, {'url': f'/{VERSION}'}),
     (f'/{VERSION}', InfoHandler),
     (f'/{VERSION}/categories', RootMeStaticHandler, {'key': 'categories'}),
-    (f'/{VERSION}/category/([\\w-]+)', RootMeDynamicHandler, {'key': 'categories'}),
+    (f'/{VERSION}/category/([\\w-]+)', RootMeDynamicHandler, {'key': 'categories.{}'}),
     (f'/{VERSION}/challenges', RootMeStaticHandler, {'key': 'challenges'}),
-    (f'/{VERSION}/([\\w-]+)/profile', RootMeDynamicHandler, {'key': 'profile'}),
-    (f'/{VERSION}/([\\w-]+)/contributions', RootMeDynamicHandler, {'key': 'contributions'}),
-    (f'/{VERSION}/([\\w-]+)/contributions/challenges', RootMeDynamicHandler, {'key': 'contributions.challenges'}),
-    (f'/{VERSION}/([\\w-]+)/contributions/solutions', RootMeDynamicHandler, {'key': 'contributions.solutions'}),
-    (f'/{VERSION}/([\\w-]+)/details', RootMeDynamicHandler, {'key': 'details'}),
-    (f'/{VERSION}/([\\w-]+)/ctf', RootMeDynamicHandler, {'key': 'ctfs'}),
-    (f'/{VERSION}/([\\w-]+)/stats', RootMeDynamicHandler, {'key': 'stats'})
+    (f'/{VERSION}/([\\w-]+)/profile', RootMeDynamicHandler, {'key': '{}.profile'}),
+    (f'/{VERSION}/([\\w-]+)/contributions', RootMeDynamicHandler, {'key': '{}.contributions'}),
+    (f'/{VERSION}/([\\w-]+)/contributions/challenges', RootMeDynamicHandler, {'key': '{}.contributions.challenges'}),
+    (f'/{VERSION}/([\\w-]+)/contributions/solutions', RootMeDynamicHandler, {'key': '{}.contributions.solutions'}),
+    (f'/{VERSION}/([\\w-]+)/details', RootMeDynamicHandler, {'key': '{}.details'}),
+    (f'/{VERSION}/([\\w-]+)/ctf', RootMeDynamicHandler, {'key': '{}.ctfs'}),
+    (f'/{VERSION}/([\\w-]+)/stats', RootMeDynamicHandler, {'key': '{}.stats'})
 ]
