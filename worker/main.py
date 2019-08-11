@@ -6,6 +6,7 @@ from worker.redis_interface.details import set_user_details
 from worker.redis_interface.profile import set_user_profile
 from worker.redis_interface.stats import set_user_stats
 
+import asyncio
 from datetime import timedelta
 from timeloop import Timeloop
 
@@ -30,4 +31,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(timeloop.start(block=False))  # daemon mode
+    loop.run_forever()
