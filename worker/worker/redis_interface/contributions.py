@@ -8,7 +8,7 @@ from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.contributions import extract_challenges_contributions, extract_solutions_contributions, \
     extract_contributions_page_numbers
-from worker.redis_interface import session, redis_app
+from worker.redis_interface import redis_app
 
 
 def get_challenge_contributions(username, page_index):

@@ -6,7 +6,7 @@ from worker.http_client import http_get
 from worker.parser.details import extract_score, extract_nb_challenges_solved, extract_ranking, \
     extract_ranking_category, extract_challenges
 from worker.parser.profile import extract_pseudo
-from worker.redis_interface import session, redis_app
+from worker.redis_interface import redis_app
 
 
 def set_user_details(username):

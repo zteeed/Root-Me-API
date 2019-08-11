@@ -4,7 +4,7 @@ from worker import log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.profile import extract_pseudo, extract_score
-from worker.redis_interface import session, redis_app
+from worker.redis_interface import redis_app
 
 
 def set_user_profile(username):

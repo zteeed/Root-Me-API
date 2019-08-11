@@ -1,4 +1,5 @@
 import re
+
 from lxml import html
 
 from worker.parser.exceptions import RootMeParsingError

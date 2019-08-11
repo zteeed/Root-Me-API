@@ -34,4 +34,3 @@ def zip_equal(*iterables):
                 pass
             else:
                 raise RuntimeError(f'iterable {i} is longer') from None
-

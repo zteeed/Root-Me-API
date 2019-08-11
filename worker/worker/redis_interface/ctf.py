@@ -1,13 +1,14 @@
-from functools import partial
 import itertools
 import json
+from functools import partial
+from multiprocessing.pool import ThreadPool
+
 from worker import log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.ctf import is_not_participating, extract_summary, extract_ctf
 from worker.parser.profile import extract_pseudo
-from worker.redis_interface import session, redis_app
-from multiprocessing.pool import ThreadPool
+from worker.redis_interface import redis_app
 
 
 def get_ctf_page(username, page_index):

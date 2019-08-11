@@ -3,8 +3,9 @@ from multiprocessing.pool import ThreadPool
 
 from worker import log
 from worker.constants import URL
+from worker.http_client import http_get
 from worker.parser.category import extract_categories, extract_category_info
-from worker.redis_interface import session, redis_app
+from worker.redis_interface import redis_app
 
 
 def retrieve_category_info(category):
@@ -14,7 +15,7 @@ def retrieve_category_info(category):
         return None
 
     log.msg(f"Fetched category page '{category}'")
-    return extract_category_info(r.content, category)
+    return extract_category_info(html, category)
 
 
 def set_all_challenges():

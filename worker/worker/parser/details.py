@@ -1,8 +1,9 @@
 import re
+
 from lxml import html
 
-from worker.zip import zip_equal
 from worker.parser.exceptions import RootMeParsingError
+from worker.zip import zip_equal
 
 
 def extract_score(content):
