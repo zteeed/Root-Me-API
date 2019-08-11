@@ -4,4 +4,3 @@ requests
 lxml
 structlog
 pytest
-timeloop
