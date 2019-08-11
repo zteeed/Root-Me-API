@@ -1,15 +1,14 @@
 import json
 
-from worker import log
+from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.details import extract_score, extract_nb_challenges_solved, extract_ranking, \
     extract_ranking_category, extract_challenges
 from worker.parser.profile import extract_pseudo
-from worker.redis_interface import redis_app
 
 
-def set_user_details(username):
+async def set_user_details(username):
     html = http_get(URL + username + '?inc=score')
     if html is None:
         log.warning(f'could_not_get_user_details', username=username)
@@ -33,5 +32,5 @@ def set_user_details(username):
         'categories': categories,
     }]
 
-    redis_app.set(f'{username}.details', json.dumps(response))
+    await app.redis.set(f'{username}.details', json.dumps(response))
     log.debug('set_user_details_success', username=username)

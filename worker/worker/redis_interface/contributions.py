@@ -3,12 +3,11 @@ import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
 
-from worker import log
+from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.contributions import extract_challenges_contributions, extract_solutions_contributions, \
     extract_contributions_page_numbers
-from worker.redis_interface import redis_app
 
 
 def get_challenge_contributions(username, page_index):
@@ -55,7 +54,7 @@ def format_contributions_solutions(username, nb_solutions_pages):
     return solutions_contributions
 
 
-def set_user_contributions(username):
+async def set_user_contributions(username):
     html = http_get(URL + username + '?inc=contributions')
     if html is None:
         log.warning('could_not_get_user_contributions', username=username)
@@ -75,7 +74,7 @@ def set_user_contributions(username):
         }
     }]
     if challenges_contributions is not None:
-        redis_app.set(f'{username}.contributions.challenges', json.dumps(challenges_contributions))
+        await app.redis.set(f'{username}.contributions.challenges', json.dumps(challenges_contributions))
     if solutions_contributions is not None:
-        redis_app.set(f'{username}.contributions.solutions', json.dumps(solutions_contributions))
-    redis_app.set(f'{username}.contributions', json.dumps(response))
+        await app.redis.set(f'{username}.contributions.solutions', json.dumps(solutions_contributions))
+    await app.redis.set(f'{username}.contributions', json.dumps(response))

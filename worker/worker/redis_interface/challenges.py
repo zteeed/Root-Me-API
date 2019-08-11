@@ -1,11 +1,10 @@
 import json
 from multiprocessing.pool import ThreadPool
 
-from worker import log
+from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.category import extract_categories, extract_category_info
-from worker.redis_interface import redis_app
 
 
 def retrieve_category_info(category):
@@ -18,7 +17,7 @@ def retrieve_category_info(category):
     return extract_category_info(html, category)
 
 
-def set_all_challenges():
+async def set_all_challenges():
     html = http_get(URL + 'fr/Challenges/')
     if html is None:
         log.error('challenges_page_not_found')
@@ -30,9 +29,9 @@ def set_all_challenges():
     with ThreadPool(len(categories)) as tp:
         response = tp.map(retrieve_category_info, categories)
 
-    redis_app.set('challenges', json.dumps(response))
-    redis_app.set('categories', json.dumps(categories))
+    await app.redis.set('challenges', json.dumps(response))
+    await app.redis.set('categories', json.dumps(categories))
     for category_data in response:
-        redis_app.set(f'categories.{category_data[0]["name"]}', json.dumps(category_data))
+        await app.redis.set(f'categories.{category_data[0]["name"]}', json.dumps(category_data))
 
     log.debug('set_all_challenges_success')

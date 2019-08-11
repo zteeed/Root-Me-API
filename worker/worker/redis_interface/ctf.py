@@ -3,12 +3,11 @@ import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
 
-from worker import log
+from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.ctf import is_not_participating, extract_summary, extract_ctf
 from worker.parser.profile import extract_pseudo
-from worker.redis_interface import redis_app
 
 
 def get_ctf_page(username, page_index):
@@ -21,7 +20,7 @@ def get_ctf_page(username, page_index):
     return extract_ctf(html)
 
 
-def set_user_ctf(username):
+async def set_user_ctf(username):
     html = http_get(URL + username + '?inc=ctf')
     if html is None:
         log.warning(f'ctf_page_not_found', username=username)
@@ -48,5 +47,5 @@ def set_user_ctf(username):
         'description': description,
         'ctfs': ctfs,
     }]
-    redis_app.set(f'{username}.ctfs', json.dumps(response))
+    await app.redis.set(f'{username}.ctfs', json.dumps(response))
     log.debug('set_user_ctf_success', username=username)
