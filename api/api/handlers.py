@@ -3,6 +3,7 @@ from tornado.web import RequestHandler
 
 from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
 from api.routes import routes
+from src.fetch import get_data
 
 
 class RedirectHandler(RequestHandler):
@@ -29,7 +30,7 @@ class RootMeStaticHandler(RequestHandler):
 
     async def get(self):
         """Construct and send a JSON response with appropriate status code."""
-        data = await self.application.redis.get(self.key)
+        data = await get_data(self.application.redis, self.key)
         if data is None:
             self.write_error(status_code=404)
         else:
@@ -44,7 +45,7 @@ class RootMeDynamicHandler(RequestHandler):
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
-        data = await self.application.redis.get(self.key.format(url_argument))
+        data = await get_data(self.application.redis, self.key.format(url_argument))
         if data is None:
             self.write_error(status_code=404)
         else:
