@@ -21,7 +21,7 @@ def get_ctf_page(username, page_index):
     return extract_ctf(html)
 
 
-async def set_user_ctf(username):
+async def set_user_ctf_data(username):
     html = http_get(URL + username + '?inc=ctf')
     if html is None:
         log.warning(f'ctf_page_not_found', username=username)
@@ -49,7 +49,12 @@ async def set_user_ctf(username):
         'ctfs': ctfs,
     }]
 
-    timestamp = json.dumps({'timestamp': str(datetime.now())})
     await app.redis.set(f'{username}.ctfs', json.dumps(response))
-    await app.redis.set(f'{username}.ctfs.timestamp', timestamp)
     log.debug('set_user_ctf_success', username=username)
+
+
+async def set_user_ctf(username):
+    await set_user_ctf_data(username)
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
+    await app.redis.set(f'{username}.ctfs.timestamp', timestamp)
+

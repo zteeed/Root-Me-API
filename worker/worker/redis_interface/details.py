@@ -9,7 +9,7 @@ from worker.parser.details import extract_score, extract_nb_challenges_solved, e
 from worker.parser.profile import extract_pseudo
 
 
-async def set_user_details(username):
+async def set_user_details_data(username):
     html = http_get(URL + username + '?inc=score')
     if html is None:
         log.warning(f'could_not_get_user_details', username=username)
@@ -36,7 +36,12 @@ async def set_user_details(username):
         'categories': categories,
     }]
 
-    timestamp = json.dumps({'timestamp': str(datetime.now())})
     await app.redis.set(f'{username}.details', json.dumps(response))
-    await app.redis.set(f'{username}.details.timestamp', timestamp)
     log.debug('set_user_details_success', username=username)
+
+
+async def set_user_details(username):
+    await set_user_details_data(username)
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
+    await app.redis.set(f'{username}.details.timestamp', timestamp)
+

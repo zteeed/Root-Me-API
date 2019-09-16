@@ -55,7 +55,7 @@ def format_contributions_solutions(username, nb_solutions_pages):
     return solutions_contributions
 
 
-async def set_user_contributions(username):
+async def set_user_contributions_data(username):
     html = http_get(URL + username + '?inc=contributions')
     if html is None:
         log.warning('could_not_get_user_contributions', username=username)
@@ -74,11 +74,16 @@ async def set_user_contributions(username):
             'solutions': solutions_contributions
         }
     }]
-    timestamp = json.dumps({'timestamp': str(datetime.now())})
     if challenges_contributions is not None:
         await app.redis.set(f'{username}.contributions.challenges', json.dumps(challenges_contributions))
-        await app.redis.set(f'{username}.contributions.challenges.timestamp', timestamp)
     if solutions_contributions is not None:
         await app.redis.set(f'{username}.contributions.solutions', json.dumps(solutions_contributions))
-        await app.redis.set(f'{username}.contributions.solutions.timestamp', timestamp)
     await app.redis.set(f'{username}.contributions', json.dumps(response))
+
+
+async def set_user_contributions(username):
+    await set_user_contributions_data(username)
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
+    await app.redis.set(f'{username}.contributions.challenges.timestamp', timestamp)
+    await app.redis.set(f'{username}.contributions.solutions.timestamp', timestamp)
+
