@@ -8,7 +8,7 @@ from api.constants import REDIS_STREAM_CHALLENGES, REDIS_STREAM_USERS, REQUEST_T
 
 async def get_timestamp(redis_app: Redis, key: str) -> Optional[datetime]:
     timestamp = await redis_app.get(f'{key}.timestamp')
-    if timestamp is None:
+    if timestamp is None or 'timestamp' not in timestamp.keys():
         return
     timestamp = json.loads(timestamp)['timestamp']
     return datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
