@@ -1,4 +1,11 @@
 from structlog import get_logger
 
-app = lambda: None
+
+class App:
+
+    def __init__(self):
+        self.redis = None
+
+
+app = App()
 log = get_logger()
