@@ -2,6 +2,7 @@ import itertools
 import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
+from datetime import datetime
 
 from worker import app, log
 from worker.constants import URL
@@ -47,5 +48,8 @@ async def set_user_ctf(username):
         'description': description,
         'ctfs': ctfs,
     }]
+
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
     await app.redis.set(f'{username}.ctfs', json.dumps(response))
+    await app.redis.set(f'{username}.ctfs.timestamp', timestamp)
     log.debug('set_user_ctf_success', username=username)

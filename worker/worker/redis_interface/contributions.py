@@ -2,6 +2,7 @@ import itertools
 import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
+from datetime import datetime
 
 from worker import app, log
 from worker.constants import URL
@@ -73,8 +74,11 @@ async def set_user_contributions(username):
             'solutions': solutions_contributions
         }
     }]
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
     if challenges_contributions is not None:
         await app.redis.set(f'{username}.contributions.challenges', json.dumps(challenges_contributions))
+        await app.redis.set(f'{username}.contributions.challenges.timestamp', timestamp)
     if solutions_contributions is not None:
         await app.redis.set(f'{username}.contributions.solutions', json.dumps(solutions_contributions))
+        await app.redis.set(f'{username}.contributions.solutions.timestamp', timestamp)
     await app.redis.set(f'{username}.contributions', json.dumps(response))

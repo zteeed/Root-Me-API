@@ -37,7 +37,6 @@ async def main():
     while True:
         item = await app.redis.xread_group(CG_NAME, CONSUMER_NAME, streams, count=1, latest_ids=['>'] * len(streams))
         if len(item) > 0:
-            print(item)
             await use_stream_item(item)
 
 

@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from worker import app, log
 from worker.constants import URL
@@ -32,5 +33,7 @@ async def set_user_details(username):
         'categories': categories,
     }]
 
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
     await app.redis.set(f'{username}.details', json.dumps(response))
+    await app.redis.set(f'{username}.details.timestamp', timestamp)
     log.debug('set_user_details_success', username=username)

@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from worker import app, log
 from worker.constants import URL
@@ -18,7 +19,10 @@ async def set_user_profile(username):
         'pseudo': pseudo,
         'score': score,
     }]
+    timestamp = json.dumps({'timestamp': str(datetime.now())})
     await app.redis.set(f'{username}', json.dumps(response))
+    await app.redis.set(f'{username}.timestamp', timestamp)
     await app.redis.set(f'{username}.profile', json.dumps(response))
+    await app.redis.set(f'{username}.profile.timestamp', timestamp)
 
     log.debug('set_user_profile_success', username=username)
