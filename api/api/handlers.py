@@ -1,4 +1,5 @@
 import json
+
 from tornado.web import RequestHandler
 
 from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
@@ -45,7 +46,7 @@ class RootMeDynamicHandler(RequestHandler):
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
-        data = await get_data(self.application.redis, self.key.format(url_argument))
+        data = await get_data(self.application.redis, self.key.format(url_argument), username=url_argument)
         if data is None:
             self.write_error(status_code=404)
         else:
