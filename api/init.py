@@ -1,6 +1,6 @@
 import aioredis
 
-from api.constants import REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES, CG_NAME
+from api.constants import REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES, CONSUMER_GROUP_NAME
 
 
 async def create_cg(redis_app, stream, group_name, latest_id='$', mkstream=False):
@@ -14,7 +14,7 @@ async def create_cg(redis_app, stream, group_name, latest_id='$', mkstream=False
 async def create_cgs(redis_app):
     for stream in [REDIS_STREAM_CHALLENGES, REDIS_STREAM_USERS]:
         try:
-            await create_cg(redis_app, stream, CG_NAME, mkstream=True)
+            await create_cg(redis_app, stream, CONSUMER_GROUP_NAME, mkstream=True)
         except aioredis.errors.ReplyError as exception:
             if 'BUSYGROUP Consumer Group name already exists' == str(exception):
                 pass

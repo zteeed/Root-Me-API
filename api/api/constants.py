@@ -5,6 +5,6 @@ REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_STREAM_USERS = 'update_users'
 REDIS_STREAM_CHALLENGES = 'update_challenges'
-CG_NAME = 'rootme'
+CONSUMER_GROUP_NAME = 'rootme'
 UPDATE_TIMEOUT = 60
 REQUEST_TIMEOUT = 3
