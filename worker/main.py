@@ -3,7 +3,7 @@ import asyncio
 import aioredis
 
 from worker import app
-from worker.constants import REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES
+from worker.constants import CG_NAME, CONSUMER_NAME, REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES
 from worker.redis_interface.challenges import set_all_challenges
 from worker.redis_interface.contributions import set_user_contributions
 from worker.redis_interface.ctf import set_user_ctf
@@ -12,46 +12,36 @@ from worker.redis_interface.profile import set_user_profile
 from worker.redis_interface.stats import set_user_stats
 
 
-async def use_users_stream_item(stream_item):
-    (stream_name, message_id, ordered_dict) = stream_item[0]
-    username = ordered_dict[b'username'].decode()
+async def use_stream_item(stream_item):
+    for item in stream_item:
+        (stream_name, message_id, ordered_dict) = item
+        stream_name = stream_name.decode()
 
-    # AttributeError: 'Redis' object has no attribute 'xdel'
-    response = await app.redis.execute('XDEL', REDIS_STREAM_USERS, message_id)
-    if response != 1:  # an other worker already took this username for update
-        return
+        if stream_name == REDIS_STREAM_USERS:
+            username = ordered_dict[b'username'].decode()
+            await set_user_profile(username)
+            await set_user_contributions(username)
+            await set_user_details(username)
+            await set_user_ctf(username)
+            await set_user_stats(username)
 
-    await set_user_profile(username)
-    await set_user_contributions(username)
-    await set_user_details(username)
-    await set_user_ctf(username)
-    await set_user_stats(username)
+        if stream_name == REDIS_STREAM_CHALLENGES:
+            await set_all_challenges()
 
-
-async def use_challenges_stream_item(challenges_stream_item):
-    (stream_name, message_id, ordered_dict) = challenges_stream_item[0]
-
-    # AttributeError: 'Redis' object has no attribute 'xdel'
-    response = await app.redis.execute('XDEL', REDIS_STREAM_CHALLENGES, message_id)
-    if response != 1:  # an other worker already took this username for update
-        return
-
-    set_all_challenges()
+        await app.redis.xack(stream_name, CG_NAME, message_id)
 
 
 async def main():
+    app.redis = await aioredis.create_redis_pool(('localhost', 6379))
+    streams = [REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES]
     while True:
-        users_stream_item = await app.redis.xread([REDIS_STREAM_USERS], count=1, timeout=1, latest_ids=[0])
-        if not users_stream_item:
-            challenges_stream_item = await app.redis.xread([REDIS_STREAM_CHALLENGES], count=1, timeout=1, latest_ids=[0])
-            if challenges_stream_item:
-                await use_challenges_stream_item(challenges_stream_item)
-        else:
-            await use_users_stream_item(users_stream_item)
+        item = await app.redis.xread_group(CG_NAME, CONSUMER_NAME, streams, count=1, latest_ids=['>'] * len(streams))
+        if len(item) > 0:
+            print(item)
+            await use_stream_item(item)
 
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    app.redis = loop.run_until_complete(aioredis.create_redis_pool(('localhost', 6379), loop=loop))
     loop.run_until_complete(main())
     loop.run_forever()
