@@ -17,6 +17,9 @@ async def set_user_details(username):
 
     pseudo = extract_pseudo(html)
     score = extract_score(html)
+    if score == 0:  # Manage case when score is null (score is not displayed on profile)
+        log.warning(f'could_not_get_user_details', username=username)
+        return
     nb_challenges_solved, nb_challenges_tot = extract_nb_challenges_solved(html)
     ranking, ranking_tot = extract_ranking(html)
     ranking_category = extract_ranking_category(html)

@@ -9,6 +9,8 @@ from worker.zip import zip_equal
 def extract_score(content):
     tree = html.fromstring(content)
     score = tree.xpath('//div[@class="small-12 columns"]/ul/li[1]/span[@class="color1 tl"]/text()')
+    if not score:  # Manage case when score is null (score is not displayed on profile)
+        return 0
     score = re.findall(r'(\d+)', score[0])[0]
     return int(score)
 
