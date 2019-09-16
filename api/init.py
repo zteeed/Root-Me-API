@@ -16,7 +16,5 @@ async def create_consumer_group(redis_app):
         try:
             await add_stream_to_consumer_group(redis_app, stream, CONSUMER_GROUP_NAME, mkstream=True)
         except aioredis.errors.ReplyError as exception:
-            if 'BUSYGROUP Consumer Group name already exists' == str(exception):
-                pass
-            else:
+            if 'BUSYGROUP Consumer Group name already exists' != str(exception):
                 raise exception
