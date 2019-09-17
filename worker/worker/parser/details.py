@@ -1,4 +1,5 @@
 import re
+from typing import Dict, List, Tuple
 
 from lxml import html
 
@@ -6,7 +7,7 @@ from worker.parser.exceptions import RootMeParsingError
 from worker.zip import zip_equal
 
 
-def extract_score(content):
+def extract_score(content: bytes) -> int:
     tree = html.fromstring(content)
     score = tree.xpath('//div[@class="small-12 columns"]/ul/li[1]/span[@class="color1 tl"]/text()')
     if not score:  # Manage case when score is null (score is not displayed on profile)
@@ -15,14 +16,14 @@ def extract_score(content):
     return int(score)
 
 
-def extract_nb_challenges_solved(content):
+def extract_nb_challenges_solved(content: bytes) -> Tuple[int, int]:
     tree = html.fromstring(content)
     challenges_solved = tree.xpath('//div[@class="small-12 columns"]/ul/li[1]/span[@class="color1 tl"]/span/text()')
     (nb_challenges_solved, nb_challenges_tot) = re.findall(r'(\d+)/(\d+)', challenges_solved[0])[0]
     return int(nb_challenges_solved), int(nb_challenges_tot)
 
 
-def extract_ranking(content):
+def extract_ranking(content: bytes) -> Tuple[int, int]:
     tree = html.fromstring(content)
     li_element = tree.xpath('//div[@class="small-12 columns"]/ul/li[2]')[0]
     ranking = li_element.xpath('span[@class="color1 tl"]/text()')[0]
@@ -32,14 +33,14 @@ def extract_ranking(content):
     return int(ranking), int(ranking_tot)
 
 
-def extract_ranking_category(content):
+def extract_ranking_category(content: bytes) -> str:
     tree = html.fromstring(content)
     ranking_category = tree.xpath('//div[@class="small-12 columns"]/ul/li[3]/span[@class="color1 tl"]/text()')[0]
     ranking_category = re.findall(r'\w+', ranking_category)[0]
     return ranking_category
 
 
-def extract_challenges(content):
+def extract_challenges(content: bytes) -> List[Dict[str, str]]:
     tree = html.fromstring(content)
     categories = tree.xpath('//div[@class="panel animated_box"]/h4/a/text()')
     categories_path = tree.xpath('//div[@class="panel animated_box"]/h4/a/@href')

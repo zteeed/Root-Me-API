@@ -3,6 +3,7 @@ import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
 from datetime import datetime
+from typing import Dict, List, Optional
 
 from worker import app, log
 from worker.constants import URL
@@ -11,7 +12,7 @@ from worker.parser.ctf import is_not_participating, extract_summary, extract_ctf
 from worker.parser.profile import extract_pseudo
 
 
-def get_ctf_page(username, page_index):
+def get_ctf_page(username: str, page_index: int) -> Optional[List[Dict[str, str]]]:
     url = f'{URL}{username}?inc=ctf&debut_ctf_alltheday_vm_dispo={50 * page_index}#pagination_ctf_alltheday_vm_dispo'
     html = http_get(url)
     if html is None:
@@ -21,7 +22,7 @@ def get_ctf_page(username, page_index):
     return extract_ctf(html)
 
 
-def get_user_ctf_data(username):
+def get_user_ctf_data(username: str) -> Optional[List[Dict[str, str]]]:
     html = http_get(URL + username + '?inc=ctf')
     if html is None:
         log.warning(f'ctf_page_not_found', username=username)
@@ -50,7 +51,7 @@ def get_user_ctf_data(username):
     }]
 
 
-async def set_user_ctf(username):
+async def set_user_ctf(username: str) -> None:
     response = get_user_ctf_data(username)
     await app.redis.set(f'{username}.ctfs', json.dumps({'body': response, 'last_update': str(datetime.now())}))
     log.debug('set_user_ctf_success', username=username)

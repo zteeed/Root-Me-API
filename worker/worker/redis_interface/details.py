@@ -1,6 +1,7 @@
 import json
 
 from datetime import datetime
+from typing import Dict, List, Optional
 
 from worker import app, log
 from worker.constants import URL
@@ -10,7 +11,7 @@ from worker.parser.details import extract_score, extract_nb_challenges_solved, e
 from worker.parser.profile import extract_pseudo
 
 
-def get_user_details_data(username):
+def get_user_details_data(username: str) -> Optional[List[Dict[str, str]]]:
     html = http_get(URL + username + '?inc=score')
     if html is None:
         log.warning(f'could_not_get_user_details', username=username)
@@ -38,7 +39,7 @@ def get_user_details_data(username):
     }]
 
 
-async def set_user_details(username):
+async def set_user_details(username: str) -> None:
     response = get_user_details_data(username)
     await app.redis.set(f'{username}.details',
                         json.dumps({'body': response, 'last_update': str(datetime.now())}))

@@ -5,7 +5,7 @@ from lxml import html
 from worker.parser.exceptions import RootMeParsingError
 
 
-def extract_pseudo(content):
+def extract_pseudo(content: bytes) -> str:
     tree = html.fromstring(content)
     result = tree.xpath('//meta[@name="author"]/@content')
     if not result:
@@ -13,7 +13,7 @@ def extract_pseudo(content):
     return unescape(result[0])
 
 
-def extract_score(content):
+def extract_score(content: bytes) -> int:
     tree = html.fromstring(content)
     result = tree.xpath('//ul[@class="spip"]/li[contains(., "Score")]/span/text()')
     if not result:  # Manage case when score is null (score is not displayed on profile)

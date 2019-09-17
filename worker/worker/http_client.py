@@ -22,7 +22,7 @@ class HTTPBadStatusCodeError(RuntimeError):
         super().__init__(f'bad http status code {code}')
 
 
-def http_get(url: str) -> Optional[str]:
+def http_get(url: str) -> Optional[bytes]:
     """
     Retrieves the HTML from a page via HTTP(s).
 

@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from typing import Dict, List, Optional
 
 from worker import app, log
 from worker.constants import URL
@@ -7,7 +8,7 @@ from worker.http_client import http_get
 from worker.parser.profile import extract_pseudo, extract_score
 
 
-def get_user_profile_data(username):
+def get_user_profile_data(username: str) -> Optional[List[Dict[str, str]]]:
     html = http_get(URL + username)
     if html is None:
         log.warning(f'user_profile_not_found', username=username)
@@ -22,7 +23,7 @@ def get_user_profile_data(username):
     return response
 
 
-async def set_user_profile(username):
+async def set_user_profile(username: str) -> None:
     response = get_user_profile_data(username)
     response = {'body': response, 'last_update': str(datetime.now())}
     await app.redis.set(f'{username}', json.dumps(response))

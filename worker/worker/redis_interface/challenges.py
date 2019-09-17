@@ -1,6 +1,7 @@
 import json
 from multiprocessing.pool import ThreadPool
 from datetime import datetime
+from typing import Dict, List, Optional
 
 from worker import app, log
 from worker.constants import URL
@@ -8,7 +9,7 @@ from worker.http_client import http_get
 from worker.parser.category import extract_categories, extract_category_info
 
 
-def retrieve_category_info(category):
+def retrieve_category_info(category: str) -> Optional[List[Dict[str, str]]]:
     html = http_get(f'{URL}fr/Challenges/{category}/')
     if html is None:
         log.warn('category_not_found', category=category)
@@ -18,7 +19,7 @@ def retrieve_category_info(category):
     return extract_category_info(html, category)
 
 
-async def set_all_challenges():
+async def set_all_challenges() -> None:
     html = http_get(URL + 'fr/Challenges/')
     if html is None:
         log.error('challenges_page_not_found')

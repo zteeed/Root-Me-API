@@ -1,16 +1,17 @@
 import re
 
 from lxml import html
+from typing import Dict, List, Tuple
 
 from worker.parser.exceptions import RootMeParsingError
 
 
-def is_not_participating(content):
+def is_not_participating(content: bytes) -> bool:
     tree = html.fromstring(content)
     return not tree.xpath('//div[@class="t-body tb-padding"]/div/h3[contains(.,"ne participe pas")]')
 
 
-def extract_summary(content):
+def extract_summary(content: bytes) -> Tuple[int, int]:
     tree = html.fromstring(content)
     success = tree.xpath('//div[@class="t-body tb-padding"]/div/p/span[2]/text()')[0]
     success = re.findall(r'(\d+)', success)
@@ -20,7 +21,7 @@ def extract_summary(content):
     return int(num_success), int(num_try)
 
 
-def extract_ctf(content):
+def extract_ctf(content: bytes) -> List[Dict[str, str]]:
     ctfs = []
     tree = html.fromstring(content)
     td_elements = tree.xpath('//table[@class="text-center mauto"]/tbody/tr')

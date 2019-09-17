@@ -3,6 +3,7 @@ import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
 from datetime import datetime
+from typing import Dict, List, Optional, Tuple
 
 from worker import app, log
 from worker.constants import URL
@@ -11,7 +12,11 @@ from worker.parser.contributions import extract_challenges_contributions, extrac
     extract_contributions_page_numbers
 
 
-def get_challenge_contributions(username, page_index):
+contribution_type = Optional[List[Optional[Dict[str, str]]]]
+all_contributions_type = Optional[List[Dict[str, Dict[str, contribution_type]]]]
+
+
+def get_challenge_contributions(username: str, page_index: int) -> Optional[List[Dict[str, str]]]:
     url = f'{URL}{username}?inc=contributions&debut_challenges_auteur={5 * page_index}#pagination_challenges_auteur'
     html = http_get(url)
     if html is None:
@@ -20,7 +25,7 @@ def get_challenge_contributions(username, page_index):
     return extract_challenges_contributions(html)
 
 
-def get_solution_contributions(username, page_index):
+def get_solution_contributions(username: str, page_index: int) -> Optional[List[Dict[str, str]]]:
     url = f'{URL}{username}?inc=contributions&debut_solutions_auteur={5 * page_index}#pagination_solutions_auteur'
     html = http_get(url)
     if html is None:
@@ -29,7 +34,7 @@ def get_solution_contributions(username, page_index):
     return extract_solutions_contributions(html)
 
 
-def format_contributions_challenges(username, nb_challenges_pages):
+def format_contributions_challenges(username: str, nb_challenges_pages: int) -> List[Optional[List[Dict[str, str]]]]:
     #  Retrieve challenges contributions
     challenges_contributions = []
     if nb_challenges_pages == 0:
@@ -42,7 +47,7 @@ def format_contributions_challenges(username, nb_challenges_pages):
     return challenges_contributions
 
 
-def format_contributions_solutions(username, nb_solutions_pages):
+def format_contributions_solutions(username: str, nb_solutions_pages: int) -> List[Optional[List[Dict[str, str]]]]:
     #  Retrieve solutions contributions
     solutions_contributions = []
     if nb_solutions_pages == 0:
@@ -55,7 +60,7 @@ def format_contributions_solutions(username, nb_solutions_pages):
     return solutions_contributions
 
 
-def get_user_contributions_data(username):
+def get_user_contributions_data(username: str) -> Tuple[contribution_type, contribution_type, all_contributions_type]:
     html = http_get(URL + username + '?inc=contributions')
     if html is None:
         log.warning('could_not_get_user_contributions', username=username)
@@ -78,7 +83,7 @@ def get_user_contributions_data(username):
     return challenges_contributions, solutions_contributions, all_contributions
 
 
-async def set_user_contributions(username):
+async def set_user_contributions(username: str) -> None:
     challenges_contributions, solutions_contributions, all_contributions = get_user_contributions_data(username)
     timestamp = str(datetime.now())
 

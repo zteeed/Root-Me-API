@@ -2,11 +2,12 @@ import re
 from html import unescape
 
 from lxml import html
+from typing import Dict, List
 
 from worker.zip import zip_equal
 
 
-def extract_stats(content):
+def extract_stats(content: bytes) -> List[Dict[str, str]]:
     tree = html.fromstring(content)
     javascript_text = tree.xpath('//script[@type="text/javascript"]/text()')[-1]
     pattern = 'evolution_data_total.push\(new Array\("(.*?)",(\d+), "(.*?)", "(.*?)"\)\)'
