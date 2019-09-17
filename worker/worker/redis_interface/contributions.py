@@ -55,35 +55,38 @@ def format_contributions_solutions(username, nb_solutions_pages):
     return solutions_contributions
 
 
-async def set_user_contributions_data(username):
+def get_user_contributions_data(username):
     html = http_get(URL + username + '?inc=contributions')
     if html is None:
         log.warning('could_not_get_user_contributions', username=username)
-        return
+        return None, None, None
 
     nb_challenges_pages, nb_solutions_pages = extract_contributions_page_numbers(html)
     if nb_challenges_pages == 0 and nb_solutions_pages == 0:
-        return  # no challenges or solutions published by this user
+        return None, None, None  # no challenges or solutions published by this user
 
     challenges_contributions = format_contributions_challenges(username, nb_challenges_pages)
     solutions_contributions = format_contributions_solutions(username, nb_solutions_pages)
 
-    response = [{
+    all_contributions = [{
         'contributions': {
             'challenges': challenges_contributions,
             'solutions': solutions_contributions
         }
     }]
-    if challenges_contributions is not None:
-        await app.redis.set(f'{username}.contributions.challenges', json.dumps(challenges_contributions))
-    if solutions_contributions is not None:
-        await app.redis.set(f'{username}.contributions.solutions', json.dumps(solutions_contributions))
-    await app.redis.set(f'{username}.contributions', json.dumps(response))
+
+    return challenges_contributions, solutions_contributions, all_contributions
 
 
 async def set_user_contributions(username):
-    await set_user_contributions_data(username)
-    timestamp = json.dumps({'timestamp': str(datetime.now())})
-    await app.redis.set(f'{username}.contributions.challenges.timestamp', timestamp)
-    await app.redis.set(f'{username}.contributions.solutions.timestamp', timestamp)
+    challenges_contributions, solutions_contributions, all_contributions = get_user_contributions_data(username)
+    timestamp = str(datetime.now())
 
+    if challenges_contributions is not None:
+        await app.redis.set(f'{username}.contributions.challenges',
+                            json.dumps({'body': challenges_contributions, 'last_update': timestamp}))
+    if solutions_contributions is not None:
+        await app.redis.set(f'{username}.contributions.solutions',
+                            json.dumps({'body': solutions_contributions, 'last_update': timestamp}))
+    await app.redis.set(f'{username}.contributions',
+                        json.dumps({'body': all_contributions, 'last_update': timestamp}))

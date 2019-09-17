@@ -1,4 +1,5 @@
 import json
+
 from datetime import datetime
 
 from worker import app, log
@@ -9,7 +10,7 @@ from worker.parser.details import extract_score, extract_nb_challenges_solved, e
 from worker.parser.profile import extract_pseudo
 
 
-async def set_user_details_data(username):
+def get_user_details_data(username):
     html = http_get(URL + username + '?inc=score')
     if html is None:
         log.warning(f'could_not_get_user_details', username=username)
@@ -20,12 +21,12 @@ async def set_user_details_data(username):
     if score == 0:  # Manage case when score is null (score is not displayed on profile)
         log.warning(f'could_not_get_user_details', username=username)
         return
+
     nb_challenges_solved, nb_challenges_tot = extract_nb_challenges_solved(html)
     ranking, ranking_tot = extract_ranking(html)
     ranking_category = extract_ranking_category(html)
     categories = extract_challenges(html)
-
-    response = [{
+    return [{
         'pseudo': pseudo,
         'score': score,
         'nb_challenges_solved': nb_challenges_solved,
@@ -36,12 +37,9 @@ async def set_user_details_data(username):
         'categories': categories,
     }]
 
-    await app.redis.set(f'{username}.details', json.dumps(response))
-    log.debug('set_user_details_success', username=username)
-
 
 async def set_user_details(username):
-    await set_user_details_data(username)
-    timestamp = json.dumps({'timestamp': str(datetime.now())})
-    await app.redis.set(f'{username}.details.timestamp', timestamp)
-
+    response = get_user_details_data(username)
+    await app.redis.set(f'{username}.details',
+                        json.dumps({'body': response, 'last_update': str(datetime.now())}))
+    log.debug('set_user_details_success', username=username)

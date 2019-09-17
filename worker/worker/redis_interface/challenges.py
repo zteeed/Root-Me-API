@@ -30,14 +30,11 @@ async def set_all_challenges():
     with ThreadPool(len(categories)) as tp:
         response = tp.map(retrieve_category_info, categories)
 
-    timestamp = json.dumps({'timestamp': str(datetime.now())})
-
-    await app.redis.set('challenges', json.dumps(response))
-    await app.redis.set('challenges.timestamp', timestamp)
-    await app.redis.set('categories', json.dumps(categories))
-    await app.redis.set('categories.timestamp', timestamp)
+    timestamp = str(datetime.now())
+    await app.redis.set('challenges', json.dumps({'body': response, 'last_update': timestamp}))
+    await app.redis.set('categories', json.dumps({'body': categories, 'last_update': timestamp}))
     for category_data in response:
-        await app.redis.set(f'categories.{category_data[0]["name"]}', json.dumps(category_data))
-        await app.redis.set(f'categories.{category_data[0]["name"]}.timestamp', timestamp)
+        await app.redis.set(f'categories.{category_data[0]["name"]}',
+                            json.dumps({'body': category_data, 'last_update': timestamp}))
 
     log.debug('set_all_challenges_success')
