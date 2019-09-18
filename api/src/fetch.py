@@ -6,16 +6,18 @@ from aioredis.commands import Redis
 from api.constants import REDIS_STREAM_CHALLENGES, REDIS_STREAM_USERS, REQUEST_TIMEOUT, UPDATE_TIMEOUT
 
 
-async def get_timestamp(redis_app: Redis, key: str) -> Optional[datetime]:
-    timestamp = await redis_app.get(f'{key}.timestamp')
-    if timestamp is None or 'timestamp' not in timestamp.keys():
+def extract_timestamp_last_update(data: str) -> Optional[datetime]:
+    if data is None:
         return
-    timestamp = json.loads(timestamp)['timestamp']
-    return datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
+    data = json.loads(data)
+    if 'last_update' not in data.keys():
+        return
+    return datetime.strptime(data['last_update'], '%Y-%m-%d %H:%M:%S.%f')
 
 
-    timestamp = await get_timestamp(redis_app, key)
 async def read_from_redis_key(redis_app: Redis, key: str, username: Optional[str] = None, category: Optional[str] = None):
+    data = await redis_app.get(f'{key}')
+    timestamp = extract_timestamp_last_update(data)
     now = datetime.now()
 
     # updates conditions
@@ -40,8 +42,8 @@ async def read_from_redis_key(redis_app: Redis, key: str, username: Optional[str
 
     condition = timestamp is None or (now - timestamp).total_seconds() > timeout
     while condition and abs(now-datetime.now()).total_seconds() < REQUEST_TIMEOUT:
-        timestamp = await get_timestamp(redis_app, key)
+        data = await redis_app.get(f'{key}')
+        timestamp = extract_timestamp_last_update(data)
         condition = timestamp is None or (now - timestamp).total_seconds() > timeout
 
-    data = await redis_app.get(key)
-    return data, str(timestamp)
+    return data

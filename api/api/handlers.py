@@ -31,12 +31,11 @@ class RootMeStaticHandler(RequestHandler):
 
     async def get(self):
         """Construct and send a JSON response with appropriate status code."""
-        data, timestamp = await read_from_redis_key(self.application.redis, self.key)
+        data = await read_from_redis_key(self.application.redis, self.key)
         if data is None:
             self.write_error(status_code=404)
         else:
-            data = dict(body=json.loads(data), timestamp=timestamp)
-            self.write(data)
+            self.write(json.loads(data))
 
 
 class RootMeDynamicHandler(RequestHandler):
@@ -48,15 +47,14 @@ class RootMeDynamicHandler(RequestHandler):
         """Construct and send a JSON response with appropriate status code."""
         key = self.key.format(url_argument)
         if 'categories' in self.key:
-            data, timestamp = await read_from_redis_key(self.application.redis, key, category=url_argument)
+            data = await read_from_redis_key(self.application.redis, key, category=url_argument)
         else:
-            data, timestamp = await read_from_redis_key(self.application.redis, key, username=url_argument)
+            data = await read_from_redis_key(self.application.redis, key, username=url_argument)
 
         if data is None:
             self.write_error(status_code=404)
         else:
-            data = dict(body=json.loads(data), timestamp=timestamp)
-            self.write(data)
+            self.write(json.loads(data))
 
 
 pattern = '([\\w-]+)'
