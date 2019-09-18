@@ -17,16 +17,11 @@ class RootMeBot:
         self.bot = commands.Bot(command_prefix='!')
         self.bot.rootme_challenges = None
         self.channel = None
-        self.lock = False
 
     async def cron(self):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
-            if not self.lock and self.channel is not None:
-                green('RootMeBot open')
-                await disp.cron(self)
-            else:
-                red('RootMeBot locked')
+            await disp.cron(self)
             await asyncio.sleep(5)
 
     def catch(self):

@@ -16,7 +16,7 @@ def display(part):
         yellow(line)
 
 
-async def interrupt(self, message, embed_color=None, embed_name=None, keep_locking=False):
+async def interrupt(self, message, embed_color=None, embed_name=None):
     parts = show.display_parts(message)
     for part in parts:
 
@@ -27,10 +27,6 @@ async def interrupt(self, message, embed_color=None, embed_name=None, keep_locki
             embed = discord.Embed(color=embed_color)
             embed.add_field(name=embed_name, value=part, inline=False)
             await self.channel.send(embed=embed)
-
-    if not keep_locking:
-        self.lock = False
-    return
 
 
 def check(self):
@@ -63,7 +59,6 @@ async def ready(self):
 
 
 async def add_user(self, context):
-    self.lock = True
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -76,7 +71,6 @@ async def add_user(self, context):
 
 
 async def remove_user(self, context):
-    self.lock = True
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -89,19 +83,16 @@ async def remove_user(self, context):
 
 
 async def scoreboard(self):
-    self.lock = True
     tosend = show.display_scoreboard()
     await interrupt(self, tosend, embed_color=0x4200d4, embed_name="Scoreboard")
 
 
 async def categories(self):
-    self.lock = True
     tosend = show.display_categories()
     await interrupt(self, tosend, embed_color=0xB315A8, embed_name="Categories")
 
 
 async def category(self, context):
-    self.lock = True
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -115,8 +106,6 @@ async def category(self, context):
 
 
 async def who_solved(self, context):
-    self.lock = True
-
     challenge = ' '.join(context.message.content.strip().split(' ')[1:])
     challenge_selected = unescape(challenge.strip())
     if not challenge_selected:
@@ -146,7 +135,6 @@ async def display_by_blocks_duration(self, tosend_list, color, duration_msg=''):
 
 
 async def duration(self, context, duration_command='today', duration_msg='since last 24h'):
-    self.lock = True
     args = get_command_args(context)
 
     if len(args) > 1:
@@ -179,7 +167,6 @@ async def display_by_blocks_diff(self, tosend_list, color):
 
 
 async def diff(self, context):
-    self.lock = True
     args = get_command_args(context)
 
     if len(args) != 2:
@@ -193,7 +180,6 @@ async def diff(self, context):
 
 
 async def diff_with(self, context):
-    self.lock = True
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -207,7 +193,6 @@ async def diff_with(self, context):
 
 
 async def flush(self, context):
-    self.lock = True
     embed_color, embed_name = 0xD81948, 'FLUSH'
     tosend = f'{context.author} just launched !flush command.'
     await interrupt(self, tosend, embed_color=embed_color, embed_name=embed_name)
@@ -216,8 +201,6 @@ async def flush(self, context):
 
 
 async def cron(self):
-    self.lock = True
     name, tosend_cron = show.display_cron(self.bot)
     if tosend_cron is not None:
         await interrupt(self, tosend_cron, embed_color=0xFFCC00, embed_name=name)
-    self.lock = False
