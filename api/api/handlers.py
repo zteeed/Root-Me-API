@@ -9,7 +9,7 @@ from src.fetch import read_from_redis_key
 
 class RedirectHandler(RequestHandler):
 
-    def initialize(self, url):
+    def initialize(self, url: str):
         self.url = url
 
     def get(self):
@@ -26,7 +26,7 @@ class InfoHandler(RequestHandler):
 
 class RootMeStaticHandler(RequestHandler):
 
-    def initialize(self, key):
+    def initialize(self, key: str):
         self.key = key
 
     async def get(self):
@@ -40,7 +40,7 @@ class RootMeStaticHandler(RequestHandler):
 
 class RootMeDynamicHandler(RequestHandler):
 
-    def initialize(self, key):
+    def initialize(self, key: str):
         self.key = key
 
     async def get(self, url_argument):
