@@ -8,6 +8,7 @@ from tornado.web import Application
 
 from api.constants import REDIS_HOST, REDIS_PORT
 from api.handlers import handlers
+from init import create_consumer_group
 
 if __name__ == '__main__':
     define('port', default=3000, help='port to listen on')
@@ -21,5 +22,6 @@ if __name__ == '__main__':
     application.redis = loop.run_until_complete(
         aioredis.create_redis_pool((REDIS_HOST, REDIS_PORT), loop=loop)
     )
+    asyncio.get_event_loop().run_until_complete(create_consumer_group(application.redis))
     loop.run_forever()
     IOLoop.current().start()

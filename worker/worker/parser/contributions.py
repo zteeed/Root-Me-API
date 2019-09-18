@@ -1,7 +1,8 @@
 from lxml import html
+from typing import Dict, List, Tuple
 
 
-def extract_contributions_page_numbers(content):
+def extract_contributions_page_numbers(content: bytes) -> Tuple[int, int]:
     nb_challenges_pages, nb_solutions_pages = 0, 0
     tree = html.fromstring(content)
     div_elements = tree.xpath('//div[@class="t-body tb-padding"]/div')
@@ -25,7 +26,7 @@ def extract_contributions_page_numbers(content):
     return nb_challenges_pages, nb_solutions_pages
 
 
-def extract_challenges_contributions(content):
+def extract_challenges_contributions(content: bytes) -> List[Dict[str, str]]:
     tree = html.fromstring(content)
     ul_elements = tree.xpath('//div[@class="t-body tb-padding"]/div/a[contains(@name, "challenge")]/parent::div/ul')
     if not ul_elements:
@@ -40,7 +41,7 @@ def extract_challenges_contributions(content):
     return challenges
 
 
-def extract_solutions_contributions(content):
+def extract_solutions_contributions(content: bytes) -> List[Dict[str, str]]:
     tree = html.fromstring(content)
     ul_elements = tree.xpath('//div[@class="t-body tb-padding"]/div/a[contains(@name, "solution")]/parent::div/ul')
     if not ul_elements:

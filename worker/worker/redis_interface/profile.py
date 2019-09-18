@@ -1,13 +1,14 @@
 import json
+from datetime import datetime
+from typing import Dict, List, Optional
 
-from worker import log
+from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.profile import extract_pseudo, extract_score
-from worker.redis_interface import redis_app
 
 
-def set_user_profile(username):
+def get_user_profile_data(username: str) -> Optional[List[Dict[str, str]]]:
     html = http_get(URL + username)
     if html is None:
         log.warning(f'user_profile_not_found', username=username)
@@ -19,7 +20,12 @@ def set_user_profile(username):
         'pseudo': pseudo,
         'score': score,
     }]
-    redis_app.set(f'{username}', json.dumps(response))
-    redis_app.set(f'{username}.profile', json.dumps(response))
+    return response
 
+
+async def set_user_profile(username: str) -> None:
+    response = get_user_profile_data(username)
+    response = {'body': response, 'last_update': datetime.now().isoformat()}
+    await app.redis.set(f'{username}', json.dumps(response))
+    await app.redis.set(f'{username}.profile', json.dumps(response))
     log.debug('set_user_profile_success', username=username)

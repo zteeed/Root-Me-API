@@ -1,4 +1,5 @@
 import itertools
+from typing import List, Tuple
 
 
 class ExhaustedError(Exception):
@@ -7,18 +8,18 @@ class ExhaustedError(Exception):
         self.index = index
 
 
-def raising_iter(i):
+def raising_iter(i: int) -> None:
     """Return an iterator that raises an ExhaustedError."""
     raise ExhaustedError(i)
     yield
 
 
-def terminate_iter(i, iterable):
+def terminate_iter(i: int, iterable: List[str]) -> itertools.chain:
     """Return an iterator that raises an ExhaustedError at the end."""
     return itertools.chain(iterable, raising_iter(i))
 
 
-def zip_equal(*iterables):
+def zip_equal(*iterables: Tuple[str]) -> None:
     iterators = [terminate_iter(*args) for args in enumerate(iterables)]
     try:
         yield from zip(*iterators)

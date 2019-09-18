@@ -1,4 +1,5 @@
-redis
+aioredis
+hiredis
 requests
 lxml
 structlog

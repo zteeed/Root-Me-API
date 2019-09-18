@@ -2,16 +2,21 @@ import itertools
 import json
 from functools import partial
 from multiprocessing.pool import ThreadPool
+from datetime import datetime
+from typing import Dict, List, Optional, Tuple
 
-from worker import log
+from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.contributions import extract_challenges_contributions, extract_solutions_contributions, \
     extract_contributions_page_numbers
-from worker.redis_interface import redis_app
 
 
-def get_challenge_contributions(username, page_index):
+contribution_type = Optional[List[Optional[Dict[str, str]]]]
+all_contributions_type = Optional[List[Dict[str, Dict[str, contribution_type]]]]
+
+
+def get_challenge_contributions(username: str, page_index: int) -> Optional[List[Dict[str, str]]]:
     url = f'{URL}{username}?inc=contributions&debut_challenges_auteur={5 * page_index}#pagination_challenges_auteur'
     html = http_get(url)
     if html is None:
@@ -20,7 +25,7 @@ def get_challenge_contributions(username, page_index):
     return extract_challenges_contributions(html)
 
 
-def get_solution_contributions(username, page_index):
+def get_solution_contributions(username: str, page_index: int) -> Optional[List[Dict[str, str]]]:
     url = f'{URL}{username}?inc=contributions&debut_solutions_auteur={5 * page_index}#pagination_solutions_auteur'
     html = http_get(url)
     if html is None:
@@ -29,7 +34,7 @@ def get_solution_contributions(username, page_index):
     return extract_solutions_contributions(html)
 
 
-def format_contributions_challenges(username, nb_challenges_pages):
+def format_contributions_challenges(username: str, nb_challenges_pages: int) -> List[Optional[List[Dict[str, str]]]]:
     #  Retrieve challenges contributions
     challenges_contributions = []
     if nb_challenges_pages == 0:
@@ -38,11 +43,11 @@ def format_contributions_challenges(username, nb_challenges_pages):
     tp_argument = list(range(nb_challenges_pages))
     with ThreadPool(nb_challenges_pages) as tp:
         response_challenges = tp.map(tp_function, tp_argument)
-    challenges_contributions = list(itertools.chain(response_challenges))  # concatenate all challenges lists
+    challenges_contributions = list(itertools.chain(*response_challenges))  # concatenate all challenges lists
     return challenges_contributions
 
 
-def format_contributions_solutions(username, nb_solutions_pages):
+def format_contributions_solutions(username: str, nb_solutions_pages: int) -> List[Optional[List[Dict[str, str]]]]:
     #  Retrieve solutions contributions
     solutions_contributions = []
     if nb_solutions_pages == 0:
@@ -51,31 +56,42 @@ def format_contributions_solutions(username, nb_solutions_pages):
     tp_argument = list(range(nb_solutions_pages))
     with ThreadPool(nb_solutions_pages) as tp:
         response_solutions = tp.map(tp_function, tp_argument)
-    solutions_contributions = list(itertools.chain(response_solutions))  # concatenate all solutions lists
+    solutions_contributions = list(itertools.chain(*response_solutions))  # concatenate all solutions lists
     return solutions_contributions
 
 
-def set_user_contributions(username):
+def get_user_contributions_data(username: str) -> Tuple[contribution_type, contribution_type, all_contributions_type]:
     html = http_get(URL + username + '?inc=contributions')
     if html is None:
         log.warning('could_not_get_user_contributions', username=username)
-        return
+        return None, None, None
 
     nb_challenges_pages, nb_solutions_pages = extract_contributions_page_numbers(html)
     if nb_challenges_pages == 0 and nb_solutions_pages == 0:
-        return  # no challenges or solutions published by this user
+        return None, None, None  # no challenges or solutions published by this user
 
     challenges_contributions = format_contributions_challenges(username, nb_challenges_pages)
     solutions_contributions = format_contributions_solutions(username, nb_solutions_pages)
 
-    response = [{
+    all_contributions = [{
         'contributions': {
             'challenges': challenges_contributions,
             'solutions': solutions_contributions
         }
     }]
+
+    return challenges_contributions, solutions_contributions, all_contributions
+
+
+async def set_user_contributions(username: str) -> None:
+    challenges_contributions, solutions_contributions, all_contributions = get_user_contributions_data(username)
+    timestamp = datetime.now().isoformat()
+
     if challenges_contributions is not None:
-        redis_app.set(f'{username}.contributions.challenges', json.dumps(challenges_contributions))
+        await app.redis.set(f'{username}.contributions.challenges',
+                            json.dumps({'body': challenges_contributions, 'last_update': timestamp}))
     if solutions_contributions is not None:
-        redis_app.set(f'{username}.contributions.solutions', json.dumps(solutions_contributions))
-    redis_app.set(f'{username}.contributions', json.dumps(response))
+        await app.redis.set(f'{username}.contributions.solutions',
+                            json.dumps({'body': solutions_contributions, 'last_update': timestamp}))
+    await app.redis.set(f'{username}.contributions',
+                        json.dumps({'body': all_contributions, 'last_update': timestamp}))

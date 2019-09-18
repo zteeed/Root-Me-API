@@ -1,3 +1,5 @@
 URL = 'https://www.root-me.org/'
-AUTHORS = ["Aurélien Duboc", "Nicolas Bonnet"]
-GITHUB_ACCOUNTS = ["https://github.com/zteeed", "https://github.com/bonnetn"]
+REDIS_STREAM_USERS = 'update_users'
+REDIS_STREAM_CHALLENGES = 'update_challenges'
+CG_NAME = 'rootme'
+CONSUMER_NAME = 'worker1'

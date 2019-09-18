@@ -4,10 +4,13 @@
 #
 #    pip-compile
 #
+aioredis==1.2.0
+async-timeout==3.0.1      # via aioredis
 atomicwrites==1.3.0       # via pytest
 attrs==19.1.0             # via packaging, pytest
 certifi==2019.6.16        # via requests
 chardet==3.0.4            # via requests
+hiredis==1.0.0
 idna==2.8                 # via requests
 importlib-metadata==0.19  # via pluggy, pytest
 lxml==4.4.0
@@ -17,7 +20,6 @@ pluggy==0.12.0            # via pytest
 py==1.8.0                 # via pytest
 pyparsing==2.4.2          # via packaging
 pytest==5.0.1
-redis==3.3.4
 requests==2.22.0
 six==1.12.0               # via packaging, structlog
 structlog==19.1.0
