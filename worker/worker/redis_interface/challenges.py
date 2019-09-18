@@ -31,7 +31,7 @@ async def set_all_challenges() -> None:
     with ThreadPool(len(categories)) as tp:
         response = tp.map(retrieve_category_info, categories)
 
-    timestamp = str(datetime.now())
+    timestamp = datetime.now().isoformat()
     await app.redis.set('challenges', json.dumps({'body': response, 'last_update': timestamp}))
     await app.redis.set('categories', json.dumps({'body': categories, 'last_update': timestamp}))
     for category_data in response:

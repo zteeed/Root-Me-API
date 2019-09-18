@@ -27,5 +27,5 @@ def get_user_stats_data(username: str) -> Optional[Dict[str, str]]:
 async def set_user_stats(username: str) -> None:
     response = get_user_stats_data(username)
     await app.redis.set(f'{username}.stats',
-                        json.dumps({'body': response, 'last_update': str(datetime.now())}))
+                        json.dumps({'body': response, 'last_update': datetime.now().isoformat()}))
     log.debug('set_user_stats_success', username=username)

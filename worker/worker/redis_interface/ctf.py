@@ -53,5 +53,5 @@ def get_user_ctf_data(username: str) -> Optional[List[Dict[str, str]]]:
 
 async def set_user_ctf(username: str) -> None:
     response = get_user_ctf_data(username)
-    await app.redis.set(f'{username}.ctfs', json.dumps({'body': response, 'last_update': str(datetime.now())}))
+    await app.redis.set(f'{username}.ctfs', json.dumps({'body': response, 'last_update': datetime.now().isoformat()}))
     log.debug('set_user_ctf_success', username=username)

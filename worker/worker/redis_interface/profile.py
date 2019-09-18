@@ -25,7 +25,7 @@ def get_user_profile_data(username: str) -> Optional[List[Dict[str, str]]]:
 
 async def set_user_profile(username: str) -> None:
     response = get_user_profile_data(username)
-    response = {'body': response, 'last_update': str(datetime.now())}
+    response = {'body': response, 'last_update': datetime.now().isoformat()}
     await app.redis.set(f'{username}', json.dumps(response))
     await app.redis.set(f'{username}.profile', json.dumps(response))
     log.debug('set_user_profile_success', username=username)

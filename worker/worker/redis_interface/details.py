@@ -42,5 +42,5 @@ def get_user_details_data(username: str) -> Optional[List[Dict[str, str]]]:
 async def set_user_details(username: str) -> None:
     response = get_user_details_data(username)
     await app.redis.set(f'{username}.details',
-                        json.dumps({'body': response, 'last_update': str(datetime.now())}))
+                        json.dumps({'body': response, 'last_update': datetime.now().isoformat()}))
     log.debug('set_user_details_success', username=username)

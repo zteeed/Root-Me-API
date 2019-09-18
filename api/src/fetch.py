@@ -19,7 +19,7 @@ def extract_timestamp_last_update(data: str) -> Optional[datetime]:
     data = json.loads(data)
     if 'last_update' not in data.keys():
         return
-    return datetime.strptime(data['last_update'], '%Y-%m-%d %H:%M:%S.%f')
+    return datetime.fromisoformat(data['last_update'])
 
 
 async def send_tasks_to_worker(redis_app: Redis, arg: Optional[str], now: datetime, timestamp: Optional[datetime],

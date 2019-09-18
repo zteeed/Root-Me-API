@@ -85,7 +85,7 @@ def get_user_contributions_data(username: str) -> Tuple[contribution_type, contr
 
 async def set_user_contributions(username: str) -> None:
     challenges_contributions, solutions_contributions, all_contributions = get_user_contributions_data(username)
-    timestamp = str(datetime.now())
+    timestamp = datetime.now().isoformat()
 
     if challenges_contributions is not None:
         await app.redis.set(f'{username}.contributions.challenges',
