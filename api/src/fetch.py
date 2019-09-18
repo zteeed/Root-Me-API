@@ -14,8 +14,8 @@ async def get_timestamp(redis_app: Redis, key: str) -> Optional[datetime]:
     return datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
 
 
-async def get_data(redis_app: Redis, key: str, username: Optional[str] = None, category: Optional[str] = None):
     timestamp = await get_timestamp(redis_app, key)
+async def read_from_redis_key(redis_app: Redis, key: str, username: Optional[str] = None, category: Optional[str] = None):
     now = datetime.now()
 
     # updates conditions
