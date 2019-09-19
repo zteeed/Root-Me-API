@@ -18,7 +18,7 @@ def extract_stats(content: bytes) -> List[Dict[str, str]]:
     for challenge_data, difficulty in zip_equal(challenges_solved, difficulties):
         date, score_at_date, name, path = challenge_data
         challenge = {
-            'name': unescape(name),
+            'name': unescape(name).strip(),
             'score_at_date': int(score_at_date),
             'date': date,
             'path': path,
