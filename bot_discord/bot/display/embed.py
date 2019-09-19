@@ -43,7 +43,7 @@ def check(channel):
         sys.exit(0)
 
 
-async def ready(channel):
+async def ready(channel, command_prefix):
     check(channel)
     green('RootMeBot is coming !')
 
@@ -51,9 +51,8 @@ async def ready(channel):
         tosend = 'Hello back !'
     else:
         sd.launched()
-        tosend = ('Hello, it seems that it\'s the first time you are '
-                  'using my services.\nYou might use `!help` to know '
-                  'more about my features.')
+        tosend = f"Hello, it seems that it's the first time you are using my services.\nYou might use " \
+            f"`{command_prefix}help` to know more about my features."
 
     embed_color, embed_name = 0x000000, "RootMe Bot"
     await interrupt(channel, tosend, embed_color=embed_color, embed_name=embed_name)
@@ -63,7 +62,7 @@ async def add_user(context):
     args = get_command_args(context)
 
     if len(args) != 1:
-        tosend = 'Use !add_user <username>'
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -75,7 +74,7 @@ async def remove_user(context):
     args = get_command_args(context)
 
     if len(args) != 1:
-        tosend = 'Use !remove_user <username>'
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -97,7 +96,7 @@ async def category(context):
     args = get_command_args(context)
 
     if len(args) != 1:
-        tosend = 'Use !category <category>'
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -110,7 +109,7 @@ async def who_solved(context):
     challenge = ' '.join(context.message.content.strip().split(' ')[1:])
     challenge_selected = unescape(challenge.strip())
     if not challenge_selected:
-        tosend = 'Use !who_solved <challenge>'
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -144,9 +143,9 @@ async def duration(context, duration_command='today', duration_msg='since last 2
         return
 
     if duration_command == 'week':
-        tosend_list = show.display_week(context.bot, args)
+        tosend_list = show.display_week(context, args)
     elif duration_command == 'today':
-        tosend_list = show.display_today(context.bot, args)
+        tosend_list = show.display_today(context, args)
     else:
         return
     await display_by_blocks_duration(context, tosend_list, 0x00C7FF, duration_msg=duration_msg)
@@ -171,7 +170,7 @@ async def diff(context):
     args = get_command_args(context)
 
     if len(args) != 2:
-        tosend = 'Use !diff <username1> <username2>'
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -184,7 +183,7 @@ async def diff_with(context):
     args = get_command_args(context)
 
     if len(args) != 1:
-        tosend = 'Use !diff_with <username>'
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
@@ -195,7 +194,7 @@ async def diff_with(context):
 
 async def flush(context):
     embed_color, embed_name = 0xD81948, 'FLUSH'
-    tosend = f'{context.author} just launched !flush command.'
+    tosend = f'{context.author} just launched {context.bot.command_prefix}{context.command} command.'
     await interrupt(context.message.channel, tosend, embed_color=embed_color, embed_name=embed_name)
     tosend = await show.display_flush(context.message.channel, context)
     await interrupt(context.message.channel, tosend, embed_color=embed_color, embed_name=embed_name)

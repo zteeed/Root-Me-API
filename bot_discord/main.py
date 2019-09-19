@@ -28,7 +28,7 @@ class RootMeBot:
         @self.bot.event
         async def on_ready():
             self.channel = get_channel(self.bot)
-            await disp.ready(self.channel)
+            await disp.ready(self.channel, self.bot.command_prefix)
 
         @self.bot.command(description='Add a user to team into database.')
         async def add_user(context: commands.context.Context):

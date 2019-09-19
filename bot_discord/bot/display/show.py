@@ -118,10 +118,11 @@ def display_who_solved(bot, challenge_selected):
     return tosend
 
 
-def display_duration(bot, args, delay):
+def display_duration(context, args, delay):
     if len(args) == 1:
         if not json_data.user_json_exists(args[0]):
-            tosend = f'User {args[0]} is not in team.\nYou might add it with !add_user <username>'
+            tosend = f'User {args[0]} is not in team.\nYou might add it with ' \
+                f'{context.bot.command_prefix}{context.command} {context.command.help.strip()}'
             tosend_list = [{'user': args[0], 'msg': tosend}]
             return tosend_list
         else:
@@ -148,7 +149,7 @@ def display_duration(bot, args, delay):
 
         challs_selected.reverse()
         for chall in challs_selected:
-            value = find_challenge(bot, chall['name'])['value']
+            value = find_challenge(context.bot, chall['name'])['value']
             tosend += f' • {chall["name"]} ({value} points) - {chall["date"]}\n'
         tosend_list.append({'user': user, 'msg': tosend})
 
@@ -163,12 +164,12 @@ def display_duration(bot, args, delay):
     return tosend_list
 
 
-def display_week(bot, args):
-    return display_duration(bot, args, timedelta(weeks=1))
+def display_week(context, args):
+    return display_duration(context, args, timedelta(weeks=1))
 
 
-def display_today(bot, args):
-    return display_duration(bot, args, timedelta(days=1))
+def display_today(context, args):
+    return display_duration(context, args, timedelta(days=1))
 
 
 @stop_if_args_none
