@@ -1,5 +1,10 @@
 from datetime import datetime, timedelta
 from html import unescape
+from typing import Dict, List, Optional, Tuple, Union
+
+from discord.channel import TextChannel
+from discord.ext.commands.bot import Bot
+from discord.ext.commands.context import Context
 
 import bot.manage.channel_data as channel_data
 import bot.manage.json_data as json_data
@@ -9,7 +14,7 @@ from bot.display.update import add_emoji
 from bot.wraps import stop_if_args_none
 
 
-def display_parts(message):
+def display_parts(message: str) -> List[str]:
     message = message.split('\n')
     tosend = ''
     stored = []
@@ -22,7 +27,7 @@ def display_parts(message):
     return stored
 
 
-def display_add_user(bot, name):
+def display_add_user(bot: Bot, name: str) -> str:
     """ Check if user exist in RootMe """
     if not json_data.user_rootme_exists(name):
         tosend = f'RootMe profile for {name} can\'t be established'
@@ -36,7 +41,7 @@ def display_add_user(bot, name):
         return add_emoji(bot, f'User {name} successfully added in team', emoji2)
 
 
-def display_remove_user(bot, name):
+def display_remove_user(bot: Bot, name: str) -> str:
     """ Remove user from data.json """
     if not json_data.user_json_exists(name):
         return add_emoji(bot, f'User {name} was not in team', emoji5)
@@ -45,7 +50,7 @@ def display_remove_user(bot, name):
         return add_emoji(bot, f'User {name} successfully removed from team', emoji2)
 
 
-def display_scoreboard():
+def display_scoreboard() -> str:
     tosend = ''
     users = json_data.select_users()
     if not users:
@@ -61,14 +66,14 @@ def display_scoreboard():
     return tosend
 
 
-def display_categories():
+def display_categories() -> str:
     tosend = ''
     for c in json_data.get_categories():
         tosend += f' • {c["name"]} ({c["challenges_nb"]} challenges) \n'
     return tosend
 
 
-def display_category(category):
+def display_category(category: str) -> str:
     c = json_data.get_category(category)
 
     if c is None:
@@ -82,7 +87,7 @@ success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
 
 
-def find_challenge(bot, challenge_selected):
+def find_challenge(bot: Bot, challenge_selected: str) -> Optional[Dict[str, Union[str, int, List[str]]]]:
     for category in bot.rootme_challenges:
         challenges = category['challenges']
         for challenge in challenges:
@@ -91,12 +96,12 @@ def find_challenge(bot, challenge_selected):
     return None
 
 
-def user_has_solved(challenge_selected, solved_challenges):
+def user_has_solved(challenge_selected: str, solved_challenges: List[Dict[str, Union[str, int]]]) -> bool:
     test = [c['name'] == challenge_selected for c in solved_challenges]
     return True in test
 
 
-def display_who_solved(bot, challenge_selected):
+def display_who_solved(bot: Bot, challenge_selected: str) -> str:
     challenge_found = find_challenge(bot, challenge_selected)
 
     if challenge_found is None:
@@ -118,7 +123,7 @@ def display_who_solved(bot, challenge_selected):
     return tosend
 
 
-def display_duration(context, args, delay):
+def display_duration(context: Context, args: Tuple[str], delay: timedelta) -> List[Dict[str, Optional[str]]]:
     if len(args) == 1:
         if not json_data.user_json_exists(args[0]):
             tosend = f'User {args[0]} is not in team.\nYou might add it with ' \
@@ -164,16 +169,16 @@ def display_duration(context, args, delay):
     return tosend_list
 
 
-def display_week(context, args):
+def display_week(context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
     return display_duration(context, args, timedelta(weeks=1))
 
 
-def display_today(context, args):
+def display_today(context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
     return display_duration(context, args, timedelta(days=1))
 
 
 @stop_if_args_none
-def display_diff_one_side(bot, user_diff):
+def display_diff_one_side(bot: Bot, user_diff: List[Dict[str, Union[str, int]]]) -> str:
     tosend = ''
     for c in user_diff:
         value = find_challenge(bot, c['name'])['value']
@@ -181,7 +186,7 @@ def display_diff_one_side(bot, user_diff):
     return tosend
 
 
-def display_diff(bot, user1, user2):
+def display_diff(bot: Bot, user1: str, user2: str) -> List[Dict[str, Optional[str]]]:
     if not json_data.user_json_exists(user1):
         tosend = f'User {user1} is not in team.'
         tosend_list = [{'user': user1, 'msg': tosend}]
@@ -205,7 +210,7 @@ def display_diff(bot, user1, user2):
     return tosend_list
 
 
-def display_diff_with(bot, selected_user):
+def display_diff_with(bot: Bot, selected_user: str):
     if not json_data.user_json_exists(selected_user):
         tosend = f'User {selected_user} is not in team.'
         tosend_list = [{'user': selected_user, 'msg': tosend}]
@@ -224,14 +229,15 @@ def display_diff_with(bot, selected_user):
     return tosend_list
 
 
-async def display_flush(channel, context):
+async def display_flush(channel: TextChannel, context: Context) -> str:
     result = await channel_data.flush(channel)
     if channel is None or not result:
         return 'An error occurs while trying to flush channel data.'
     return f'Data from channel has been flushed successfully by {context.author}.'
 
 
-def next_challenge_solved(solved_user, challenge_name):
+def next_challenge_solved(solved_user: List[Dict[str, Union[str, int]]], challenge_name: str) \
+        -> Optional[Dict[str, Union[str, int]]]:
     if len(solved_user) == 1:
         return solved_user[-1]
     for key, chall in enumerate(solved_user[:-1]):
@@ -240,7 +246,7 @@ def next_challenge_solved(solved_user, challenge_name):
     return None
 
 
-def display_cron(bot):
+def display_cron(bot: Bot) -> Tuple[Optional[str], Optional[str]]:
     users = json_data.select_users()
     for user in users:
         last = json_data.last_solved(user)
