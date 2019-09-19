@@ -16,8 +16,12 @@ def request_to(url):
 def extract_json(url):
     purple(url)
     r = request_to(url)
-    if r is not None:
-        return json.loads(r.content.decode())
+    if r is None:
+        return
+    data = json.loads(r.content.decode())
+    if 'body' in data.keys():
+        return data['body']
+    return data
 
 
 def extract_default():
