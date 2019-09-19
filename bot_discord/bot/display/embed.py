@@ -1,6 +1,6 @@
 import sys
 from html import unescape
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 import discord
 from discord.channel import TextChannel
@@ -22,7 +22,7 @@ def display(part: str) -> None:
 
 async def interrupt(channel: TextChannel, message: str, embed_color: Optional[int] = None,
                     embed_name: Optional[str] = None) -> None:
-    if str(channel) != bot_channel:
+    if str(channel) != bot_channel or not message:
         return
     parts = show.display_parts(message)
     for part in parts:
@@ -54,6 +54,7 @@ async def ready(channel: TextChannel, command_prefix: str) -> None:
 
     if not sd.is_first():
         tosend = 'Hello back !'
+        tosend = ''
     else:
         sd.launched()
         tosend = f"Hello, it seems that it's the first time you are using my services.\nYou might use " \
@@ -165,11 +166,11 @@ async def today(context: Context) -> None:
     await duration(context, duration_command='today', duration_msg='since last 24h')
 
 
-async def display_by_blocks_diff(channel: TextChannel, tosend_list: List[str], color: int) -> None:
+async def display_by_blocks_diff(channel: TextChannel, tosend_list: List[Dict[str, str]], color: int) -> None:
     for block in tosend_list:
         if block['msg']:
             embed_name = f"Challenges solved by {block['user']} "
-            await interrupt(channel, block['msg'], embed_color=color, embed_name=embed_name, keep_locking=True)
+            await interrupt(channel, block['msg'], embed_color=color, embed_name=embed_name)
 
 
 async def diff(context: Context) -> None:
