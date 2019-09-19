@@ -28,64 +28,64 @@ class RootMeBot:
         @self.bot.event
         async def on_ready():
             self.channel = get_channel(self.bot)
-            await disp.ready(self)
+            await disp.ready(self.channel)
 
         @self.bot.command(description='Add a user to team into database.')
-        async def add_user(context):
+        async def add_user(context: commands.context.Context):
             """ <username> """
-            await disp.add_user(self, context)
+            await disp.add_user(context)
 
         @self.bot.command(description='Remove a user from team in database.')
-        async def remove_user(context):
+        async def remove_user(context: commands.context.Context):
             """ <username> """
-            await disp.remove_user(self, context)
+            await disp.remove_user(context)
 
         @self.bot.command(description='Show list of users from team.')
-        async def scoreboard(context):
+        async def scoreboard(context: commands.context.Context):
             """ """
-            await disp.scoreboard(self)
+            await disp.scoreboard(context)
 
         @self.bot.command(description='Show list of categories.')
-        async def categories(context):
+        async def categories(context: commands.context.Context):
             """ """
-            await disp.categories(self)
+            await disp.categories(context)
 
         @self.bot.command(description='Show list of challenges from a category.')
-        async def category(context):
+        async def category(context: commands.context.Context):
             """ <category> """
-            await disp.category(self, context)
+            await disp.category(context)
 
         @self.bot.command(description='Return who solved a specific challenge.')
-        async def who_solved(context):
+        async def who_solved(context: commands.context.Context):
             """ <challenge> """
-            await disp.who_solved(self, context)
+            await disp.who_solved(context)
 
         @self.bot.command(description='Return challenges solved grouped by users for last week.')
-        async def week(context):
+        async def week(context: commands.context.Context):
             """ (<username>) """
-            await disp.week(self, context)
+            await disp.week(context)
 
         @self.bot.command(description='Return challenges solved grouped by users for last day.')
-        async def today(context):
+        async def today(context: commands.context.Context):
             """ (<username>) """
-            await disp.today(self, context)
+            await disp.today(context)
 
         @update_challenges
         @self.bot.command(description='Return difference of solved challenges between two users.')
-        async def diff(context):
+        async def diff(context: commands.context.Context):
             """ <username1> <username2> """
-            await disp.diff(self, context)
+            await disp.diff(context)
 
         @update_challenges
         @self.bot.command(description='Return difference of solved challenges between a user and all team.')
-        async def diff_with(context):
+        async def diff_with(context: commands.context.Context):
             """ <username> """
-            await disp.diff_with(self, context)
+            await disp.diff_with(context)
 
         @self.bot.command(description='Flush all data from bot channel excepted events')
-        async def flush(context):
+        async def flush(context: commands.context.Context):
             """ """
-            await disp.flush(self, context)
+            await disp.flush(context)
 
     def start(self):
         if token == 'token':
