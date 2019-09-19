@@ -200,7 +200,7 @@ async def flush(context):
     await interrupt(context.message.channel, tosend, embed_color=embed_color, embed_name=embed_name)
 
 
-async def cron(self):
-    name, tosend_cron = show.display_cron(self.bot)
+async def cron(channel, bot):
+    name, tosend_cron = show.display_cron(bot)
     if tosend_cron is not None:
-        await interrupt(self, tosend_cron, embed_color=0xFFCC00, embed_name=name)
+        await interrupt(channel, tosend_cron, embed_color=0xFFCC00, embed_name=name)

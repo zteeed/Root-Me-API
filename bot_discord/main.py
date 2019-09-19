@@ -21,7 +21,8 @@ class RootMeBot:
     async def cron(self):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
-            await disp.cron(self)
+            if self.channel is not None:
+                await disp.cron(self.channel, self.bot)
             await asyncio.sleep(5)
 
     def catch(self):
