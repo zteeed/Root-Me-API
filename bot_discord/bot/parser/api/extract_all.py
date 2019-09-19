@@ -1,4 +1,5 @@
 import json
+
 import requests
 
 from bot.colors import purple, red

@@ -1,5 +1,6 @@
-import bot.manage.json_data as json_data
 from functools import wraps
+
+import bot.manage.json_data as json_data
 
 
 def update_challenges(f):
@@ -9,6 +10,7 @@ def update_challenges(f):
         if result is not None:
             self.bot.rootme_challenges = result
         return f(*args, **kwargs)
+
     return wrapper
 
 
@@ -18,4 +20,5 @@ def stop_if_args_none(f):
         if len(args) == 0 or None in args:
             return
         return f(*args, **kwargs)
+
     return wrapper

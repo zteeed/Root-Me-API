@@ -1,13 +1,14 @@
 import asyncio
 import sys
 
+from discord.ext import commands
+
 import bot.display.embed as disp
-from bot.colors import red, green
+import bot.manage.json_data as json_data
+from bot.colors import red
 from bot.constants import token
 from bot.manage.discord_data import get_channel
-import bot.manage.json_data as json_data
 from bot.wraps import update_challenges
-from discord.ext import commands
 
 
 class RootMeBot:
