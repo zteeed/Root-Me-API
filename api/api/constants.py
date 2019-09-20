@@ -6,5 +6,5 @@ REDIS_PORT = 6379
 REDIS_STREAM_USERS = 'update_users'
 REDIS_STREAM_CHALLENGES = 'update_challenges'
 CONSUMER_GROUP_NAME = 'rootme'
-UPDATE_TIMEOUT = 60
-REQUEST_TIMEOUT = 3
+UPDATE_TIMEOUT = 300  # base of time (in seconds) before asking an update to worker on data
+REQUEST_TIMEOUT = 15  # time (in seconds) you are waiting for worker update
