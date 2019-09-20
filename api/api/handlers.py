@@ -21,6 +21,7 @@ class InfoHandler(RequestHandler):
 
     def get(self):
         """List of routes for this API."""
+        self.application.log.info('GET request', handler='InfoHandler')
         self.write(InfoHandler.info)
 
 
@@ -31,7 +32,9 @@ class RootMeStaticHandler(RequestHandler):
 
     async def get(self):
         """Construct and send a JSON response with appropriate status code."""
-        data = await read_from_redis_key(self.application.redis, self.key, None, handler_type='static')
+        self.application.log.info('GET request', handler='RootMeStaticHandler')
+        data = await read_from_redis_key(self.application.log, self.application.redis, self.key, None,
+                                         handler_type='static')
         if data is None:
             self.write_error(status_code=404)
         else:
@@ -45,8 +48,10 @@ class RootMeDynamicCategoryHandler(RequestHandler):
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
+        self.application.log.info('GET request', handler='RootMeDynamicCategoryHandler', category=url_argument)
         key = self.key.format(url_argument)
-        data = await read_from_redis_key(self.application.redis, key, url_argument, handler_type='dynamic_category')
+        data = await read_from_redis_key(self.application.log, self.application.redis, key, url_argument,
+                                         handler_type='dynamic_category')
 
         if data is None:
             self.write_error(status_code=404)
@@ -61,8 +66,10 @@ class RootMeDynamicUserHandler(RequestHandler):
 
     async def get(self, url_argument):
         """Construct and send a JSON response with appropriate status code."""
+        self.application.log.info('GET request', handler='RootMeDynamicUserHandler', user=url_argument)
         key = self.key.format(url_argument)
-        data = await read_from_redis_key(self.application.redis, key, url_argument, handler_type='dynamic_user')
+        data = await read_from_redis_key(self.application.log, self.application.redis, key, url_argument,
+                                         handler_type='dynamic_user')
 
         if data is None:
             self.write_error(status_code=404)

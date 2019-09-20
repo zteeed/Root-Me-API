@@ -1,4 +1,5 @@
 import json
+from structlog._config import BoundLoggerLazyProxy
 from datetime import datetime
 from typing import Optional
 from aioredis.commands import Redis
@@ -22,18 +23,21 @@ def extract_timestamp_last_update(data: str) -> Optional[datetime]:
     return datetime.fromisoformat(data['last_update'])
 
 
-async def send_tasks_to_worker(redis_app: Redis, arg: Optional[str], now: datetime, timestamp: Optional[datetime],
-                               timeout: int, handler_type: str) -> None:
+async def send_tasks_to_worker(log: BoundLoggerLazyProxy, redis_app: Redis, arg: Optional[str], now: datetime,
+                               timestamp: Optional[datetime], timeout: int, handler_type: str) -> None:
     # updates conditions
     condition = timestamp is None or (now - timestamp).total_seconds() > timeout
 
     # make updates (send tasks to worker)
     if handler_type == 'static' and condition:
+        log.info('Send task to worker', stream=REDIS_STREAM_CHALLENGES)
         await redis_app.xadd(REDIS_STREAM_CHALLENGES, {b'update': b"ok"})
     elif handler_type == 'dynamic_user' and arg is not None and condition:
         await redis_app.xadd(REDIS_STREAM_USERS, {b'username': arg.encode()})
+        log.info('Send task to worker', stream=REDIS_STREAM_USERS, user=arg)
     elif handler_type == 'dynamic_categories' and arg is not None and condition:
         await redis_app.xadd(REDIS_STREAM_CHALLENGES, {b'update': b"ok"})
+        log.info('Send task to worker', stream=REDIS_STREAM_CHALLENGES)
 
 
 def need_waiting_for_update(now: datetime, timestamp: Optional[datetime], timeout: int) -> bool:
@@ -49,13 +53,14 @@ async def force_update(redis_app: Redis, key: str, now: datetime, timestamp: Opt
     return
 
 
-async def read_from_redis_key(redis_app: Redis, key: str, arg: Optional[str], handler_type: str = 'static'):
+async def read_from_redis_key(log: BoundLoggerLazyProxy, redis_app: Redis, key: str, arg: Optional[str],
+                              handler_type: str = 'static'):
     data = await redis_app.get(f'{key}')
     now = datetime.now()
     timestamp = extract_timestamp_last_update(data)
     timeout = get_timeout(handler_type)
 
-    await send_tasks_to_worker(redis_app, arg, now, timestamp, timeout, handler_type)
+    await send_tasks_to_worker(log, redis_app, arg, now, timestamp, timeout, handler_type)
     response = need_waiting_for_update(now, timestamp, timeout)
     if response:
         await force_update(redis_app, key, now, timestamp, timeout)

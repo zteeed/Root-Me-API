@@ -1,3 +1,5 @@
 aioredis
 hiredis
 tornado
+structlog
+
