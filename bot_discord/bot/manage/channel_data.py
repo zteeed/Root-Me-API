@@ -1,4 +1,7 @@
-async def flush(selected_channel):
+from discord.channel import TextChannel
+
+
+async def flush(selected_channel: TextChannel) -> bool:
     discord_timestamp = None
     async for m in selected_channel.history(limit=100):
         if discord_timestamp is None:

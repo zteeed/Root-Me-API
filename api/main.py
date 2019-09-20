@@ -1,4 +1,5 @@
 import asyncio
+from structlog import get_logger
 
 import aioredis
 from tornado.httpserver import HTTPServer
@@ -13,6 +14,7 @@ from init import create_consumer_group
 if __name__ == '__main__':
     define('port', default=3000, help='port to listen on')
     application = Application(handlers)
+    application.log = get_logger()
 
     server = HTTPServer(application)
     server.bind(options.port)

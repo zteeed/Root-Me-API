@@ -1,22 +1,23 @@
 import json
+from typing import Any, Dict
 
 from bot.colors import red
 from bot.parser.api.extract_all import extract_rootme_profile, extract_rootme_stats, extract_score, extract_categories
 
 
-def read_json():
+def read_json() -> Dict[str, Any]:
     with open("data.json", "r") as json_file:
         extract = json_file
         data = json.load(extract)
         return data
 
 
-def update_json(data):
+def update_json(data: Any) -> None:
     with open("data.json", "w") as json_file:
         json.dump(data, json_file)
 
 
-def user_rootme_exists(user):
+def user_rootme_exists(user: str):
     return extract_rootme_profile(user) is not None
 
 
