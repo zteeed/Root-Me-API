@@ -34,7 +34,7 @@ async def use_stream_item(stream_item: List[Tuple[bytes, bytes, OrderedDict]]) -
 
 
 async def main() -> None:
-    app.redis = await aioredis.create_redis_pool(('localhost', 6379))
+    app.redis = await aioredis.create_redis_pool(('redis', 6379))
     streams = [REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES]
     while True:
         item = await app.redis.xread_group(CG_NAME, CONSUMER_NAME, streams, count=1, latest_ids=['>'] * len(streams))

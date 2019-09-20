@@ -1,11 +1,34 @@
 version: '3'
 services:
+  redis:
+    image: redis
+    restart: always
+    networks:
+      - backend
   api:
-    build: ./api
-    image: localhost:5000/rootme_api_python
+    restart: always
+    build: 
+      context: ./api
+    ports: 
+      - "3000:3000"
+    networks:
+      - frontend
+      - backend
+  worker:
+    restart: always
+    build:
+      context: ./worker
+    networks:
+      - backend
+  discord:
+    restart: always
+    build:
+      context: ./bot_discord
+    networks:
+      - frontend
 
-  varnish:
-    build: ./varnish
-    image: localhost:5000/rootme_api_varnish
-    ports:
-      - "8001:8080"
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
