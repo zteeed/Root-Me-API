@@ -82,7 +82,7 @@ def display_category(category: str) -> str:
 
     tosend = ''
     for chall in c[0]['challenges']:
-        tosend += f' • {unescape(chall["name"])} ({chall["value"]} points / {chall["validations_percentage"]}% of \
+        tosend += f' • {unescape(chall["name"])} ({chall["value"]} points / {chall["validations_percentage"]} of \
 success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
 
