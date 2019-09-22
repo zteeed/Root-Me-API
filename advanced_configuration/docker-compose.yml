@@ -1,0 +1,49 @@
+version: '2'
+services:
+  redis:
+    image: redis
+    restart: always
+    networks:
+      - backend
+  api:
+    restart: always
+    build: 
+      context: ./api
+    ports: 
+      - "3000:3000"
+    networks:
+      - frontend
+      - backend
+  worker:
+    restart: always
+    build:
+      context: ./worker
+    depends_on:
+      - api
+    networks:
+      - backend
+      - bridge_worker
+  discord:
+    restart: always
+    build:
+      context: ./bot_discord
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    # Disable access to internet
+    driver: bridge
+    internal: true
+  bridge_worker:
+    driver: macvlan
+    driver_opts:
+      parent: eth1
+      macvlan_mode: bridge
+    ipam:
+      config:
+        - subnet: 157.159.191.0/24
+          gateway: 157.159.191.2
+          ip_range: 157.159.191.56/29
