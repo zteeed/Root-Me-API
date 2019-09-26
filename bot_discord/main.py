@@ -1,5 +1,6 @@
 import asyncio
 import sys
+from typing import Dict, List
 
 from discord.ext import commands
 
@@ -13,10 +14,10 @@ from bot.wraps import update_challenges
 
 class RootMeBot:
 
-    def __init__(self):
+    def __init__(self, rootme_challenges: List[Dict[str, str]]):
         """ Discord Bot to catch RootMe events made by zTeeed """
         self.bot = commands.Bot(command_prefix='!')
-        self.bot.rootme_challenges = None
+        self.bot.rootme_challenges = rootme_challenges
         self.channel = None
 
     async def cron(self):
@@ -93,16 +94,17 @@ class RootMeBot:
         if token == 'token':
             red('Please update your token in ./bot/constants.py')
             sys.exit(0)
-        result = json_data.get_categories()
-        if result is None:
-            red('Cannot fetch RootMe challenges from the API.')
-            sys.exit(0)
-        self.bot.rootme_challenges = result
         self.catch()
         self.bot.loop.create_task(self.cron())
         self.bot.run(token)
 
 
 if __name__ == "__main__":
-    bot = RootMeBot()
+    loop = asyncio.get_event_loop()  # event loop
+    future = asyncio.ensure_future(json_data.get_categories())  # tasks to do
+    rootme_challenges = loop.run_until_complete(future)  # loop until done
+    if rootme_challenges is None:
+        red('Cannot fetch RootMe challenges from the API.')
+        sys.exit(0)
+    bot = RootMeBot(rootme_challenges)
     bot.start()

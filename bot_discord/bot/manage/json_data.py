@@ -17,8 +17,8 @@ def update_json(data: Any) -> None:
         json.dump(data, json_file)
 
 
-def user_rootme_exists(user: str):
-    return extract_rootme_profile(user) is not None
+async def user_rootme_exists(user: str):
+    return await extract_rootme_profile(user) is not None
 
 
 def user_json_exists(user_check):
@@ -26,9 +26,10 @@ def user_json_exists(user_check):
     return True in [user['name'] == user_check for user in data['team']]
 
 
-def create_user(user):
+async def create_user(user):
     data = read_json()
-    solved_challenges = extract_rootme_stats(user)['solved_challenges']
+    rootme_stats = await extract_rootme_stats(user)
+    solved_challenges = rootme_stats['solved_challenges']
     if not solved_challenges:
         last = '?????'
     else:
@@ -61,23 +62,23 @@ def last_solved(user):
     return [d['last_solved'] for d in data['team'] if d['name'] == user][0]
 
 
-def get_scores(users):
-    # TODO: async requests to API
-    scores = [int(extract_score(user)) for user in users]
+async def get_scores(users):
+    scores = [await extract_score(user) for user in users]
+    scores = [int(score) for score in scores]
     """ Sort users by score desc """
     return [{'name': x, 'score': int(y)} for y, x in sorted(zip(scores, users), reverse=True)]
 
 
-def get_categories():
-    categories = extract_categories()
+async def get_categories():
+    categories = await extract_categories()
     result = []
     for category in categories:
         result.append(category[0])
     return result
 
 
-def get_categories_light():
-    categories = extract_categories()
+async def get_categories_light():
+    categories = await extract_categories()
     result = []
     for category in categories:
         c = category[0]
@@ -85,16 +86,16 @@ def get_categories_light():
     return result
 
 
-def get_category(category_selected):
-    categories = extract_categories()
+async def get_category(category_selected):
+    categories = await extract_categories()
     for category in categories:
         if category[0]['name'] == category_selected:
             return category
     return None
 
 
-def get_solved_challenges(user):
-    solved_challenges_data = extract_rootme_stats(user)
+async def get_solved_challenges(user):
+    solved_challenges_data = await extract_rootme_stats(user)
     if solved_challenges_data is None:
         red(f'user {user} name might have changed in rootme profile link')
         return None

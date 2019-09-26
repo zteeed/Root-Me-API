@@ -2,8 +2,8 @@ from bot.manage.json_data import read_json, update_json
 from bot.parser.api.extract_all import extract_default, response_content_type
 
 
-def default() -> response_content_type:
-    return extract_default()
+async def default() -> response_content_type:
+    return await extract_default()
 
 
 def is_first() -> bool:
