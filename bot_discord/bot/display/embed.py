@@ -35,21 +35,22 @@ async def interrupt(channel: TextChannel, message: str, embed_color: Optional[in
             await channel.send(embed=embed)
 
 
-def check(channel: TextChannel) -> None:
+async def check(channel: TextChannel) -> None:
     if channel is None:
         red(f'{bot_channel} is not a valid channel name')
         red('Please update the channel name used by the bot '
             'in ./bot/constants.py')
         sys.exit(0)
 
-    if sd.default() is None:
+    response = await sd.default()
+    if response is None:
         red('Can\'t connect to API, please update URL in '
             './bot/constants.py')
         sys.exit(0)
 
 
 async def ready(channel: TextChannel, command_prefix: str) -> None:
-    check(channel)
+    await check(channel)
     green('RootMeBot is coming !')
 
     if not sd.is_first():
@@ -72,7 +73,7 @@ async def add_user(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_add_user(context.bot, args[0])
+    tosend = await show.display_add_user(context.bot, args[0])
     await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Add user")
 
 
@@ -89,12 +90,12 @@ async def remove_user(context: Context) -> None:
 
 
 async def scoreboard(context: Context) -> None:
-    tosend = show.display_scoreboard()
+    tosend = await show.display_scoreboard()
     await interrupt(context.message.channel, tosend, embed_color=0x4200d4, embed_name="Scoreboard")
 
 
 async def categories(context: Context) -> None:
-    tosend = show.display_categories()
+    tosend = await show.display_categories()
     await interrupt(context.message.channel, tosend, embed_color=0xB315A8, embed_name="Categories")
 
 
@@ -106,7 +107,7 @@ async def category(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_category(args[0])
+    tosend = await show.display_category(args[0])
     embed_name = f"Category {args[0]}"
     await interrupt(context.message.channel, tosend, embed_color=0xB315A8, embed_name=embed_name)
 
@@ -119,7 +120,7 @@ async def who_solved(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_who_solved(context.bot, challenge_selected)
+    tosend = await show.display_who_solved(context.bot, challenge_selected)
     embed_name = f"Who solved {challenge_selected} ?"
     await interrupt(context.message.channel, tosend, embed_color=0x29C1C5, embed_name=embed_name)
 
@@ -150,9 +151,9 @@ async def duration(context: Context, duration_command: str = 'today', duration_m
         return
 
     if duration_command == 'week':
-        tosend_list = show.display_week(context, args)
+        tosend_list = await show.display_week(context, args)
     elif duration_command == 'today':
-        tosend_list = show.display_today(context, args)
+        tosend_list = await show.display_today(context, args)
     else:
         return
     await display_by_blocks_duration(context, tosend_list, 0x00C7FF, duration_msg=duration_msg)
@@ -182,7 +183,7 @@ async def diff(context: Context) -> None:
         return
 
     pseudo1, pseudo2 = args[0], args[1]
-    tosend_list = show.display_diff(context.bot, pseudo1, pseudo2)
+    tosend_list = await show.display_diff(context.bot, pseudo1, pseudo2)
     await display_by_blocks_diff(context.message.channel, tosend_list, 0xFF00FF)
 
 
@@ -195,7 +196,7 @@ async def diff_with(context: Context) -> None:
         return
 
     pseudo = args[0]
-    tosend_list = show.display_diff_with(context.bot, pseudo)
+    tosend_list = await show.display_diff_with(context.bot, pseudo)
     await display_by_blocks_diff(context.message.channel, tosend_list, 0xFF00FF)
 
 
@@ -208,6 +209,6 @@ async def flush(context: Context) -> None:
 
 
 async def cron(channel: TextChannel, bot: Bot) -> None:
-    name, tosend_cron = show.display_cron(bot)
+    name, tosend_cron = await show.display_cron(bot)
     if tosend_cron is not None:
         await interrupt(channel, tosend_cron, embed_color=0xFFCC00, embed_name=name)

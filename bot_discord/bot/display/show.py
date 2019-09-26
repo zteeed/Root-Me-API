@@ -27,9 +27,10 @@ def display_parts(message: str) -> List[str]:
     return stored
 
 
-def display_add_user(bot: Bot, name: str) -> str:
+async def display_add_user(bot: Bot, name: str) -> str:
     """ Check if user exist in RootMe """
-    if not json_data.user_rootme_exists(name):
+    user_exists = await json_data.user_rootme_exists(name)
+    if not user_exists:
         tosend = f'RootMe profile for {name} can\'t be established'
         return add_emoji(bot, f'RootMe profile for {name} can\'t be established', emoji3)
 
@@ -37,7 +38,7 @@ def display_add_user(bot: Bot, name: str) -> str:
     if json_data.user_json_exists(name):
         return add_emoji(bot, f'User {name} already exists in team', emoji5)
     else:
-        json_data.create_user(name)
+        await json_data.create_user(name)
         return add_emoji(bot, f'User {name} successfully added in team', emoji2)
 
 
@@ -50,12 +51,12 @@ def display_remove_user(bot: Bot, name: str) -> str:
         return add_emoji(bot, f'User {name} successfully removed from team', emoji2)
 
 
-def display_scoreboard() -> str:
+async def display_scoreboard() -> str:
     tosend = ''
     users = json_data.select_users()
     if not users:
         return '```No users in team, you might add some with !add_user <username>```'
-    scores = json_data.get_scores(users)
+    scores = await json_data.get_scores(users)
     for rank, d in enumerate(scores):
         user, score = d['name'], d['score']
         if rank < len(medals):
@@ -66,22 +67,23 @@ def display_scoreboard() -> str:
     return tosend
 
 
-def display_categories() -> str:
+async def display_categories() -> str:
     tosend = ''
-    for c in json_data.get_categories():
-        tosend += f' • {c["name"]} ({c["challenges_nb"]} challenges) \n'
+    categories = await json_data.get_categories()
+    for category in categories:
+        tosend += f' • {category["name"]} ({category["challenges_nb"]} challenges) \n'
     return tosend
 
 
-def display_category(category: str) -> str:
-    c = json_data.get_category(category)
+async def display_category(category: str) -> str:
+    category_data = await json_data.get_category(category)
 
-    if c is None:
+    if category_data is None:
         tosend = f'Category {category} does not exists.'
         return tosend
 
     tosend = ''
-    for chall in c[0]['challenges']:
+    for chall in category_data[0]['challenges']:
         tosend += f' • {unescape(chall["name"])} ({chall["value"]} points / {chall["validations_percentage"]} of \
 success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
@@ -101,7 +103,7 @@ def user_has_solved(challenge_selected: str, solved_challenges: List[Dict[str, U
     return True in test
 
 
-def display_who_solved(bot: Bot, challenge_selected: str) -> str:
+async def display_who_solved(bot: Bot, challenge_selected: str) -> Optional[str]:
     challenge_found = find_challenge(bot, challenge_selected)
 
     if challenge_found is None:
@@ -109,11 +111,10 @@ def display_who_solved(bot: Bot, challenge_selected: str) -> str:
 
     tosend = ''
     users = json_data.select_users()
-    #  TODO: async requests to the API
-    scores = json_data.get_scores(users)
+    scores = await json_data.get_scores(users)
     for d in scores:
         user, score = d['name'], d['score']
-        solved_challenges = json_data.get_solved_challenges(user)
+        solved_challenges = await json_data.get_solved_challenges(user)
         if solved_challenges is None:
             return None
         if user_has_solved(challenge_selected, solved_challenges):
@@ -123,7 +124,7 @@ def display_who_solved(bot: Bot, challenge_selected: str) -> str:
     return tosend
 
 
-def display_duration(context: Context, args: Tuple[str], delay: timedelta) -> List[Dict[str, Optional[str]]]:
+async def display_duration(context: Context, args: Tuple[str], delay: timedelta) -> List[Dict[str, Optional[str]]]:
     if len(args) == 1:
         if not json_data.user_json_exists(args[0]):
             tosend = f'User {args[0]} is not in team.\nYou might add it with ' \
@@ -135,7 +136,7 @@ def display_duration(context: Context, args: Tuple[str], delay: timedelta) -> Li
     else:
         users = json_data.select_users()
 
-    scores = json_data.get_scores(users)
+    scores = await json_data.get_scores(users)
     #  categories = json_data.get_categories()
     pattern = '%Y-%m-%d %H:%M:%S'
     tosend_list = []
@@ -146,7 +147,8 @@ def display_duration(context: Context, args: Tuple[str], delay: timedelta) -> Li
         now = datetime.now()
         challs_selected = []
 
-        for chall in json_data.get_solved_challenges(user):
+        challenges = await json_data.get_solved_challenges(user)
+        for chall in challenges:
             date = datetime.strptime(chall['date'], pattern)
             diff = now - date
             if diff < delay:
@@ -169,12 +171,12 @@ def display_duration(context: Context, args: Tuple[str], delay: timedelta) -> Li
     return tosend_list
 
 
-def display_week(context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
-    return display_duration(context, args, timedelta(weeks=1))
+async def display_week(context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
+    return await display_duration(context, args, timedelta(weeks=1))
 
 
-def display_today(context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
-    return display_duration(context, args, timedelta(days=1))
+async def display_today(context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
+    return await display_duration(context, args, timedelta(days=1))
 
 
 @stop_if_args_none
@@ -186,7 +188,7 @@ def display_diff_one_side(bot: Bot, user_diff: List[Dict[str, Union[str, int]]])
     return tosend
 
 
-def display_diff(bot: Bot, user1: str, user2: str) -> List[Dict[str, Optional[str]]]:
+async def display_diff(bot: Bot, user1: str, user2: str) -> List[Dict[str, Optional[str]]]:
     if not json_data.user_json_exists(user1):
         tosend = f'User {user1} is not in team.'
         tosend_list = [{'user': user1, 'msg': tosend}]
@@ -196,8 +198,8 @@ def display_diff(bot: Bot, user1: str, user2: str) -> List[Dict[str, Optional[st
         tosend_list = [{'user': user2, 'msg': tosend}]
         return tosend_list
 
-    solved_user1 = json_data.get_solved_challenges(user1)
-    solved_user2 = json_data.get_solved_challenges(user2)
+    solved_user1 = await json_data.get_solved_challenges(user1)
+    solved_user2 = await json_data.get_solved_challenges(user2)
 
     user1_diff, user2_diff = json_data.get_diff(solved_user1, solved_user2)
     tosend_list = []
@@ -210,7 +212,7 @@ def display_diff(bot: Bot, user1: str, user2: str) -> List[Dict[str, Optional[st
     return tosend_list
 
 
-def display_diff_with(bot: Bot, selected_user: str):
+async def display_diff_with(bot: Bot, selected_user: str):
     if not json_data.user_json_exists(selected_user):
         tosend = f'User {selected_user} is not in team.'
         tosend_list = [{'user': selected_user, 'msg': tosend}]
@@ -218,10 +220,9 @@ def display_diff_with(bot: Bot, selected_user: str):
 
     tosend_list = []
     users = json_data.select_users()
-    solved_user_select = json_data.get_solved_challenges(selected_user)
+    solved_user_select = await json_data.get_solved_challenges(selected_user)
     for user in users:
-        # TODO: make async requests on get_solved_challenges(user) to reduce delay
-        solved_user = json_data.get_solved_challenges(user)
+        solved_user = await json_data.get_solved_challenges(user)
         user_diff, user_diff_select = json_data.get_diff(solved_user, solved_user_select)
         if user_diff:
             tosend = display_diff_one_side(bot, user_diff)
@@ -246,11 +247,11 @@ def next_challenge_solved(solved_user: List[Dict[str, Union[str, int]]], challen
     return None
 
 
-def display_cron(bot: Bot) -> Tuple[Optional[str], Optional[str]]:
+async def display_cron(bot: Bot) -> Tuple[Optional[str], Optional[str]]:
     users = json_data.select_users()
     for user in users:
         last = json_data.last_solved(user)
-        solved_user = json_data.get_solved_challenges(user)
+        solved_user = await json_data.get_solved_challenges(user)
         if not solved_user or solved_user[-1]['name'] == last:
             continue
         blue(solved_user[-1]['name'] + "  |  " + last + "\n")
