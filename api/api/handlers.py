@@ -77,7 +77,9 @@ class RootMeDynamicUserHandler(RequestHandler):
             self.write(json.loads(data))
 
 
-pattern = '([\\w-]+)'
+#  pattern = r'([\\w-]+)'
+#  pattern = r'(.*)'  # pseudo may contain unicode characters
+pattern = r'([^\/]+)'  # pseudo may contain unicode characters but do not contain slashes
 handlers = [
     ('/', RedirectHandler, {'url': f'/{VERSION}'}),
     (f'/{VERSION}', InfoHandler),
