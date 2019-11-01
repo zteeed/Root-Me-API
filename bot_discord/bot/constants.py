@@ -9,3 +9,4 @@ medals = [':first_place:', ':second_place:', ':third_place:']
 token = 'token'
 timeout = 15
 URL = 'http://api:3000/v2'
+FILENAME = 'data/data.json'
