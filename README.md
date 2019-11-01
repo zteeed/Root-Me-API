@@ -1,7 +1,10 @@
 # Root-Me API 
 
 URL: [https://root-me-api.hackademint.org](https://root-me-api.hackademint.org) \
-BOT Discord: [link](https://discordapp.com/api/oauth2/authorize?client_id=523372231561314304&permissions=0&scope=bot)
+BOT Discord: 
+  - [link1](https://discordapp.com/api/oauth2/authorize?client_id=523372231561314304&permissions=0&scope=bot) (bot does not have admin rights)
+  - [link2](https://discordapp.com/api/oauth2/authorize?client_id=523372231561314304&permissions=8&scope=bot) (bot has admin rights)
+(see "[Discord Bot]" subsection to see how it works.)
 
 ## Description
 
@@ -80,7 +83,7 @@ want containers from this network to communicate together (api/redis/workers).
 
 Every worker is bridged with a specific physical interface so that Root-Me detects those workers with different public IP. \ (We choose not to [rotate with proxies](https://www.scrapehero.com/how-to-rotate-proxies-and-ip-addresses-using-python-3/) for data privacy issues). 
 
-*__Example__* (extract from [advanced_configuration/docker-compose.yml](https://github.com/zteeed/Root-Me-API/blob/master/advanced_configuration/docker-compose.yml):
+*__Example__* (extract from [advanced_configuration/docker-compose.yml](https://github.com/zteeed/Root-Me-API/blob/master/advanced_configuration/docker-compose.yml)):
 ```
 bridge_worker:
   driver: macvlan
@@ -163,6 +166,9 @@ Here is an example with https://www.root-me.org/zTeeed-115405 --> zTeeed-115405
 
 ## [Discord Bot]
 
+### Configuration
+
+On your discord server you need to create a channel named `root-me-news` if you keep default configuration. You can change this channel name by updating the `bot_channel` value in [bot_discord/bot/constants.py](https://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.pyhttps://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.py).
 
 ### Features
 
