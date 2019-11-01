@@ -5,48 +5,49 @@ from typing import Dict, List
 from discord.ext import commands
 
 import bot.display.embed as disp
-import bot.manage.json_data as json_data
-from bot.colors import red
-from bot.constants import token
-from bot.manage.discord_data import get_channel
+import bot.api.fetch as json_data
+from bot.colors import green, red
+from bot.constants import FILENAME, bot_channel, token
+from bot.database.manager import DatabaseManager
 from bot.wraps import update_challenges
 
 
 class RootMeBot:
 
-    def __init__(self, rootme_challenges: List[Dict[str, str]]):
+    def __init__(self, rootme_challenges: List[Dict[str, str]], db: DatabaseManager):
         """ Discord Bot to catch RootMe events made by zTeeed """
+        self.db = db
         self.bot = commands.Bot(command_prefix='!')
         self.bot.rootme_challenges = rootme_challenges
-        self.channel = None
 
     async def cron(self):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
-            if self.channel is not None:
-                await disp.cron(self.channel, self.bot)
-            await asyncio.sleep(5)
+            for server in self.bot.guilds:  # loop over servers where bot is currently active
+                for channel in server.channels:
+                    if str(channel) == bot_channel:  # send data only in the right channel
+                        await disp.cron(channel, server, self.db, self.bot)
+            await asyncio.sleep(1)
 
     def catch(self):
         @self.bot.event
         async def on_ready():
-            self.channel = get_channel(self.bot)
-            await disp.ready(self.channel, self.bot.command_prefix)
+            green('RootMeBot is starting !')
 
         @self.bot.command(description='Add a user to team into database.')
         async def add_user(context: commands.context.Context):
             """ <username> """
-            await disp.add_user(context)
+            await disp.add_user(self.db, context)
 
         @self.bot.command(description='Remove a user from team in database.')
         async def remove_user(context: commands.context.Context):
             """ <username> """
-            await disp.remove_user(context)
+            await disp.remove_user(self.db, context)
 
         @self.bot.command(description='Show list of users from team.')
         async def scoreboard(context: commands.context.Context):
             """ """
-            await disp.scoreboard(context)
+            await disp.scoreboard(db, context)
 
         @self.bot.command(description='Show list of categories.')
         async def categories(context: commands.context.Context):
@@ -61,29 +62,29 @@ class RootMeBot:
         @self.bot.command(description='Return who solved a specific challenge.')
         async def who_solved(context: commands.context.Context):
             """ <challenge> """
-            await disp.who_solved(context)
+            await disp.who_solved(db, context)
 
         @self.bot.command(description='Return challenges solved grouped by users for last week.')
         async def week(context: commands.context.Context):
             """ (<username>) """
-            await disp.week(context)
+            await disp.week(db, context)
 
         @self.bot.command(description='Return challenges solved grouped by users for last day.')
         async def today(context: commands.context.Context):
             """ (<username>) """
-            await disp.today(context)
+            await disp.today(db, context)
 
         @update_challenges
         @self.bot.command(description='Return difference of solved challenges between two users.')
         async def diff(context: commands.context.Context):
             """ <username1> <username2> """
-            await disp.diff(context)
+            await disp.diff(db, context)
 
         @update_challenges
         @self.bot.command(description='Return difference of solved challenges between a user and all team.')
         async def diff_with(context: commands.context.Context):
             """ <username> """
-            await disp.diff_with(context)
+            await disp.diff_with(db, context)
 
         @self.bot.command(description='Flush all data from bot channel excepted events')
         async def flush(context: commands.context.Context):
@@ -106,5 +107,6 @@ if __name__ == "__main__":
     if rootme_challenges is None:
         red('Cannot fetch RootMe challenges from the API.')
         sys.exit(0)
-    bot = RootMeBot(rootme_challenges)
+    db = DatabaseManager(FILENAME)
+    bot = RootMeBot(rootme_challenges, db)
     bot.start()
