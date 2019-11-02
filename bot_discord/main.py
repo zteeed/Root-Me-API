@@ -91,6 +91,11 @@ class RootMeBot:
             """ """
             await disp.flush(context)
 
+        @self.bot.command(description='Reset bot database')
+        async def reset_database(context: commands.context.Context):
+            """ """
+            await disp.reset_database(db, context)
+
     def start(self):
         if token == 'token':
             red('Please update your token in ./bot/constants.py')
