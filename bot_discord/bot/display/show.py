@@ -247,6 +247,15 @@ async def display_flush(channel: TextChannel, context: Context) -> str:
     return f'Data from channel has been flushed successfully by {context.author}.'
 
 
+async def display_reset_database(db: DatabaseManager, id_discord_server: int, bot: Bot) -> str:
+    """ Reset discord database """
+    users = await db.select_users(id_discord_server)
+    usernames = [user['rootme_username'] for user in users]
+    for name in usernames:
+        await db.delete_user(id_discord_server, name)
+    return add_emoji(bot, f'Database has been successfully reset', emoji2)
+
+
 def next_challenge_solved(solved_user: List[Dict[str, Union[str, int]]], challenge_name: str) \
         -> Optional[Dict[str, Union[str, int]]]:
     if len(solved_user) == 1:

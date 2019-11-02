@@ -186,6 +186,14 @@ async def flush(context: Context) -> None:
     await interrupt(context.message.channel, tosend, embed_color=embed_color, embed_name=embed_name)
 
 
+async def reset_database(db: DatabaseManager, context: Context) -> None:
+    if context.message.author != context.guild.owner:
+        tosend = f'You need to be the server owner to launch {context.bot.command_prefix}{context.command} command.'
+    else:
+        tosend = await show.display_reset_database(db, context.guild.id, context.bot)
+    await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Reset Database")
+
+
 async def check_new_server(channel: TextChannel, server: Guild, db: DatabaseManager, command_prefix: str) -> None:
     if await db.is_server_registered(server.id):
         return
