@@ -170,6 +170,16 @@ Here is an example with https://www.root-me.org/zTeeed-115405 --> zTeeed-115405
 
 On your discord server you need to create a channel named `root-me-news` if you keep default configuration. You can change this channel name by updating the `bot_channel` value in [bot_discord/bot/constants.py](https://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.pyhttps://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.py).
 
+### Database
+
+A docker volume (local) is used for the bot database. You have a read/write access on the JSON file at 
+`/var/lib/docker/volumes/root-me-api_discord_data/_data/data.json`
+
+Info: `data.json` is not tracked by git on the local install.
+```
+git update-index --assume-unchanged bot_discord/data/data.json
+```
+
 ### Features
 
 ### events

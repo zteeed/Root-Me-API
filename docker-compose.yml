@@ -24,9 +24,13 @@ services:
     restart: always
     build:
       context: ./bot_discord
+    volumes:
+      - discord_data:/data
     networks:
       - frontend
-
+volumes:
+  discord_data:
+    driver: local
 networks:
   frontend:
     driver: bridge
