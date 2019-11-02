@@ -10,3 +10,13 @@ token = 'token'
 timeout = 15
 URL = 'http://api:3000/v2'
 FILENAME = 'data/data.json'
+VERSION = '1.1'
+GITHUB_REPOSITORY = 'https://github.com/zteeed/Root-Me-API'
+ROOTME_WEBSITE = 'https://www.root-me.org'
+PROJECT_INFORMATION = {
+    'title': 'Project information',
+    'content': f'This Discord Bot uses a custom API which sends tasks to several workers.\nEach worker makes requests '
+               f'to the [RootMe]({ROOTME_WEBSITE}) website, parses the collected data using the DOM and stores it into '
+               f'redis streams.\nGithub repository: [{GITHUB_REPOSITORY}]({GITHUB_REPOSITORY})',
+    'footer': f'RootMe Discord Bot v{VERSION}'
+}
