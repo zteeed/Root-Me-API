@@ -34,6 +34,11 @@ class RootMeBot:
         async def on_ready():
             green('RootMeBot is starting !')
 
+        @self.bot.command(description='Show information about the project')
+        async def info(context: commands.context.Context):
+            """ """
+            await disp.info(context)
+
         @self.bot.command(description='Add a user to team into database.')
         async def add_user(context: commands.context.Context):
             """ <username> """

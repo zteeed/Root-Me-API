@@ -12,7 +12,7 @@ from discord.ext.commands.context import Context
 import bot.display.show as show
 from bot.database.manager import DatabaseManager
 from bot.colors import green, red, yellow
-from bot.constants import bot_channel
+from bot.constants import bot_channel, PROJECT_INFORMATION
 from bot.manage.discord_data import get_command_args
 
 
@@ -23,7 +23,7 @@ def display(part: str) -> None:
 
 
 async def interrupt(channel: TextChannel, message: str, embed_color: Optional[int] = None,
-                    embed_name: Optional[str] = None) -> None:
+                    embed_name: Optional[str] = None, embed_footer: Optional[str] = None) -> None:
     if str(channel) != bot_channel or not message:
         return
     parts = show.display_parts(message)
@@ -34,7 +34,16 @@ async def interrupt(channel: TextChannel, message: str, embed_color: Optional[in
         else:
             embed = discord.Embed(color=embed_color)
             embed.add_field(name=embed_name, value=part, inline=False)
+            if embed_footer is not None:
+                embed.set_footer(text=embed_footer)
             await channel.send(embed=embed)
+
+
+async def info(context: Context) -> None:
+    title = PROJECT_INFORMATION['title']
+    tosend = PROJECT_INFORMATION['content']
+    footer = PROJECT_INFORMATION['footer']
+    await interrupt(context.message.channel, tosend, embed_color=0xF4900C, embed_name=title, embed_footer=footer)
 
 
 async def add_user(db: DatabaseManager, context: Context) -> None:
