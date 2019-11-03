@@ -9,6 +9,7 @@ aiohttp==3.5.4            # via discord.py
 async-timeout==3.0.1      # via aiohttp
 asyncio==3.4.3
 attrs==19.1.0             # via aiohttp
+bootstrap-difflib==0.0.1
 chardet==3.0.4            # via aiohttp
 discord.py==1.2.3
 discord==1.0.1
