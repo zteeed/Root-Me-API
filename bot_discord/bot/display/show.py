@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import difflib
 from html import unescape
 from typing import Dict, List, Optional, Tuple, Union
 
@@ -117,6 +118,12 @@ def find_challenge(bot: Bot, challenge_selected: str) -> Optional[Dict[str, Unio
         return [challenge for challenge in challenges if challenge['name'] == challenge_selected][0]
 
 
+def find_challenge_suggestions(bot: Bot, challenge_selected: str) -> Optional[Dict[str, Union[str, int, List[str]]]]:
+    challenges = get_challenges(bot.rootme_challenges)
+    challenge_names = [challenge['name'] for challenge in challenges]
+    return difflib.get_close_matches(challenge_selected, challenge_names)
+
+
 def user_has_solved(challenge_selected: str, solved_challenges: List[Dict[str, Union[str, int]]]) -> bool:
     test = [c['name'] == challenge_selected for c in solved_challenges]
     return True in test
@@ -126,6 +133,10 @@ async def display_who_solved(parser: Parser, db: DatabaseManager, id_discord_ser
                              challenge_selected: str) -> Optional[str]:
     challenge_found = find_challenge(bot, challenge_selected)
     if challenge_found is None:
+        suggestions = find_challenge_suggestions(bot, challenge_selected)
+        if suggestions:
+            suggestion = suggestions[0]
+            return f'Challenge {challenge_selected} does not exists.\nAre you looking for "{suggestion}" ?'
         return f'Challenge {challenge_selected} does not exists.'
 
     tosend = ''
@@ -162,14 +173,14 @@ async def display_remain(parser: Parser, db: DatabaseManager, id_discord_server:
             tosend = f'{username} solved all challenges from all categories'
             return add_emoji(bot, tosend, emoji2)
         else:
-            tosend = f'{username} needs to solve {remain} challenge(s) to complete all categories'
+            tosend = f'{username} has to solve {remain} challenge(s) to complete all categories'
             return add_emoji(bot, tosend, emoji5)
     else:
         if remain == 0:
             tosend = f'{username} solved all challenges from {category} category'
             return add_emoji(bot, tosend, emoji2)
         else:
-            tosend = f'{username} needs to solve {remain} challenge(s) to complete {category} category'
+            tosend = f'{username} has to solve {remain} challenge(s) to complete {category} category'
             return add_emoji(bot, tosend, emoji5)
 
 

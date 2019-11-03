@@ -1,4 +1,5 @@
 aiofiles
 asyncio
+bootstrap-difflib
 discord
 discord.py
