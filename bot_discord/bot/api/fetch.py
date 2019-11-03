@@ -1,5 +1,7 @@
-from bot.colors import red
+from typing import Dict, List, Tuple, Optional
+
 from bot.api.parser import Parser
+from bot.colors import red
 
 
 async def user_rootme_exists(parser: Parser, user: str):
@@ -11,6 +13,27 @@ async def get_scores(parser: Parser, users):
     scores = [int(score) for score in scores]
     """ Sort users by score desc """
     return [{'name': x, 'score': int(y)} for y, x in sorted(zip(scores, users), reverse=True)]
+
+
+async def get_details(parser: Parser, username: str):
+    return await parser.extract_rootme_details(username)
+
+
+def get_stats_category(categories_stats: List[Dict], category: str) -> Optional[Dict[str, int]]:
+    for category_stats in categories_stats:
+        category_name = category_stats['name'].replace(' ', '')
+        if category_name == category:
+            return category_stats['stats_categories']
+
+
+async def get_remain(parser: Parser, username: str, category: Optional[str] = None) -> Tuple[int, int]:
+    details = await get_details(parser, username)
+    details = details[0]
+    if category is None:
+        return details['nb_challenges_solved'], details['nb_challenges_tot']
+    else:
+        category_stats = get_stats_category(details['categories'], category)
+        return category_stats['num_challenges_solved'], category_stats['total_challenges_category']
 
 
 async def get_categories(parser: Parser):
