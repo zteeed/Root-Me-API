@@ -8,7 +8,7 @@ from discord.ext.commands.context import Context
 
 import bot.manage.channel_data as channel_data
 from bot.api.fetch import user_rootme_exists, get_scores, get_solved_challenges, get_diff, \
-    get_categories, get_category
+    get_categories, get_category, get_remain
 from bot.api.parser import Parser
 from bot.database.manager import DatabaseManager
 from bot.colors import blue, green, red
@@ -137,6 +137,35 @@ async def display_who_solved(parser: Parser, db: DatabaseManager, id_discord_ser
     if not tosend:
         tosend = f'Nobody solves {challenge_selected}.'
     return tosend
+
+
+async def display_remain(parser: Parser, db: DatabaseManager, id_discord_server: int, bot: Bot, username: str,
+                         category: Optional[str] = None) -> Optional[str]:
+
+    if not await db.user_exists(id_discord_server, username):
+        return add_emoji(bot, f'User {username} is not in team', emoji5)
+
+    category_data = await get_category(parser, category)
+    if category is not None and category_data is None:
+        tosend = f'Category {category} does not exists.'
+        return add_emoji(bot, tosend, emoji3)
+
+    num_success, num_tot = await get_remain(parser, username, category=category)
+    remain = num_tot - num_success
+    if category is None:
+        if remain == 0:
+            tosend = f'{username} solved all challenges from all categories'
+            return add_emoji(bot, tosend, emoji2)
+        else:
+            tosend = f'{username} needs to solve {remain} challenge(s) to complete all categories'
+            return add_emoji(bot, tosend, emoji5)
+    else:
+        if remain == 0:
+            tosend = f'{username} solved all challenges from {category} category'
+            return add_emoji(bot, tosend, emoji2)
+        else:
+            tosend = f'{username} needs to solve {remain} challenge(s) to complete {category} category'
+            return add_emoji(bot, tosend, emoji5)
 
 
 async def display_duration(parser: Parser, db: DatabaseManager, context: Context, args: Tuple[str], delay: timedelta) \
