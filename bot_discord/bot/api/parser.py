@@ -30,22 +30,23 @@ async def extract_json(url: str) -> response_content_type:
     return data
 
 
-async def extract_default() -> response_content_type:
-    return await extract_json(f'{URL}')
+class Parser:
 
+    def __init__(self, lang):
+        self.lang = lang
 
-async def extract_rootme_profile(user: str) -> response_content_type:
-    return await extract_json(f'{URL}/{user}/profile')
+    async def extract_default(self) -> response_content_type:
+        return await extract_json(f'{URL}/{self.lang}')
 
+    async def extract_rootme_profile(self, user: str) -> response_content_type:
+        return await extract_json(f'{URL}/{self.lang}/{user}/profile')
 
-async def extract_rootme_stats(user: str) -> response_content_type:
-    return await extract_json(f'{URL}/{user}/stats')
+    async def extract_rootme_stats(self, user: str) -> response_content_type:
+        return await extract_json(f'{URL}/{self.lang}/{user}/stats')
 
+    async def extract_score(self, user: str) -> int:
+        rootme_profile = await self.extract_rootme_profile(user)
+        return rootme_profile[0]['score']
 
-async def extract_score(user: str) -> int:
-    rootme_profile = await extract_rootme_profile(user)
-    return rootme_profile[0]['score']
-
-
-async def extract_categories() -> response_content_type:
-    return await extract_json(f'{URL}/challenges')
+    async def extract_categories(self) -> response_content_type:
+        return await extract_json(f'{URL}/{self.lang}/challenges')
