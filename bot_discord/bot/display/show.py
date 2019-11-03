@@ -35,6 +35,7 @@ async def display_lang(parser: Parser, bot: Bot, lang: str) -> str:
     if lang not in ['en', 'fr', 'de', 'es']:
         return add_emoji(bot, f'You need to choose fr/en/de/es as <lang> argument', emoji3)
     parser.lang = lang
+    bot.rootme_challenges = get_categories(parser)  # update list of challenges name with the new selected language
     return add_emoji(bot, f'LANG successfully updated to "{lang}"', emoji2)
 
 
