@@ -103,13 +103,18 @@ success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
 
 
+def get_challenges(rootme_challenges):
+    data = []
+    for category in rootme_challenges:
+        data += category['challenges']
+    return data
+
+
 def find_challenge(bot: Bot, challenge_selected: str) -> Optional[Dict[str, Union[str, int, List[str]]]]:
-    for category in bot.rootme_challenges:
-        challenges = category['challenges']
-        for challenge in challenges:
-            if challenge['name'] == challenge_selected:
-                return challenge
-    return None
+    challenges = get_challenges(bot.rootme_challenges)
+    challenge_names = [challenge['name'] for challenge in challenges]
+    if challenge_selected in challenge_names:
+        return [challenge for challenge in challenges if challenge['name'] == challenge_selected][0]
 
 
 def user_has_solved(challenge_selected: str, solved_challenges: List[Dict[str, Union[str, int]]]) -> bool:
