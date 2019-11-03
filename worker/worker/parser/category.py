@@ -7,7 +7,7 @@ from typing import Dict, List, Tuple
 
 def extract_categories(content: bytes) -> List[str]:
     tree = html.fromstring(content)
-    result = tree.xpath('//li/a[starts-with(@class, "submenu")][starts-with(@href, "fr/Challenges")]/@href')
+    result = tree.xpath(f'//li/a[starts-with(@class, "submenu")][contains(@href, "/Challenges")]/@href')
     return [name.split('/')[2] for name in result]
 
 
@@ -38,17 +38,17 @@ def _extract_category_prereq(tree: html.HtmlElement) -> List[str]:
 
 
 def _extract_challenge_url_path(node: html.HtmlElement) -> str:
-    path = node.xpath('./td/a[starts-with(@href, "fr/Challenges")]/@href')
+    path = node.xpath('./td/a[contains(@href, "/Challenges")]/@href')
     return path.pop().strip()
 
 
 def _extract_challenge_statement(node: html.HtmlElement) -> str:
-    statement = node.xpath('./td/a[starts-with(@href, "fr/Challenges")]/@title').pop()
+    statement = node.xpath('./td/a[contains(@href, "/Challenges")]/@title').pop()
     return unescape(statement).strip()
 
 
 def _extract_challenge_name(node: html.HtmlElement) -> str:
-    name = node.xpath('./td/a[starts-with(@href, "fr/Challenges")]/text()').pop()
+    name = node.xpath('./td/a[contains(@href, "/Challenges")]/text()').pop()
     return unescape(name.strip())
 
 
@@ -62,7 +62,10 @@ def _extract_challenge_validations_nb(node: html.HtmlElement) -> int:
 
 
 def _extract_challenge_difficulty(node: html.HtmlElement) -> str:
-    difficulty = node.xpath('./td/a[starts-with(@href,"tag")]/@title').pop()
+    difficulty = node.xpath('./td/a[starts-with(@href,"tag")]/@title')
+    if not difficulty:  # difficulty is not registered on some challenges (lang de/es)
+        return ''
+    difficulty = difficulty.pop()
     return unescape(difficulty.split(':')[0]).strip()
 
 
