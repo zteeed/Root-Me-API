@@ -41,6 +41,9 @@ class Parser:
     async def extract_rootme_profile(self, user: str) -> response_content_type:
         return await extract_json(f'{URL}/{self.lang}/{user}/profile')
 
+    async def extract_rootme_details(self, user: str) -> response_content_type:
+        return await extract_json(f'{URL}/{self.lang}/{user}/details')
+
     async def extract_rootme_stats(self, user: str) -> response_content_type:
         return await extract_json(f'{URL}/{self.lang}/{user}/stats')
 
