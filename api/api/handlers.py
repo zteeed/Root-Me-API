@@ -2,18 +2,9 @@ import json
 
 from tornado.web import RequestHandler
 
-from api.constants import VERSION, AUTHORS, GITHUB_ACCOUNTS
+from api.constants import AUTHORS, GITHUB_ACCOUNTS
 from api.routes import routes
 from src.fetch import read_from_redis_key
-
-
-class RedirectHandler(RequestHandler):
-
-    def initialize(self, url: str):
-        self.url = url
-
-    def get(self):
-        self.redirect(self.url, status=302)
 
 
 class InfoHandler(RequestHandler):
@@ -25,16 +16,17 @@ class InfoHandler(RequestHandler):
         self.write(InfoHandler.info)
 
 
-class RootMeStaticHandler(RequestHandler):
+class RootMeStaticCategoryHandler(RequestHandler):
 
     def initialize(self, key: str):
         self.key = key
 
-    async def get(self):
+    async def get(self, lang):
         """Construct and send a JSON response with appropriate status code."""
-        self.application.log.info('GET request', handler='RootMeStaticHandler')
-        data = await read_from_redis_key(self.application.log, self.application.redis, self.key, None,
-                                         handler_type='static')
+        self.application.log.info('GET request', handler='RootMeStaticCategoryHandler', lang=lang)
+        key = self.key.format(lang)
+        data = await read_from_redis_key(self.application.log, self.application.redis, key, arg=None,
+                                         handler_type='static_category', lang=lang)
         if data is None:
             self.write_error(status_code=404)
         else:
@@ -46,12 +38,12 @@ class RootMeDynamicCategoryHandler(RequestHandler):
     def initialize(self, key: str):
         self.key = key
 
-    async def get(self, url_argument):
+    async def get(self, lang, category):
         """Construct and send a JSON response with appropriate status code."""
-        self.application.log.info('GET request', handler='RootMeDynamicCategoryHandler', category=url_argument)
-        key = self.key.format(url_argument)
-        data = await read_from_redis_key(self.application.log, self.application.redis, key, url_argument,
-                                         handler_type='dynamic_category')
+        self.application.log.info('GET request', handler='RootMeDynamicCategoryHandler', category=category, lang=lang)
+        key = self.key.format(lang, category)
+        data = await read_from_redis_key(self.application.log, self.application.redis, key, arg=category,
+                                         handler_type='dynamic_category', lang=lang)
 
         if data is None:
             self.write_error(status_code=404)
@@ -64,12 +56,12 @@ class RootMeDynamicUserHandler(RequestHandler):
     def initialize(self, key: str):
         self.key = key
 
-    async def get(self, url_argument):
+    async def get(self, lang, username):
         """Construct and send a JSON response with appropriate status code."""
-        self.application.log.info('GET request', handler='RootMeDynamicUserHandler', user=url_argument)
-        key = self.key.format(url_argument)
-        data = await read_from_redis_key(self.application.log, self.application.redis, key, url_argument,
-                                         handler_type='dynamic_user')
+        self.application.log.info('GET request', handler='RootMeDynamicUserHandler', username=username, lang=lang)
+        key = self.key.format(lang, username)
+        data = await read_from_redis_key(self.application.log, self.application.redis, key, arg=username,
+                                         handler_type='dynamic_user', lang=lang)
 
         if data is None:
             self.write_error(status_code=404)
@@ -77,20 +69,22 @@ class RootMeDynamicUserHandler(RequestHandler):
             self.write(json.loads(data))
 
 
-#  pattern = r'([\\w-]+)'
-#  pattern = r'(.*)'  # pseudo may contain unicode characters
-pattern = r'([^\/]+)'  # pseudo may contain unicode characters but do not contain slashes
+#  username_regex = r'([\\w-]+)'
+#  username_regex = r'(.*)'  # username may contain unicode characters
+username_regex = r'([^\/]+)'  # username may contain unicode characters but do not contain slashes
+lang_regex = r'(en|fr|de|es)'
 handlers = [
-    ('/', RedirectHandler, {'url': f'/{VERSION}'}),
-    (f'/{VERSION}', InfoHandler),
-    (f'/{VERSION}/categories', RootMeStaticHandler, {'key': 'categories'}),
-    (f'/{VERSION}/category/{pattern}', RootMeDynamicCategoryHandler, {'key': 'categories.{}'}),
-    (f'/{VERSION}/challenges', RootMeStaticHandler, {'key': 'challenges'}),
-    (f'/{VERSION}/{pattern}/profile', RootMeDynamicUserHandler, {'key': '{}.profile'}),
-    (f'/{VERSION}/{pattern}/contributions', RootMeDynamicUserHandler, {'key': '{}.contributions'}),
-    (f'/{VERSION}/{pattern}/contributions/challenges', RootMeDynamicUserHandler, {'key': '{}.contributions.challenges'}),
-    (f'/{VERSION}/{pattern}/contributions/solutions', RootMeDynamicUserHandler, {'key': '{}.contributions.solutions'}),
-    (f'/{VERSION}/{pattern}/details', RootMeDynamicUserHandler, {'key': '{}.details'}),
-    (f'/{VERSION}/{pattern}/ctf', RootMeDynamicUserHandler, {'key': '{}.ctfs'}),
-    (f'/{VERSION}/{pattern}/stats', RootMeDynamicUserHandler, {'key': '{}.stats'})
+    (f'/', InfoHandler),
+    (f"/{lang_regex}/categories", RootMeStaticCategoryHandler, {'key': '{}.categories'}),
+    (f'/{lang_regex}/category/{username_regex}', RootMeDynamicCategoryHandler, {'key': '{}.categories.{}'}),
+    (f'/{lang_regex}/challenges', RootMeStaticCategoryHandler, {'key': '{}.challenges'}),
+    (f'/{lang_regex}/{username_regex}/profile', RootMeDynamicUserHandler, {'key': '{}.{}.profile'}),
+    (f'/{lang_regex}/{username_regex}/contributions', RootMeDynamicUserHandler, {'key': '{}.{}.contributions'}),
+    (f'/{lang_regex}/{username_regex}/contributions/challenges', RootMeDynamicUserHandler,
+     {'key': '{}.{}.contributions.challenges'}),
+    (f'/{lang_regex}/{username_regex}/contributions/solutions', RootMeDynamicUserHandler,
+     {'key': '{}.{}.contributions.solutions'}),
+    (f'/{lang_regex}/{username_regex}/details', RootMeDynamicUserHandler, {'key': '{}.{}.details'}),
+    (f'/{lang_regex}/{username_regex}/ctf', RootMeDynamicUserHandler, {'key': '{}.{}.ctfs'}),
+    (f'/{lang_regex}/{username_regex}/stats', RootMeDynamicUserHandler, {'key': '{}.{}.stats'})
 ]
