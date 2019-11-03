@@ -11,14 +11,14 @@ def extract_contributions_page_numbers(content: bytes) -> Tuple[int, int]:
         return nb_challenges_pages, nb_solutions_pages
 
     for div_element in div_elements:
-        title = div_element.xpath('h4/text()')[0]
+        contribution_category = div_element.xpath('h4/img/@src')[0]
         pages = div_element.xpath('div[@class="pagination-centered"]/ul[@class="pagination"]/li')
-        if 'Challenge' in title:
+        if 'challenge-16.png' in contribution_category:
             if not pages:  # pages == []
                 nb_challenges_pages = 1
             else:
                 nb_challenges_pages = len(pages)
-        if 'Solution' in title:
+        if 'solution-16.png' in contribution_category:
             if not pages:  # pages == []
                 nb_solutions_pages = 1
             else:
