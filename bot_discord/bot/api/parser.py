@@ -14,7 +14,7 @@ async def request_to(url: str) -> response_content_type:
     async with aiohttp.ClientSession() as session:
         async with session.get(url, timeout=timeout) as response:
             if response.status == 200:
-                return await response.json()
+                return await response.json(content_type=None)
             else:
                 return None
 
