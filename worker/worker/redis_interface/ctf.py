@@ -28,7 +28,7 @@ def get_user_ctf_data(username: str, lang: str) -> Optional[List[Dict[str, str]]
         log.warning(f'ctf_page_not_found', username=username)
         return
 
-    if not is_not_participating(html):
+    if is_not_participating(html):
         log.warning(f'{username} never played CTF all the day.')
         return
 
