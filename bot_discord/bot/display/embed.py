@@ -1,19 +1,16 @@
-import sys
 from html import unescape
 from typing import Dict, List, Optional
 
 import discord
 from discord.channel import TextChannel
-from discord.guild import Guild
-from discord.guild import Guild
 from discord.ext.commands.bot import Bot
 from discord.ext.commands.context import Context
+from discord.guild import Guild
 
 import bot.display.show as show
-from bot.api.parser import Parser
-from bot.database.manager import DatabaseManager
 from bot.colors import green, red, yellow
 from bot.constants import bot_channel, PROJECT_INFORMATION
+from bot.database.manager import DatabaseManager
 from bot.manage.discord_data import get_command_args
 
 

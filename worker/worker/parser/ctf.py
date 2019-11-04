@@ -1,7 +1,7 @@
 import re
+from typing import Dict, List, Tuple
 
 from lxml import html
-from typing import Dict, List, Tuple
 
 from worker.parser.exceptions import RootMeParsingError
 

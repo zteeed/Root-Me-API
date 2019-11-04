@@ -1,8 +1,8 @@
 import re
 from html import unescape
+from typing import Dict, List
 
 from lxml import html
-from typing import Dict, List
 
 from worker.zip import zip_equal
 

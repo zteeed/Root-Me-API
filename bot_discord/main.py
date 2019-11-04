@@ -4,10 +4,10 @@ import sys
 from discord.ext import commands
 
 import bot.display.embed as disp
-from bot.colors import green, red
-from bot.constants import DEFAULT_LANG, LANGS, FILENAME, bot_channel, token
-from bot.database.manager import DatabaseManager
 from bot.api.fetch import get_categories
+from bot.colors import green, red
+from bot.constants import LANGS, FILENAME, bot_channel, token
+from bot.database.manager import DatabaseManager
 from bot.wraps import update_challenges
 
 

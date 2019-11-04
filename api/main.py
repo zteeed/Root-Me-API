@@ -1,7 +1,7 @@
 import asyncio
-from structlog import get_logger
 
 import aioredis
+from structlog import get_logger
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.options import define, options

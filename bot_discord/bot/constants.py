@@ -18,7 +18,7 @@ ROOTME_WEBSITE = 'https://www.root-me.org'
 PROJECT_INFORMATION = {
     'title': 'Project information',
     'content': f'This Discord Bot uses a custom API which sends tasks to several workers.\nEach worker makes requests '
-               f'to the [RootMe]({ROOTME_WEBSITE}) website, parses the collected data using the DOM and stores it into '
-               f'redis streams.\nGithub repository: [{GITHUB_REPOSITORY}]({GITHUB_REPOSITORY})',
+    f'to the [RootMe]({ROOTME_WEBSITE}) website, parses the collected data using the DOM and stores it into '
+    f'redis streams.\nGithub repository: [{GITHUB_REPOSITORY}]({GITHUB_REPOSITORY})',
     'footer': f'RootMe Discord Bot v{VERSION}'
 }
