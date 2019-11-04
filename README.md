@@ -150,25 +150,31 @@ f21c0ef802aa        redis                 "docker-entrypoint.s…"   25 seconds 
 
 ## [API]
 
+### Configuration
+
+You can update `UPDATE_TIMEOUT` in [api/api/constants.py](https://github.com/zteeed/Root-Me-API/blob/master/api/api/constants.py). This field represents the delay of time (in seconds) before which the API will not send a request to the worker to update the data.
+
+
+### Endpoints
+
 Some endpoints need a valid Root-Me username you can extract from the URL of your profile. \
 Here is an example with https://www.root-me.org/zTeeed-115405 --> zTeeed-115405
 
 
 - [https://root-me-api.hackademint.org/](https://root-me-api.hackademint.org/)
-- [https://root-me-api.hackademint.org/v2](https://root-me-api.hackademint.org/v2)
-- [https://root-me-api.hackademint.org/v2/challenges](https://root-me-api.hackademint.org/v2/challenges)
-- [https://root-me-api.hackademint.org/v2/zTeeed-115405](https://root-me-api.hackademint.org/v2/zTeeed-115405)
-- [https://root-me-api.hackademint.org/v2/zTeeed-115405/profile](https://root-me-api.hackademint.org/v2/zTeeed-115405/profile)
-- [https://root-me-api.hackademint.org/v2/zTeeed-115405/contributions](https://root-me-api.hackademint.org/v2/zTeeed-115405/contributions)
-- [https://root-me-api.hackademint.org/v2/zTeeed-115405/details](https://root-me-api.hackademint.org/v2/zTeeed-115405/details)
-- [https://root-me-api.hackademint.org/v2/zTeeed-115405/ctf](https://root-me-api.hackademint.org/v2/zTeeed-115405/ctf)
-- [https://root-me-api.hackademint.org/v2/zTeeed-115405/stats](https://root-me-api.hackademint.org/v2/zTeeed-115405/stats)
+- [https://root-me-api.hackademint.org/en/challenges](https://root-me-api.hackademint.org/en/challenges)
+- [https://root-me-api.hackademint.org/en/zTeeed-115405](https://root-me-api.hackademint.org/en/zTeeed-115405)
+- [https://root-me-api.hackademint.org/en/zTeeed-115405/profile](https://root-me-api.hackademint.org/en/zTeeed-115405/profile)
+- [https://root-me-api.hackademint.org/en/zTeeed-115405/contributions](https://root-me-api.hackademint.org/en/zTeeed-115405/contributions)
+- [https://root-me-api.hackademint.org/en/zTeeed-115405/details](https://root-me-api.hackademint.org/en/zTeeed-115405/details)
+- [https://root-me-api.hackademint.org/en/zTeeed-115405/ctf](https://root-me-api.hackademint.org/en/zTeeed-115405/ctf)
+- [https://root-me-api.hackademint.org/en/zTeeed-115405/stats](https://root-me-api.hackademint.org/en/zTeeed-115405/stats)
 
 ## [Discord Bot]
 
 ### Configuration
 
-On your discord server you need to create a channel named `root-me-news` if you keep default configuration. You can change this channel name by updating the `bot_channel` value in [bot_discord/bot/constants.py](https://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.pyhttps://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.py).
+On your discord server you need to create a channel named `root-me-news` if you keep default configuration. You can change this channel name by updating the `bot_channel` value in [bot_discord/bot/constants.py](https://github.com/zteeed/Root-Me-API/blob/master/bot_discord/bot/constants.py).
 
 ### Database
 
