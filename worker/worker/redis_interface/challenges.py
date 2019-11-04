@@ -1,8 +1,8 @@
 import json
-from multiprocessing.pool import ThreadPool
 from datetime import datetime
-from typing import Dict, List, Optional
 from functools import partial
+from multiprocessing.pool import ThreadPool
+from typing import Dict, List, Optional
 
 from worker import app, log
 from worker.constants import URL

@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta
 import difflib
+from datetime import datetime, timedelta
 from html import unescape
 from typing import Dict, List, Optional, Tuple, Union
 
@@ -11,14 +11,14 @@ import bot.manage.channel_data as channel_data
 from bot.api.fetch import user_rootme_exists, get_scores, get_solved_challenges, get_diff, \
     get_categories, get_category, get_remain
 from bot.api.parser import Parser
-from bot.database.manager import DatabaseManager
 from bot.colors import blue, green, red
 from bot.constants import LANGS, emoji2, emoji3, emoji5, limit_size, medals
+from bot.database.manager import DatabaseManager
 from bot.display.update import add_emoji
 from bot.wraps import stop_if_args_none
 
-
 challenges_type = Optional[Dict[str, Union[str, int, List[str]]]]
+
 
 def display_parts(message: str) -> List[str]:
     message = message.split('\n')
@@ -163,7 +163,6 @@ async def display_who_solved(db: DatabaseManager, id_discord_server: int, challe
 
 async def display_remain(db: DatabaseManager, id_discord_server: int, bot: Bot, username: str,
                          category: Optional[str] = None) -> Optional[str]:
-
     if not await db.user_exists(id_discord_server, username):
         return add_emoji(bot, f'User {username} is not in team', emoji5)
 

@@ -1,8 +1,8 @@
 import asyncio
+from collections import OrderedDict
+from typing import List, Tuple
 
 import aioredis
-from typing import List, Tuple
-from collections import OrderedDict
 
 from worker import app
 from worker.constants import CG_NAME, CONSUMER_NAME, REDIS_STREAM_USERS, REDIS_STREAM_CHALLENGES

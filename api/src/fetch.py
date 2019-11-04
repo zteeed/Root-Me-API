@@ -1,8 +1,9 @@
 import json
-from structlog._config import BoundLoggerLazyProxy
 from datetime import datetime
 from typing import Optional
+
 from aioredis.commands import Redis
+from structlog._config import BoundLoggerLazyProxy
 
 from api.constants import REDIS_STREAM_CHALLENGES, REDIS_STREAM_USERS, REQUEST_TIMEOUT, UPDATE_TIMEOUT
 
@@ -41,12 +42,12 @@ async def send_tasks_to_worker(log: BoundLoggerLazyProxy, redis_app: Redis, arg:
 
 
 def need_waiting_for_update(now: datetime, timestamp: Optional[datetime], timeout: int) -> bool:
-    return timestamp is None or (now - timestamp).total_seconds() > 2*timeout
+    return timestamp is None or (now - timestamp).total_seconds() > 2 * timeout
 
 
 async def force_update(redis_app: Redis, key: str, now: datetime, timestamp: Optional[datetime], timeout: int) -> None:
     condition = timestamp is None or (now - timestamp).total_seconds() > timeout
-    while condition and abs(now-datetime.now()).total_seconds() < REQUEST_TIMEOUT:
+    while condition and abs(now - datetime.now()).total_seconds() < REQUEST_TIMEOUT:
         data = await redis_app.get(f'{key}')
         timestamp = extract_timestamp_last_update(data)
         condition = timestamp is None or (now - timestamp).total_seconds() > timeout

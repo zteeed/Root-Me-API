@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from worker import app, log
 from worker.constants import URL

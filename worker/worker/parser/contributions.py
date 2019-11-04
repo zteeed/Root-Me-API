@@ -1,5 +1,6 @@
-from lxml import html
 from typing import Dict, List, Tuple
+
+from lxml import html
 
 
 def extract_contributions_page_numbers(content: bytes) -> Tuple[int, int]:

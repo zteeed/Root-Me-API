@@ -1,8 +1,8 @@
 import re
 from html import unescape
+from typing import Dict, List, Tuple
 
 from lxml import html
-from typing import Dict, List, Tuple
 
 
 def extract_categories(content: bytes) -> List[str]:

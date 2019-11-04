@@ -1,6 +1,7 @@
-import aiofiles
 import json
 from typing import Any, List, Dict, Optional, Union
+
+import aiofiles
 
 from bot.constants import DEFAULT_LANG
 

@@ -1,8 +1,8 @@
 import itertools
 import json
+from datetime import datetime
 from functools import partial
 from multiprocessing.pool import ThreadPool
-from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
 from worker import app, log
@@ -10,7 +10,6 @@ from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.contributions import extract_challenges_contributions, extract_solutions_contributions, \
     extract_contributions_page_numbers
-
 
 contribution_type = Optional[List[Optional[Dict[str, str]]]]
 all_contributions_type = Optional[List[Dict[str, Dict[str, contribution_type]]]]
@@ -48,7 +47,8 @@ def format_contributions_challenges(username: str, lang: str, nb_challenges_page
     return challenges_contributions
 
 
-def format_contributions_solutions(username: str, lang: str, nb_solutions_pages: int) -> List[Optional[List[Dict[str, str]]]]:
+def format_contributions_solutions(username: str, lang: str, nb_solutions_pages: int) -> List[
+    Optional[List[Dict[str, str]]]]:
     #  Retrieve solutions contributions
     solutions_contributions = []
     if nb_solutions_pages == 0:
