@@ -10,6 +10,7 @@ token = 'token'
 timeout = 15
 URL = 'http://api:3000'
 DEFAULT_LANG = 'en'
+LANGS = ['en', 'fr', 'de', 'es']
 FILENAME = 'data/data.json'
 VERSION = '1.1'
 GITHUB_REPOSITORY = 'https://github.com/zteeed/Root-Me-API'

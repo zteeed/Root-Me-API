@@ -4,19 +4,19 @@ from bot.api.parser import Parser
 from bot.colors import red
 
 
-async def user_rootme_exists(parser: Parser, user: str):
-    return await parser.extract_rootme_profile(user) is not None
+async def user_rootme_exists(user: str, lang: str):
+    return await Parser.extract_rootme_profile(user, lang) is not None
 
 
-async def get_scores(parser: Parser, users):
-    scores = [await parser.extract_score(user) for user in users]
+async def get_scores(users: List[str], lang: str):
+    scores = [await Parser.extract_score(user, lang) for user in users]
     scores = [int(score) for score in scores]
     """ Sort users by score desc """
     return [{'name': x, 'score': int(y)} for y, x in sorted(zip(scores, users), reverse=True)]
 
 
-async def get_details(parser: Parser, username: str):
-    return await parser.extract_rootme_details(username)
+async def get_details(username: str, lang: str):
+    return await Parser.extract_rootme_details(username, lang)
 
 
 def get_stats_category(categories_stats: List[Dict], category: str) -> Optional[Dict[str, int]]:
@@ -26,8 +26,8 @@ def get_stats_category(categories_stats: List[Dict], category: str) -> Optional[
             return category_stats['stats_categories']
 
 
-async def get_remain(parser: Parser, username: str, category: Optional[str] = None) -> Tuple[int, int]:
-    details = await get_details(parser, username)
+async def get_remain(username: str, lang: str, category: Optional[str] = None) -> Tuple[int, int]:
+    details = await get_details(username, lang)
     details = details[0]
     if category is None:
         return details['nb_challenges_solved'], details['nb_challenges_tot']
@@ -36,16 +36,16 @@ async def get_remain(parser: Parser, username: str, category: Optional[str] = No
         return category_stats['num_challenges_solved'], category_stats['total_challenges_category']
 
 
-async def get_categories(parser: Parser):
-    categories = await parser.extract_categories()
+async def get_categories(lang: str):
+    categories = await Parser.extract_categories(lang)
     result = []
     for category in categories:
         result.append(category[0])
     return result
 
 
-async def get_categories_light(parser: Parser):
-    categories = await parser.extract_categories()
+async def get_categories_light(lang: str):
+    categories = await Parser.extract_categories(lang)
     result = []
     for category in categories:
         c = category[0]
@@ -53,16 +53,16 @@ async def get_categories_light(parser: Parser):
     return result
 
 
-async def get_category(parser: Parser, category_selected):
-    categories = await parser.extract_categories()
+async def get_category(category_selected: str, lang: str):
+    categories = await Parser.extract_categories(lang)
     for category in categories:
         if category[0]['name'] == category_selected:
             return category
     return None
 
 
-async def get_solved_challenges(parser: Parser, user):
-    solved_challenges_data = await parser.extract_rootme_stats(user)
+async def get_solved_challenges(user: str, lang: str):
+    solved_challenges_data = await Parser.extract_rootme_stats(user, lang)
     if solved_challenges_data is None:
         red(f'user {user} name might have changed in rootme profile link')
         return None

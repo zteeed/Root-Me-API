@@ -13,10 +13,12 @@ from bot.api.fetch import user_rootme_exists, get_scores, get_solved_challenges,
 from bot.api.parser import Parser
 from bot.database.manager import DatabaseManager
 from bot.colors import blue, green, red
-from bot.constants import emoji2, emoji3, emoji5, limit_size, medals
+from bot.constants import LANGS, emoji2, emoji3, emoji5, limit_size, medals
 from bot.display.update import add_emoji
 from bot.wraps import stop_if_args_none
 
+
+challenges_type = Optional[Dict[str, Union[str, int, List[str]]]]
 
 def display_parts(message: str) -> List[str]:
     message = message.split('\n')
@@ -31,17 +33,18 @@ def display_parts(message: str) -> List[str]:
     return stored
 
 
-async def display_lang(parser: Parser, bot: Bot, lang: str) -> str:
-    if lang not in ['en', 'fr', 'de', 'es']:
+async def display_lang(db: DatabaseManager, id_discord_server: int, bot: Bot, lang: str) -> str:
+    if lang not in LANGS:
         return add_emoji(bot, f'You need to choose fr/en/de/es as <lang> argument', emoji3)
-    parser.lang = lang
-    bot.rootme_challenges = get_categories(parser)  # update list of challenges name with the new selected language
+    await db.update_server_language(id_discord_server, lang)
+    #  db.rootme_challenges[lang] = get_categories(lang)  # update list of challenges with new lang
     return add_emoji(bot, f'LANG successfully updated to "{lang}"', emoji2)
 
 
-async def display_add_user(parser: Parser, db: DatabaseManager, id_discord_server: int, bot: Bot, name: str) -> str:
+async def display_add_user(db: DatabaseManager, id_discord_server: int, bot: Bot, name: str) -> str:
     """ Check if user exist in RootMe """
-    user_exists = await user_rootme_exists(parser, name)
+    lang = await db.get_server_language(id_discord_server)
+    user_exists = await user_rootme_exists(name, lang)
     if not user_exists:
         return add_emoji(bot, f'RootMe profile for {name} can\'t be established', emoji3)
 
@@ -49,7 +52,7 @@ async def display_add_user(parser: Parser, db: DatabaseManager, id_discord_serve
     if await db.user_exists(id_discord_server, name):
         return add_emoji(bot, f'User {name} already exists in team', emoji5)
     else:
-        stats_user = await parser.extract_rootme_stats(name)
+        stats_user = await Parser.extract_rootme_stats(name, lang)
         solved_challenges = stats_user['solved_challenges']
         if not solved_challenges:
             last_challenge_solved = '?????'
@@ -68,11 +71,12 @@ async def display_remove_user(db: DatabaseManager, id_discord_server: int, bot: 
         return add_emoji(bot, f'User {name} successfully removed from team', emoji2)
 
 
-async def display_scoreboard(parser: Parser, db: DatabaseManager, id_discord_server: int) -> str:
+async def display_scoreboard(db: DatabaseManager, id_discord_server: int) -> str:
     tosend = ''
     users = await db.select_users(id_discord_server)
     usernames = [user['rootme_username'] for user in users]
-    scores = await get_scores(parser, usernames)
+    lang = await db.get_server_language(id_discord_server)
+    scores = await get_scores(usernames, lang)
     for rank, d in enumerate(scores):
         user, score = d['name'], d['score']
         if rank < len(medals):
@@ -83,16 +87,16 @@ async def display_scoreboard(parser: Parser, db: DatabaseManager, id_discord_ser
     return tosend
 
 
-async def display_categories(parser: Parser) -> str:
+async def display_categories(lang: str) -> str:
     tosend = ''
-    categories = await get_categories(parser)
+    categories = await get_categories(lang)
     for category in categories:
         tosend += f' • {category["name"]} ({category["challenges_nb"]} challenges) \n'
     return tosend
 
 
-async def display_category(parser: Parser, category: str) -> str:
-    category_data = await get_category(parser, category)
+async def display_category(lang: str, category: str) -> str:
+    category_data = await get_category(category, lang)
 
     if category_data is None:
         tosend = f'Category {category} does not exists.'
@@ -105,22 +109,22 @@ success / difficulty: {unescape(chall["difficulty"])}) \n'
     return tosend
 
 
-def get_challenges(rootme_challenges):
+def get_challenges(categories_challenges):
     data = []
-    for category in rootme_challenges:
+    for category in categories_challenges:
         data += category['challenges']
     return data
 
 
-def find_challenge(bot: Bot, challenge_selected: str) -> Optional[Dict[str, Union[str, int, List[str]]]]:
-    challenges = get_challenges(bot.rootme_challenges)
+def find_challenge(db: DatabaseManager, lang: str, challenge_selected: str) -> challenges_type:
+    challenges = get_challenges(db.rootme_challenges[lang])
     challenge_names = [challenge['name'] for challenge in challenges]
     if challenge_selected in challenge_names:
         return [challenge for challenge in challenges if challenge['name'] == challenge_selected][0]
 
 
-def find_challenge_suggestions(bot: Bot, challenge_selected: str) -> Optional[Dict[str, Union[str, int, List[str]]]]:
-    challenges = get_challenges(bot.rootme_challenges)
+def find_challenge_suggestions(db: DatabaseManager, lang: str, challenge_selected: str) -> List[str]:
+    challenges = get_challenges(db.rootme_challenges[lang])
     challenge_names = [challenge['name'] for challenge in challenges]
     return difflib.get_close_matches(challenge_selected, challenge_names)
 
@@ -130,11 +134,11 @@ def user_has_solved(challenge_selected: str, solved_challenges: List[Dict[str, U
     return True in test
 
 
-async def display_who_solved(parser: Parser, db: DatabaseManager, id_discord_server: int, bot: Bot,
-                             challenge_selected: str) -> Optional[str]:
-    challenge_found = find_challenge(bot, challenge_selected)
+async def display_who_solved(db: DatabaseManager, id_discord_server: int, challenge_selected: str) -> Optional[str]:
+    lang = await db.get_server_language(id_discord_server)
+    challenge_found = find_challenge(db, lang, challenge_selected)
     if challenge_found is None:
-        suggestions = find_challenge_suggestions(bot, challenge_selected)
+        suggestions = find_challenge_suggestions(db, lang, challenge_selected)
         if suggestions:
             suggestion = suggestions[0]
             return f'Challenge {challenge_selected} does not exists.\nAre you looking for "{suggestion}" ?'
@@ -143,10 +147,11 @@ async def display_who_solved(parser: Parser, db: DatabaseManager, id_discord_ser
     tosend = ''
     users = await db.select_users(id_discord_server)
     usernames = [user['rootme_username'] for user in users]
-    scores = await get_scores(parser, usernames)
+    lang = await db.get_server_language(id_discord_server)
+    scores = await get_scores(usernames, lang)
     for d in scores:
         user, score = d['name'], d['score']
-        solved_challenges = await get_solved_challenges(parser, user)
+        solved_challenges = await get_solved_challenges(user, lang)
         if solved_challenges is None:
             return None
         if user_has_solved(challenge_selected, solved_challenges):
@@ -156,18 +161,19 @@ async def display_who_solved(parser: Parser, db: DatabaseManager, id_discord_ser
     return tosend
 
 
-async def display_remain(parser: Parser, db: DatabaseManager, id_discord_server: int, bot: Bot, username: str,
+async def display_remain(db: DatabaseManager, id_discord_server: int, bot: Bot, username: str,
                          category: Optional[str] = None) -> Optional[str]:
 
     if not await db.user_exists(id_discord_server, username):
         return add_emoji(bot, f'User {username} is not in team', emoji5)
 
-    category_data = await get_category(parser, category)
+    lang = await db.get_server_language(id_discord_server)
+    category_data = await get_category(category, lang)
     if category is not None and category_data is None:
         tosend = f'Category {category} does not exists.'
         return add_emoji(bot, tosend, emoji3)
 
-    num_success, num_tot = await get_remain(parser, username, category=category)
+    num_success, num_tot = await get_remain(username, lang, category=category)
     remain = num_tot - num_success
     if category is None:
         if remain == 0:
@@ -185,7 +191,7 @@ async def display_remain(parser: Parser, db: DatabaseManager, id_discord_server:
             return add_emoji(bot, tosend, emoji5)
 
 
-async def display_duration(parser: Parser, db: DatabaseManager, context: Context, args: Tuple[str], delay: timedelta) \
+async def display_duration(db: DatabaseManager, context: Context, args: Tuple[str], delay: timedelta) \
         -> List[Dict[str, Optional[str]]]:
     if len(args) == 1:
         if not await db.user_exists(context.guild.id, args[0]):
@@ -199,7 +205,8 @@ async def display_duration(parser: Parser, db: DatabaseManager, context: Context
         users = await db.select_users(context.guild.id)
         users = [user['rootme_username'] for user in users]
 
-    scores = await get_scores(parser, users)
+    lang = await db.get_server_language(context.guild.id)
+    scores = await get_scores(users, lang)
     #  categories = json_data.get_categories()
     pattern = '%Y-%m-%d %H:%M:%S'
     tosend_list = []
@@ -210,7 +217,7 @@ async def display_duration(parser: Parser, db: DatabaseManager, context: Context
         now = datetime.now()
         challs_selected = []
 
-        challenges = await get_solved_challenges(parser, user)
+        challenges = await get_solved_challenges(user, lang)
         for chall in challenges:
             date = datetime.strptime(chall['date'], pattern)
             diff = now - date
@@ -219,7 +226,7 @@ async def display_duration(parser: Parser, db: DatabaseManager, context: Context
 
         challs_selected.reverse()
         for chall in challs_selected:
-            value = find_challenge(context.bot, chall['name'])['value']
+            value = find_challenge(db, lang, chall['name'])['value']
             tosend += f' • {chall["name"]} ({value} points) - {chall["date"]}\n'
         tosend_list.append({'user': user, 'msg': tosend})
 
@@ -234,26 +241,25 @@ async def display_duration(parser: Parser, db: DatabaseManager, context: Context
     return tosend_list
 
 
-async def display_week(parser: Parser, db: DatabaseManager, context: Context, args: Tuple[str]) \
+async def display_week(db: DatabaseManager, context: Context, args: Tuple[str]) \
         -> List[Dict[str, Optional[str]]]:
-    return await display_duration(parser, db, context, args, timedelta(weeks=1))
+    return await display_duration(db, context, args, timedelta(weeks=1))
 
 
-async def display_today(parser: Parser, db: DatabaseManager, context: Context, args: Tuple[str]) \
-        -> List[Dict[str, Optional[str]]]:
-    return await display_duration(parser, db, context, args, timedelta(days=1))
+async def display_today(db: DatabaseManager, context: Context, args: Tuple[str]) -> List[Dict[str, Optional[str]]]:
+    return await display_duration(db, context, args, timedelta(days=1))
 
 
 @stop_if_args_none
-def display_diff_one_side(bot: Bot, user_diff: List[Dict[str, Union[str, int]]]) -> str:
+def display_diff_one_side(db: DatabaseManager, lang: str, user_diff: List[Dict[str, Union[str, int]]]) -> str:
     tosend = ''
     for c in user_diff:
-        value = find_challenge(bot, c['name'])['value']
+        value = find_challenge(db, lang, c['name'])['value']
         tosend += f' • {c["name"]} ({value} points)\n'
     return tosend
 
 
-async def display_diff(parser: Parser, db: DatabaseManager, id_discord_server: int, bot: Bot, user1: str, user2: str) \
+async def display_diff(db: DatabaseManager, id_discord_server: int, bot: Bot, user1: str, user2: str) \
         -> List[Dict[str, Optional[str]]]:
     if not await db.user_exists(id_discord_server, user1):
         tosend = f'User {user1} is not in team.'
@@ -264,35 +270,37 @@ async def display_diff(parser: Parser, db: DatabaseManager, id_discord_server: i
         tosend_list = [{'user': user2, 'msg': tosend}]
         return tosend_list
 
-    solved_user1 = await get_solved_challenges(parser, user1)
-    solved_user2 = await get_solved_challenges(parser, user2)
+    lang = await db.get_server_language(id_discord_server)
+    solved_user1 = await get_solved_challenges(user1, lang)
+    solved_user2 = await get_solved_challenges(user2, lang)
 
     user1_diff, user2_diff = get_diff(solved_user1, solved_user2)
     tosend_list = []
 
-    tosend = display_diff_one_side(bot, user1_diff)
+    tosend = display_diff_one_side(db, lang, user1_diff)
     tosend_list.append({'user': user1, 'msg': tosend})
-    tosend = display_diff_one_side(bot, user2_diff)
+    tosend = display_diff_one_side(db, lang, user2_diff)
     tosend_list.append({'user': user2, 'msg': tosend})
 
     return tosend_list
 
 
-async def display_diff_with(parser: Parser, db: DatabaseManager, id_discord_server: int, bot: Bot, selected_user: str):
+async def display_diff_with(db: DatabaseManager, id_discord_server: int, bot: Bot, selected_user: str):
     if not await db.user_exists(id_discord_server, selected_user):
         tosend = f'User {selected_user} is not in team.'
         tosend_list = [{'user': selected_user, 'msg': tosend}]
         return tosend_list
 
     tosend_list = []
+    lang = await db.get_server_language(id_discord_server)
     users = await db.select_users(id_discord_server)
     users = [user['rootme_username'] for user in users]
-    solved_user_select = await get_solved_challenges(parser, selected_user)
+    solved_user_select = await get_solved_challenges(selected_user, lang)
     for user in users:
-        solved_user = await get_solved_challenges(parser, user)
+        solved_user = await get_solved_challenges(user, lang)
         user_diff, user_diff_select = get_diff(solved_user, solved_user_select)
         if user_diff:
-            tosend = display_diff_one_side(bot, user_diff)
+            tosend = display_diff_one_side(db, lang, user_diff)
             tosend_list.append({'user': user, 'msg': tosend})
     return tosend_list
 
@@ -323,12 +331,12 @@ def next_challenge_solved(solved_user: List[Dict[str, Union[str, int]]], challen
     return None
 
 
-async def display_cron(id_discord_server: int, parser: Parser, db: DatabaseManager, bot: Bot) \
-        -> Tuple[Optional[str], Optional[str]]:
+async def display_cron(id_discord_server: int, db: DatabaseManager) -> Tuple[Optional[str], Optional[str]]:
+    lang = await db.get_server_language(id_discord_server)
     users = await db.select_users(id_discord_server)
     for user in users:
         last = user['last_challenge_solve']
-        solved_user = await get_solved_challenges(parser, user['rootme_username'])
+        solved_user = await get_solved_challenges(user['rootme_username'], lang)
         if not solved_user or solved_user[-1]['name'] == last:
             continue
         blue(solved_user[-1]['name'] + "  |  " + last + "\n")
@@ -336,8 +344,8 @@ async def display_cron(id_discord_server: int, parser: Parser, db: DatabaseManag
         if next_chall is None:
             red(f'Error with {user} user --> last chall: {last}\n')
             continue
-        name = f'New challenge solved by {user}'
-        c = find_challenge(bot, next_chall['name'])
+        name = f'New challenge solved by {user["rootme_username"]}'
+        c = find_challenge(db, lang, next_chall['name'])
         green(f'{user} --> {c["name"]}')
         tosend = f' • {c["name"]} ({c["value"]} points)'
         tosend += f'\n • Difficulty: {c["difficulty"]}'
