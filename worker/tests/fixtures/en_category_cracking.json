@@ -1,0 +1,500 @@
+[
+  {
+    "name": "Cracking",
+    "logo": "local/cache-vignettes/L32xH32/rubon158-cc847.png?1572507285",
+    "description1": "Reverse binaries and crack executables.",
+    "description2": "This series of challenges will help you understand the inner workings of compiled languages. Disassemble the binaries provided to solve the crackmes at the assembly level.",
+    "prerequisites": [],
+    "challenges": [
+      {
+        "author": [
+          "g0uZ"
+        ],
+        "difficulty": "Very easy",
+        "name": "ELF x86 - 0 protection",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-0-protection",
+        "solutions_nb": 10,
+        "statement": "First challenge of cracking, writen in C with vi and compiled with GCC32",
+        "validations_nb": 22624,
+        "validations_percentage": "15%",
+        "value": 5
+      },
+      {
+        "author": [
+          "g0uZ"
+        ],
+        "difficulty": "Very easy",
+        "name": "ELF x86 - Basic",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-Basic",
+        "solutions_nb": 10,
+        "statement": "",
+        "validations_nb": 18498,
+        "validations_percentage": "12%",
+        "value": 5
+      },
+      {
+        "author": [
+          "alejandr0"
+        ],
+        "difficulty": "Very easy",
+        "name": "PE x86 - 0 protection",
+        "note": 5,
+        "path": "en/Challenges/Cracking/PE-x86-0-protection",
+        "solutions_nb": 5,
+        "statement": "This challenge comes from greHack CTF 2012",
+        "validations_nb": 9717,
+        "validations_percentage": "7%",
+        "value": 5
+      },
+      {
+        "author": [
+          "sourcePerrier"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF C++ - 0 protection",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-C-0-protection",
+        "solutions_nb": 4,
+        "statement": "std::string",
+        "validations_nb": 4320,
+        "validations_percentage": "3%",
+        "value": 10
+      },
+      {
+        "author": [
+          "Geluchat"
+        ],
+        "difficulty": "Easy",
+        "name": "PE DotNet - 0 protection",
+        "note": 4,
+        "path": "en/Challenges/Cracking/PE-DotNet-0-protection",
+        "solutions_nb": 5,
+        "statement": "Managed code",
+        "validations_nb": 5055,
+        "validations_percentage": "4%",
+        "value": 10
+      },
+      {
+        "author": [
+          "s4r"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF MIPS - Basic Crackme",
+        "note": 4,
+        "path": "en/Challenges/Cracking/ELF-MIPS-Basic-Crackme",
+        "solutions_nb": 1,
+        "statement": "Static",
+        "validations_nb": 991,
+        "validations_percentage": "1%",
+        "value": 15
+      },
+      {
+        "author": [
+          "Stahli_listenvoid"
+        ],
+        "difficulty": "Very easy",
+        "name": "ELF x64 - Golang basic",
+        "note": 4,
+        "path": "en/Challenges/Cracking/ELF-x64-Golang-basic",
+        "solutions_nb": 3,
+        "statement": "GO GO GO!",
+        "validations_nb": 714,
+        "validations_percentage": "1%",
+        "value": 15
+      },
+      {
+        "author": [
+          "kmkz"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF x86 - Fake Instructions",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-Fake-Instructions",
+        "solutions_nb": 4,
+        "statement": "",
+        "validations_nb": 5132,
+        "validations_percentage": "4%",
+        "value": 15
+      },
+      {
+        "author": [
+          "g0uZ"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF x86 - Ptrace",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-Ptrace",
+        "solutions_nb": 2,
+        "statement": "Compiled with GCC32 4.3.4 on linux gentoo.",
+        "validations_nb": 4450,
+        "validations_percentage": "3%",
+        "value": 15
+      },
+      {
+        "author": [
+          "0xmitsurugi"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF ARM - Basic Crackme",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-ARM-basic-crackme",
+        "solutions_nb": 6,
+        "statement": "Constant time",
+        "validations_nb": 1787,
+        "validations_percentage": "2%",
+        "value": 20
+      },
+      {
+        "author": [
+          "Thanat0s"
+        ],
+        "difficulty": "Medium",
+        "name": "PYC - ByteCode",
+        "note": 5,
+        "path": "en/Challenges/Cracking/PYC-ByteCode",
+        "solutions_nb": 9,
+        "statement": "A compiled crackme",
+        "validations_nb": 3067,
+        "validations_percentage": "2%",
+        "value": 20
+      },
+      {
+        "author": [
+          "yodzeb"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - No software breakpoints",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-No-software-breakpoints",
+        "solutions_nb": 6,
+        "statement": "It doesn't like code modifications.",
+        "validations_nb": 2392,
+        "validations_percentage": "2%",
+        "value": 25
+      },
+      {
+        "author": [
+          "lsirigna42-21328"
+        ],
+        "difficulty": "Medium",
+        "name": "MachO x64 - keygenme or not",
+        "note": 3,
+        "path": "en/Challenges/Cracking/MachO-x64-keygenme-or-not",
+        "solutions_nb": 1,
+        "statement": "Read the code and find the good way",
+        "validations_nb": 807,
+        "validations_percentage": "1%",
+        "value": 25
+      },
+      {
+        "author": [],
+        "difficulty": "Medium",
+        "name": "ELF ARM - crackme 1337",
+        "note": 3,
+        "path": "en/Challenges/Cracking/ELF-ARM-crackme-1337",
+        "solutions_nb": 2,
+        "statement": "1337",
+        "validations_nb": 1287,
+        "validations_percentage": "1%",
+        "value": 30
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - CrackPass",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-CrackPass",
+        "solutions_nb": 5,
+        "statement": "Can you bypass the algorithm?",
+        "validations_nb": 2839,
+        "validations_percentage": "2%",
+        "value": 30
+      },
+      {
+        "author": [
+          "kmkz"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - ExploitMe",
+        "note": 3,
+        "path": "en/Challenges/Cracking/ELF-x86-ExploitMe",
+        "solutions_nb": 5,
+        "statement": "Bof bof...",
+        "validations_nb": 2633,
+        "validations_percentage": "2%",
+        "value": 30
+      },
+      {
+        "author": [
+          "kmkz"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Random Crackme",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-Random-Crackme",
+        "solutions_nb": 3,
+        "statement": "This crackme can be solved in many different ways. We'll let you find them. Note that you might get errors when executing the application. This is expected",
+        "validations_nb": 2064,
+        "validations_percentage": "2%",
+        "value": 30
+      },
+      {
+        "author": [
+          "jambon69"
+        ],
+        "difficulty": "Medium",
+        "name": "GB - Basic GameBoy crackme",
+        "note": 5,
+        "path": "en/Challenges/Cracking/GB-Basic-GameBoy-crackme",
+        "solutions_nb": 2,
+        "statement": "An unorthodox architecture!",
+        "validations_nb": 369,
+        "validations_percentage": "1%",
+        "value": 30
+      },
+      {
+        "author": [
+          "koma"
+        ],
+        "difficulty": "Medium",
+        "name": "PDF - Javascript",
+        "note": 3,
+        "path": "en/Challenges/Cracking/PDF-Javascript",
+        "solutions_nb": 1,
+        "statement": "This challenge was part of Hack.lu's 2011 CTF",
+        "validations_nb": 950,
+        "validations_percentage": "1%",
+        "value": 30
+      },
+      {
+        "author": [
+          "Florian-49364"
+        ],
+        "difficulty": "Medium",
+        "name": "PE x86 - Xor Madness",
+        "note": 5,
+        "path": "en/Challenges/Cracking/PE-x86-Xor-Madness",
+        "solutions_nb": 1,
+        "statement": "xor, sub, call, ret. Nothing else.",
+        "validations_nb": 149,
+        "validations_percentage": "1%",
+        "value": 30
+      },
+      {
+        "author": [
+          "koma"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF ARM - Crypted",
+        "note": 2,
+        "path": "en/Challenges/Cracking/ELF-ARM-Crypted",
+        "solutions_nb": 1,
+        "statement": "Google is your friend.",
+        "validations_nb": 416,
+        "validations_percentage": "1%",
+        "value": 35
+      },
+      {
+        "author": [
+          "0xmitsurugi"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x64 - Crackme automating",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x64-Crackme-automating",
+        "solutions_nb": 6,
+        "statement": "Find basic block, automate cracking.",
+        "validations_nb": 364,
+        "validations_percentage": "1%",
+        "value": 35
+      },
+      {
+        "author": [
+          "Thanat0s"
+        ],
+        "difficulty": "Medium",
+        "name": "PE x86 - SEHVEH",
+        "note": 5,
+        "path": "en/Challenges/Cracking/PE-SEHVEH",
+        "solutions_nb": 0,
+        "statement": "A Exceptionnal crackme !",
+        "validations_nb": 696,
+        "validations_percentage": "1%",
+        "value": 35
+      },
+      {
+        "author": [
+          "cryptax"
+        ],
+        "difficulty": "Medium",
+        "name": "APK - Anti-debug",
+        "note": 3,
+        "path": "en/Challenges/Cracking/APK-Anti-debug",
+        "solutions_nb": 3,
+        "statement": "Play hide and seek, this challenge comes from Hashdays 2012",
+        "validations_nb": 1188,
+        "validations_percentage": "1%",
+        "value": 40
+      },
+      {
+        "author": [
+          "Phenol"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x64 - Nanomites - Introduction",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x64-Nanomites-Introduction",
+        "solutions_nb": 2,
+        "statement": "Where are my instructions?",
+        "validations_nb": 278,
+        "validations_percentage": "1%",
+        "value": 45
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Anti-debug",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-Anti-debug",
+        "solutions_nb": 3,
+        "statement": "A small Linux program using many anti-dbg technics.",
+        "validations_nb": 1030,
+        "validations_percentage": "1%",
+        "value": 45
+      },
+      {
+        "author": [
+          "Gr4ph0s"
+        ],
+        "difficulty": "Medium",
+        "name": "PE x86 - AutoPE",
+        "note": 4,
+        "path": "en/Challenges/Cracking/PE-x86-AutoPE",
+        "solutions_nb": 3,
+        "statement": "Immerse yourself Into windows' cracking with this crackme coded in AutoIt. EOF it's just a start, the source will lead you to WTF...",
+        "validations_nb": 481,
+        "validations_percentage": "1%",
+        "value": 45
+      },
+      {
+        "author": [
+          "int_0x80"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - KeygenMe",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-KeygenMe",
+        "solutions_nb": 5,
+        "statement": "",
+        "validations_nb": 458,
+        "validations_percentage": "1%",
+        "value": 50
+      },
+      {
+        "author": [
+          "0xmitsurugi"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x64 - Anti-debug and equations",
+        "note": 4,
+        "path": "en/Challenges/Cracking/ELF-x64-Anti-debug-and-equations",
+        "solutions_nb": 3,
+        "statement": "Warning: Weird anti-debug techniques",
+        "validations_nb": 223,
+        "validations_percentage": "1%",
+        "value": 65
+      },
+      {
+        "author": [
+          "Phenol"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x64 - Nanomites",
+        "note": 4,
+        "path": "en/Challenges/Cracking/ELF-x64-Nanomites",
+        "solutions_nb": 1,
+        "statement": "Nanomites everywhere",
+        "validations_nb": 162,
+        "validations_percentage": "1%",
+        "value": 70
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Packed",
+        "note": 3,
+        "path": "en/Challenges/Cracking/ELF-x86-Packed",
+        "solutions_nb": 3,
+        "statement": "",
+        "validations_nb": 269,
+        "validations_percentage": "1%",
+        "value": 70
+      },
+      {
+        "author": [
+          "Thanat0s"
+        ],
+        "difficulty": "Hard",
+        "name": "PE x86 - RunPE",
+        "note": 5,
+        "path": "en/Challenges/Cracking/PE-x86-RunPE",
+        "solutions_nb": 4,
+        "statement": "Windows packing technique.",
+        "validations_nb": 596,
+        "validations_percentage": "1%",
+        "value": 75
+      },
+      {
+        "author": [
+          "Thanat0s"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - VM",
+        "note": 5,
+        "path": "en/Challenges/Cracking/ELF-x86-VM",
+        "solutions_nb": 7,
+        "statement": "Virtual Machine",
+        "validations_nb": 376,
+        "validations_percentage": "1%",
+        "value": 90
+      },
+      {
+        "author": [
+          "Cryptanalyse"
+        ],
+        "difficulty": "Very hard",
+        "name": "Ringgit",
+        "note": 5,
+        "path": "en/Challenges/Cracking/Ringgit",
+        "solutions_nb": 0,
+        "statement": "Nanomites",
+        "validations_nb": 8,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "Cryptanalyse"
+        ],
+        "difficulty": "Very hard",
+        "name": "White-Box Cryptography #2",
+        "note": 4,
+        "path": "en/Challenges/Cracking/White-Box-Cryptography-2",
+        "solutions_nb": 0,
+        "statement": "Reverse and crypto",
+        "validations_nb": 9,
+        "validations_percentage": "1%",
+        "value": 130
+      }
+    ],
+    "challenges_nb": 35
+  }
+]

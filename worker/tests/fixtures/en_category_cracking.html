@@ -1,0 +1,1311 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="no-js" lang="en" xml:lang="en">
+<head>
+<base href="https://www.root-me.org/" />
+<title>Challenges/Cracking [Root Me : Hacking and Information Security learning platform]</title>
+<meta name="Description" content="Reverse binaries and crack executables."/>
+<meta name="keywords" content="Challenges,Cracking,Cracking"/>
+<link rel="alternate" type="application/rss+xml" title="RSS [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend&amp;lang=en" />
+<link rel="alternate" type="application/rss+xml" title="RSS (breves) [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend-breves&amp;lang=en" />
+<link rel="alternate" type="application/rss+xml" title="RSS Forum [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend-forums&amp;lang=en" />
+<link rel="alternate" type="application/rss+xml" title="RSS challenges [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend-challenges&amp;lang=en" />
+<link rel="alternate" type="application/rss+xml" title="RSS solutions [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend-solutions&amp;lang=en" />
+<link rel="alternate" type="application/rss+xml" title="RSS CTF all the day [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend-ctfalltheday&amp;lang=en" />
+<link rel="alternate" type="application/rss+xml" title="RSS CTF calendar [Root Me : Hacking and Information Security learning platform]" href="https://www.root-me.org?page=backend-ctf&amp;lang=en" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />            
+<link rel='stylesheet' href='local/cache-css/4f990afb2618282baa6ca42cffb34231.css?1572791753' type='text/css' />    
+<script type="text/javascript">/* <![CDATA[ */
+var box_settings = {tt_img:true,sel_g:"#documents_portfolio a[type='image/jpeg'],#documents_portfolio a[type='image/png'],#documents_portfolio a[type='image/gif']",sel_c:".mediabox",trans:"elastic",speed:"100",ssSpeed:"2500",maxW:"90%",maxH:"90%",minW:"400px",minH:"",opa:"0.8",str_ssStart:"Slideshow",str_ssStop:"Stop",str_cur:"{current}/{total}",str_prev:"Previous",str_next:"Next",str_close:"Close",splash_url:""};
+var box_settings_splash_width = "600px";
+var box_settings_splash_height = "90%";
+var box_settings_iframe = true;
+/* ]]> */</script>
+<!-- insert_head_css -->
+<link id="menu_css" rel="stylesheet" href="local/cache-css/cssdyn-css_menu_css-abfb76dd.css?1572507214" type="text/css" />
+<script type='text/javascript'>
+var jQl={q:[],dq:[],gs:[],ready:function(a){"function"==typeof a&&jQl.q.push(a);return jQl},getScript:function(a,c){jQl.gs.push([a,c])},unq:function(){for(var a=0;a<jQl.q.length;a++)jQl.q[a]();jQl.q=[]},ungs:function(){for(var a=0;a<jQl.gs.length;a++)jQuery.getScript(jQl.gs[a][0],jQl.gs[a][1]);jQl.gs=[]},bId:null,boot:function(a){"undefined"==typeof window.jQuery.fn?jQl.bId||(jQl.bId=setInterval(function(){jQl.boot(a)},25)):(jQl.bId&&clearInterval(jQl.bId),jQl.bId=0,jQl.unqjQdep(),jQl.ungs(),jQuery(jQl.unq()), "function"==typeof a&&a())},booted:function(){return 0===jQl.bId},loadjQ:function(a,c){setTimeout(function(){var b=document.createElement("script");b.src=a;document.getElementsByTagName("head")[0].appendChild(b)},1);jQl.boot(c)},loadjQdep:function(a){jQl.loadxhr(a,jQl.qdep)},qdep:function(a){a&&("undefined"!==typeof window.jQuery.fn&&!jQl.dq.length?jQl.rs(a):jQl.dq.push(a))},unqjQdep:function(){if("undefined"==typeof window.jQuery.fn)setTimeout(jQl.unqjQdep,50);else{for(var a=0;a<jQl.dq.length;a++)jQl.rs(jQl.dq[a]); jQl.dq=[]}},rs:function(a){var c=document.createElement("script");document.getElementsByTagName("head")[0].appendChild(c);c.text=a},loadxhr:function(a,c){var b;b=jQl.getxo();b.onreadystatechange=function(){4!=b.readyState||200!=b.status||c(b.responseText,a)};try{b.open("GET",a,!0),b.send("")}catch(d){}},getxo:function(){var a=!1;try{a=new XMLHttpRequest}catch(c){for(var b=["MSXML2.XMLHTTP.5.0","MSXML2.XMLHTTP.4.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"],d=0;d<b.length;++d){try{a= new ActiveXObject(b[d])}catch(e){continue}break}}finally{return a}}};if("undefined"==typeof window.jQuery){var $=jQl.ready,jQuery=$;$.getScript=jQl.getScript};
+jQl.loadjQ('local/cache-js/d67c133b9b70a327372dd0d8442f7ffc.js?1572507212')
+</script>
+<!-- insert_head -->
+<script id="onload_js" type="text/javascript" src="local/cache-html/htmldyn-script_onload-64ea4d0b.html?1572507211"></script>
+<link rel="icon" type="image/x-icon" href="https://www.root-me.org/squelettes/img/rblack.ico" />
+<link rel="icon" type="image/png" href="squelettes/img/rblackGrand32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="squelettes/img/rblackGrand16.png" sizes="16x16" />       
+</head>
+<body class="antialiased hide-extras" dir="ltr" itemscope itemtype="https://schema.org/CollectionPage">
+<header id="header" role="banner">
+<nav class="top-bar" data-topbar>
+<ul class="title-area" itemprop="isPartOf" itemscope itemtype="https://schema.org/WebSite">
+<li class="name">
+<a itemprop="url" href="https://www.root-me.org?lang=en" title="challenge your hacking skills" target="_top">
+<img class="show-for-medium-up vmiddle" alt="logo https://www.root-me.org" src="local/cache-vignettes/L48xH48/rwhiteGrand48-a88ba.png?1572507210" itemprop="image" />
+<img class="show-for-small-only toggleSidebar vmiddle" alt="logo https://www.root-me.org" src="local/cache-vignettes/L48xH48/rblackGrand48-0dba3.png?1572507210" itemprop="image" />
+<span class="show-for-large-up blanc" itemprop="name">Root&nbsp;Me</span>
+</a>
+</li>    
+</ul>
+<section class="top-bar-section">
+<ul class="right">    
+<li class="lang">
+<span>
+<span>
+<a id="url_fr" href="fr/Challenges/Cracking/"><img class="vmiddle" src="squelettes/img/drap_fr.png" alt="fran&#231;ais" height="16" width="16" title="fran&#231;ais" /></a>
+<a id="url_de" href="de/Challenges/Cracking/"><img class="vmiddle" src="squelettes/img/drap_de.png" alt="Deutsch" height="16" width="16" title="Deutsch" /></a>
+<a id="url_es" href="es/Challenges/Cracking/"><img class="vmiddle" src="squelettes/img/drap_es.png" alt="Espa&#241;ol" height="16" width="16" title="Espa&#241;ol" /></a>
+</span>
+<a href="/en/Challenges/Cracking/#"><img src='squelettes/img/drap_en.png' alt='en' class='grayscale' width='16' height='16' /></a>
+</span>
+</li>
+<li>
+<a style="height: 24px; padding: 10px 10px 0 10px;" class="mediabox pageajax" href="./?page=identifiants&amp;lang=en" title="Create an account"><img src='squelettes/img/creation_compte.png' alt='Create an account' class='vtop' width='16' height='16' /></a>
+<a style="height: 24px; padding: 15px 10px 0 10px;" class="mediabox pageajax" href="./?page=login&amp;lang=en" title="Connect"><img src='squelettes/img/connexion.png' alt='Login' class='vtop' width='16' height='16' /></a>
+</li>            </ul>   
+<ul class="left">
+<li><a title="Frequently Asked Questions" href="https://www.root-me.org?page=faq&amp;lang=en"><img src="squelettes/img/faq.png" alt="Frequently Asked Questions"/></a></li>
+<li><a class="hide-for-small-only" title="Site Map" href="https://www.root-me.org?page=plan&amp;lang=en"><img src="squelettes/img/sitemap.png" alt="Site Map"/></a></li>
+<li><a title="Contact" href="https://www.root-me.org?page=contact&amp;lang=en"><img src="squelettes/img/contact.png" alt="Contact"/></a></li>
+<li><a class="mediabox pageajax " title="Services state" href="https://www.root-me.org?page=structure&amp;inc=inclusions%2Fservices&amp;lang=en"><img src="squelettes/img/service_state.png" alt="Services state"/></a></li>              
+<li><a class="hide-for-small-only" title="Shop" href="https://www.root-me.org?page=structure&amp;inc=page-shop&amp;lang=en"><img src="squelettes/img/shop.png" alt="Shop"/></a></li>              
+<li class="search hide-for-small-only">
+<form action="https://www.root-me.org" method="get">
+<input type="hidden" value="recherche" name="page"/>
+<input type="hidden" value="en" name="lang" />                    
+<input class="search" name="recherche" placeholder="Search" type="search" />                        
+</form>
+</li>
+</ul>
+</section>
+</nav>
+</header>      
+<div id="container">
+<div id="main_row">
+<div id="aside_wrapper">
+<aside id="aside" role="complementary" itemscope itemtype="https://schema.org/WPSideBar">
+<nav class="top-bar" data-topbar="" >
+<div class="top-bar-section" role="navigation" itemprop="hasPart" itemscope itemtype="https://schema.org/SiteNavigationElement">
+<ul class="right">
+<li class="has-dropdown">
+<a itemprop="url" href="en/Capture-The-Flag/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon190-1b26f.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Capture The Flag</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Capture The Flag</li>
+<li><a class="submenu198" href="en/Capture-The-Flag/Calendar/" title="The CTF calendar is coming soon. Don&#039;t hesitate to inform us about those we forgot by sending a message on the Contact page! "  itemprop="url">Calendar</a></li>
+<li><a class="submenu197" href="en/Capture-The-Flag/CTF-all-the-day/" title="Improve your hacking skills in a realistic environment where the goal is to fully compromise, &#171; root &#187; the host !"  itemprop="url">CTF all the day</a></li>
+</ul>
+</li>
+<li class="has-dropdown active">
+<a itemprop="url" href="en/Challenges/">
+<span class="logo left">
+<img  src="local/cache-vignettes/L16xH16/rubon148-c132c.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Challenges</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Challenges</li>
+<li><a class="submenu191" href="en/Challenges/App-Script/" title="Exploit environment weaknesses, configuration mistakes and vulnerability patterns in shell scripting and system hardening."  itemprop="url">App - Script</a></li>
+<li><a class="submenu204" href="en/Challenges/App-System/" title="These challenges will help you understand applicative vulnerabilities."  itemprop="url">App - System</a></li>
+<li><a class="submenu158" href="en/Challenges/Cracking/" title="Reverse binaries and crack executables."  itemprop="url">Cracking</a></li>
+<li><a class="submenu160" href="en/Challenges/Cryptanalysis/" title="Break encryption algorithms"  itemprop="url">Cryptanalysis</a></li>
+<li><a class="submenu209" href="en/Challenges/Forensic/" title="Train digital investigation skills by analyzing memory dumps, log files, network captures..."  itemprop="url">Forensic</a></li>
+<li><a class="submenu183" href="en/Challenges/Network/" title="Networks challenges where you have to deal with captured traffic, network services, packet analysis, etc"  itemprop="url">Network</a></li>
+<li><a class="submenu159" href="en/Challenges/Programming/" title="Automate tasks and build shellcodes."  itemprop="url">Programming</a></li>
+<li><a class="submenu157" href="en/Challenges/Realist/" title="Realistic challenges."  itemprop="url">Realist</a></li>
+<li><a class="submenu156" href="en/Challenges/Steganography/" title="Whereas cryptography concern the art of secret, steganography is the art of hidding: the object of steganography is to hide the fact that there is an information in a document. "  itemprop="url">Steganography</a></li>
+<li><a class="submenu155" href="en/Challenges/Web-Client/" title="At first you will be faced with problems that will require little to no knowledge of web scripting language. Pretty soon the plot thickens ..."  itemprop="url">Web - Client</a></li>
+<li><a class="submenu154" href="en/Challenges/Web-Server/" title="Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse it!"  itemprop="url">Web - Server</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a itemprop="url" href="en/Community/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon152-cb17c.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Community</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Community</li>
+<li><a class="submenu176" href="en/Community/Contribute/" title="You have skills in computer security or in hacking ? Join us and help the community to grow ! Don&#039;t hesitate ;-)"  itemprop="url">Contribute</a></li>
+<li><a class="submenu142" href="en/Community/Forums/" title="A space for you to share, interact with other members of the community."  itemprop="url">Forums</a></li>
+<li><a class="submenu192" href="en/Community/IRC-channel/" title="IRC channel information page"  itemprop="url">IRC channel</a></li>
+<li><a class="submenu181" href="en/Community/Members/" title="Community&#039;s members list."  itemprop="url">Members</a></li>
+<li><a class="submenu166" href="en/Community/Rankings/" title="Rankings and explanation about challenges and scores"  itemprop="url">Rankings</a></li>
+<li><a class="submenu165" href="en/Community/ShoutBox/" title="Leave us a message"  itemprop="url">ShoutBox</a></li>
+</ul>
+</li>
+<li class="">
+<a itemprop="url" href="en/Docs/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon149-61a0a.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Docs</span>
+</a>
+</li>
+<li class="has-dropdown">
+<a itemprop="url" href="en/Information/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon151-94340.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Information</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Information</li>
+<li><a class="submenu171" href="en/Information/Hacks/" title="As on any information system, some weaknesses were identified on the website."  itemprop="url">Hacks</a></li>
+<li><a class="submenu168" href="en/Information/Legal-Disclaimer/" title="In a world so wide as hacking, which deals with many controversial areas, it became necessary to warn the user about portal&#039;s usage and its services."  itemprop="url">Legal Disclaimer</a></li>
+<li><a class="submenu169" href="en/Information/Partners/" title="We are currently searching for partners. If you&#039;re interested mail : admin - At - root-me.org. "  itemprop="url">Partners</a></li>
+<li><a class="submenu202" href="en/Information/Sponsors/" title="Sponsors helping us to maintain this architecture and this portal."  itemprop="url">Sponsors</a></li>
+<li><a class="submenu170" href="en/Information/Team/" title="Actual staff members"  itemprop="url">Team</a></li>
+<li><a class="submenu167" href="en/Information/The-Project/" title="Root-Me is a non-profit organization which goal is to promote the spread of knowledge related to hacking and information security."  itemprop="url">The Project</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a itemprop="url" href="en/Tools/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon150-416d5.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Tools</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Tools</li>
+<li><a class="submenu77" href="en/Tools/Cryptography/" title="Everything you need in the crypto domain."  itemprop="url">Cryptography</a></li>
+<li><a class="submenu244" href="en/Tools/Forensic/" title="Most famous and useful tools in Forensic analysis."  itemprop="url">Forensic</a></li>
+<li><a class="submenu22" href="en/Tools/Network/" title="Most used tools for network analysis and attack."  itemprop="url">Network</a></li>
+<li><a class="submenu161" href="en/Tools/Online-Tools/" title="Several tools are available online : password generator, crypt, whois..."  itemprop="url">Online Tools</a></li>
+<li><a class="submenu245" href="en/Tools/Reverse-Engineering/" title="Reversing tools to help you in your binary analysis : debugger, disassembler, managed code decompiler, etc."  itemprop="url">Reverse Engineering</a></li>
+<li><a class="submenu243" href="en/Tools/System/" title="Everything you need to assess and exploit system vulnerability."  itemprop="url">System</a></li>
+<li><a class="submenu242" href="en/Tools/Web/" title="Common web oriented tools which can be helpfull in various challenges."  itemprop="url">Web</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<div class="small-12 columns hide-for-medium-only">
+<h3>222 visitors now</h3>
+Newest members&nbsp;:
+<ul class="inline-list ts">
+<li><a class=" forum"  title="Profil of lagrosadudul" href="/lagrosadudul?lang=en">lagrosadudul</a></li>
+<li><a class=" forum"  title="Profil of the killer" href="/the-killer-373247?lang=en">the killer</a></li>
+<li><a class=" forum"  title="Profil of James pee" href="/James-pee?lang=en">James pee</a></li>
+<li><a class=" forum"  title="Profil of stephenking" href="/stephenking?lang=en">stephenking</a></li>
+<li><a class=" forum"  title="Profil of urlugal" href="/urlugal?lang=en">urlugal</a></li>
+<li><a class=" forum"  title="Profil of Emma_nuel" href="/Emma_nuel?lang=en">Emma_nuel</a></li>
+<li><a class=" forum"  title="Profil of yeorj" href="/yeorj?lang=en">yeorj</a></li>
+</ul>               
+<h3>Chatbox</h3>
+<div class='ajaxbloc ajax-id-chat_box_mini' data-ajax-env='8a5OWOeKObHh/sCAYbjQw4Uxx1f9TU8UDK6tJ+H0/rBNoFyDPDiR0va+IhQ0vKSiWAL9nl9b60/T/fu37X0HlgBSeL0NQx3xQ9Tpx5cC0e9xvmxMpStp/DBZjAo5xqIDcJfZaKuToZblLVjj8xSU3f5uFpaLQcW6m9EgOF+IZcyCvBLpzfG9xMnM/9vQMOQtgQO2I3DNVrzqfOQ=' data-origin="/en/Challenges/Cracking/">
+<a name='pagination_chat_box_archive' id='pagination_chat_box_archive'></a>
+<ul>
+<li>
+<span class="left"><img class='vmiddle logo_auteur logo_6forum' src="local/cache-vignettes/L48xH42/auton313160-26ca8.png" alt="Ykia"  width='48' height='42' /></span>
+<span class="left" style="margin-left: 0.5rem;">
+<a class=" forum"  title="Profil of Ykia" href="/Ykia?lang=en">Ykia</a><br/>
+<span class="txs left">2 November 2019&nbsp;at&nbsp;21:18</span>
+</span>
+<div class="clearfix"></div>                
+<div class="chatbox txs text-left"><p><p>Je propose mon serveur discord ici.<br class="autobr">
+Le but et le partage si vous venez pour agrandir votre E-penis vous serrez ban. Le hacking c’est avant tout le partage et c’est dans cette optique que j’ai crée ce serveur.<br class="autobr"><a href="https://discord.gg/jJUNXNC" class="spip_url spip_out auto" rel="nofollow external">https://discord.gg/jJUNXNC</a></p></p></div>
+</li>
+<li>
+<span class="right"><img class='vmiddle logo_auteur logo_6forum' src="local/cache-vignettes/L48xH48/auton0-5220c.png" alt="wahyu rizki hamid"  width='48' height='48' /></span>
+<span class="text-right right" style="margin-right: 0.5rem;">
+<a class=" forum"  title="Profil of wahyu rizki hamid" href="/wahyu-rizki-hamid?lang=en">wahyu rizki hamid</a><br/>
+<span class="txs text-right">2 November 2019&nbsp;at&nbsp;15:58</span>
+</span>
+<div class="clearfix"></div>                
+<div class="chatbox txs text-right"><p><p>share your knowledge so that I can share with people in need. please teach me about hacking. because I’m already bored with my school. And I want to prove that I can hack a website</p></p></div>
+</li>
+<li>
+<span class="left"><img class='vmiddle logo_auteur logo_6forum' src="local/cache-vignettes/L48xH48/auton0-5220c.png" alt="Peter"  width='48' height='48' /></span>
+<span class="left" style="margin-left: 0.5rem;">
+<a class=" forum"  title="Profil of Peter" href="/Peter-372398?lang=en">Peter</a><br/>
+<span class="txs left">1 November 2019&nbsp;at&nbsp;17:30</span>
+</span>
+<div class="clearfix"></div>                
+<div class="chatbox txs text-left"><p><p>Guys, an open challenge !!!</p>
+<p>Give a try to hack my newly built website:<br class="autobr">
+[EDIT]</p>
+<p>I believe, I did the best security for my website.</p></p></div>
+</li>
+</ul>
+<div class="pagination-centered">
+<ul class="pagination">
+<li><a href='/en/Challenges/Cracking/?debut_chat_box_archive=3#pagination_chat_box_archive' class='lien_pagination gris' rel='nofollow'>&gt;</a></li>
+</ul>
+</div>
+</div><!--ajaxbloc-->
+<span>            
+<a href="./?page=chatbox_message&amp;lang=en" title="Post a message" class="gris mediabox pageajax"><img src='squelettes/img/post.png' alt='' width='32' height='32' />&nbsp;Post a message</a><br/>
+<a class="gris" href="/en/Challenges/Cracking/" title="rafraichir" onclick="ajaxReload('chat_box_mini'); return false;"><img src='squelettes/img/refresh.png' alt='' width='32' height='32' />&nbsp;rafraichir</a>                
+</span>
+<div class="clearfix"></div>            <h3>Newsletter</h3>
+<div class="ajax gris"><div class='formulaire_spip formulaire_newsletter formulaire_newsletter_subscribe ajax'>
+<form method='post' action='/en/Challenges/Cracking/#'><div>
+<div><input name='formulaire_action' type='hidden'
+value='newsletter_subscribe' /><input name='formulaire_action_args' type='hidden'
+value='RxPHGFf1ZMHVFRWdSj7RuB2IH1c8FLxm0IoZwtYQF6i1Xa2Dn5KazmaNg//OiYT5MtCJIqsbs33HEj1j' /><input type='hidden' name='_jeton' value='7a53e1e90fe18d7c596f3ff1b55bb91e3f948ef6' /></div><ul class="editer-groupe">
+<li class="editer editer_session_email obligatoire">
+<label for="session_email">Email</label><input type="email" name="session_email" class="email text" value="" id="session_email"  required='required'/>
+</li>
+</ul>
+<!--extra-->
+<p class="boutons"><input type="submit" class="submit" value="Subscribe to the Newsletter" /></p>
+</div><div class="editer saisie_session_email" style="display: none;">
+<label for="give_me_your_email">Please leave this field empty:</label>
+<input type="text" class="text email" name="email_nobot" id="give_me_your_email" value="" size="10" />
+</div></form>
+</div>
+</div>            <h3>Sponsored by</h3>
+<ul>
+<li><a href="https://www.algosecure.fr" target="_BLANK" >AlgoSecure</a></li>
+<li><a href="https://www.certilience.fr" target="_BLANK" >Certilience</a></li>
+<li><a href="https://navixia.com" target="_BLANK" >Navixia</a></li>
+<li><a href="https://www.nbs-system.com" target="_BLANK" >NBS System</a></li>
+<li><a href="http://www.provadys.com" target="_BLANK" >Provadys</a></li>
+<li><a class="mediabox pageajax" href="./?page=structure&amp;inc=page-don&amp;lang=en">You&nbsp;;-)</a></li>
+</ul>            <h3>Follow us</h3>
+</div>
+<div class="row social">
+<div class="small-3 medium-12 large-3 columns"><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fwww.root-me.org%2F&region=follow_link&screen_name=rootme_org&tw_p=followbutton" title="Twitter"><img src='squelettes/img/twitter.png' alt='Twitter' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>
+<div class="small-3 medium-12 large-3 columns"><a href="https://www.linkedin.com/groups/Root-Me-hacking-and-information-8180601" title="Linkedin"><img src='squelettes/img/linkedin.png' alt='Linkedin' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>                
+<div class="small-3 medium-12 large-3 columns"><a href="https://www.root-me.org?page=flux_rss&amp;lang=en" title="Dynamic Stream"><img src='squelettes/img/rss.png' alt='Dynamic Stream' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>
+<div class="small-3 medium-12 large-3 columns"><a href="https://facebook.com/" title="Facebook"><img src='squelettes/img/facebook.png' alt='Facebook' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>
+</div>
+</aside>
+</div>             
+<div id="main_wrapper" class="row">
+<ul id="breadcrumb" class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="https://www.root-me.org?lang=en" itemprop="url">Home</a></li>
+<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a title="Challenges" href="en/Challenges/" itemprop="url">Challenges</a></li>
+<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a title="Cracking" href="en/Challenges/Cracking/" itemprop="url">Cracking</a></li>
+</ul>                  <main id="main" itemprop="mainContentOfPage" itemscope itemtype="https://schema.org/WebPageElement">
+<div class='ajaxbloc' data-ajax-env='Ia/CXKaaObNxmfoas986f2NzVrH+Yd/yT1n02BN9nDSQeIRwF2Wl8wSyJ/d9LrWlln6Ab6m4fK63euMzTCBNVsu+tfYtPao1jXlYn+iavuMFGZnApDiTpLCHJoVij3ctzsv+vm14rc2aXxeQL+U2Ejy5CKVp+SjHTkoAWgcM8yAfW8J+qIoW4KHh4WYbLlM3vhVfYa3+Yin8rMUVPk7/mwlUJUTahQ==' data-origin="/en/Challenges/Cracking/">
+<div  class="small-12 columns"  >
+<div class="tile">
+<div class="t-body tb-padding">
+<h1 class="crayon rubrique-titre-158 "><img class='vmiddle' alt="" src="local/cache-vignettes/L32xH32/rubon158-cc847.png?1572507285" width='32' height='32' itemprop='image' />&nbsp;<span itemprop="headline">Cracking</span></h1>
+<h3 class="crayon rubrique-descriptif-158 " itemprop="description">Reverse binaries and crack executables.
+</h3>
+<div class="texte crayon rubrique-texte-158 " itemprop="text"><p>This series of challenges will help you understand the inner workings of compiled languages. Disassemble the binaries provided to solve the crackmes at the assembly level.</p>
+<p>Prerequisites:
+<br><img src="local/cache-vignettes/L8xH11/puce-32883.gif?1572507220" width="8" height="11" class="puce" alt="-"> Advanced understanding of assembly languages on various architectures (x86, ARM, MIPS ...).
+<br><img src="local/cache-vignettes/L8xH11/puce-32883.gif?1572507220" width="8" height="11" class="puce" alt="-"> Understanding of the different executable formats (ELF, PE, etc.).
+<br><img src="local/cache-vignettes/L8xH11/puce-32883.gif?1572507220" width="8" height="11" class="puce" alt="-"> Mastery in the use disassemblers and debuggers.</p></div>
+</div>
+</div>
+</div>
+<div class='ajaxbloc' data-ajax-env='Ia3OXOeKJfFhuSuaDqthdUvaNCFXZc6XgO7cGrsOC5PqY/34UPsxG53tRSSQdqfcFi5g/eACpbmpn84LhGhno8HSBLd8ooxllhG0bv1mdzpLFoVagyvPTSk5NPQLh8vLrNvZ8t1Mgk/mLrauaZl72Qoq8/2GCkHfkYQonpX7EL5H9etZAA==' data-origin="/en/Challenges/Cracking/">
+<div  class="small-12 columns"  >
+<div class="tile">
+<div class="t-body tb-padding">
+<a name='pagination_co' id='pagination_co'></a>
+<h1>
+<img src="plugins/challenges_hacking/prive/themes/spip/images/challenge-32.png" alt="Challenges associated with this section" class="vmiddle" width="32" height="32">&nbsp;35&nbsp;Challenges
+</h1>
+<table class="text-center" style="width: 100%">
+<thead>
+<tr class="row_first">
+<td>Results</td>
+<td><a href='/en/Challenges/Cracking/?tri_co=titre' class='ajax'>Challenge's Name</a></td>
+<td><a href='/en/Challenges/Cracking/?tri_co=nombre_validation' class='ajax'>Validations</a></a></td>
+<td><a href='/en/Challenges/Cracking/?tri_co=score' class='ajax'>Number of points</a>&nbsp;&nbsp;<a class="mediabox pageajax" href="./?page=structure&amp;inc=inclusions%2Flegende&amp;lang=en#score" title="Explanation for the scores"><img src='squelettes/img/question_mark.png' alt='Explanation for the scores' width='16' height='16' /></a></td>
+<td class="text-center show-for-medium-up"><a href='/en/Challenges/Cracking/?tri_co=id_mot' class='ajax'>Difficulty</a>&nbsp;&nbsp;<a class="mediabox pageajax" href="./?page=structure&amp;inc=inclusions%2Flegende&amp;lang=en#difficulte" title="Difficulty"><img src='squelettes/img/question_mark.png' alt='Difficulty' width='16' height='16' /></a></td>
+<td class="text-center show-for-large-up"><a href='/en/Challenges/Cracking/?tri_co=nom' class='ajax'>Author</a></td>
+<td><a href='/en/Challenges/Cracking/?tri_co=note_ponderee' class='ajax'>Note</a>&nbsp;&nbsp;<a class="mediabox pageajax" href="./?page=structure&amp;inc=inclusions%2Flegende&amp;lang=en#note" title="Notation"><img src='squelettes/img/question_mark.png' alt='Notation' width='16' height='16' /></a></td>
+<td class="show-for-medium-up"><a href='/en/Challenges/Cracking/?tri_co=nombre_solution' class='ajax'>Solution</a></td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-0-protection" title="First challenge of cracking, writen in C with vi and compiled with GCC32">ELF x86 - 0 protection</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 15%; background-color: #ff4b4b;">15%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=42&amp;lang=en" title="Who ?">22624</a>
+</span>
+</td>
+<td>5</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-facile?lang=en" title="Very easy : First level of the challenge"><span class="difficulte difficulte1   difficulte1a" style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of g0uZ" href="/g0uZ?lang=en">g0uZ</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">10</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-Basic" title=" ">ELF x86 - Basic</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 12%; background-color: #ff4b4b;">12%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=44&amp;lang=en" title="Who ?">18498</a>
+</span>
+</td>
+<td>5</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-facile?lang=en" title="Very easy : First level of the challenge"><span class="difficulte difficulte1   difficulte1a" style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of g0uZ" href="/g0uZ?lang=en">g0uZ</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">10</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PE-x86-0-protection" title="This challenge comes from greHack CTF 2012">PE x86 - 0 protection</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 7%; background-color: #ff4b4b;">7%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=272&amp;lang=en" title="Who ?">9717</a>
+</span>
+</td>
+<td>5</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-facile?lang=en" title="Very easy : First level of the challenge"><span class="difficulte difficulte1   difficulte1a" style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of alejandr0" href="/alejandr0?lang=en">alejandr0</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">5</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-C-0-protection" title="std::string">ELF C++ - 0 protection</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 3%; background-color: #ff4b4b;">3%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1305&amp;lang=en" title="Who ?">4320</a>
+</span>
+</td>
+<td>10</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=en" title="Easy : 2nd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil of sourcePerrier" href="/sourcePerrier?lang=en">sourcePerrier</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">4</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PE-DotNet-0-protection" title="Managed code">PE DotNet - 0 protection</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 4%; background-color: #ff4b4b;">4%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=422&amp;lang=en" title="Who ?">5055</a>
+</span>
+</td>
+<td>10</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=en" title="Easy : 2nd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of Geluchat" href="/Geluchat?lang=en">Geluchat</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">5</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-MIPS-Basic-Crackme" title="Static">ELF MIPS - Basic Crackme</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1811&amp;lang=en" title="Who ?">991</a>
+</span>
+</td>
+<td>15</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=en" title="Easy : 2nd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of stan1slas" href="/s4r?lang=en">stan1slas</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x64-Golang-basic" title="GO GO GO!">ELF x64 - Golang basic</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1932&amp;lang=en" title="Who ?">714</a>
+</span>
+</td>
+<td>15</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-facile?lang=en" title="Very easy : First level of the challenge"><span class="difficulte difficulte1   difficulte1a" style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of jenaye" href="/Stahli_listenvoid?lang=en">jenaye</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-Fake-Instructions" title="">ELF x86 - Fake Instructions</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 4%; background-color: #ff4b4b;">4%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=73&amp;lang=en" title="Who ?">5132</a>
+</span>
+</td>
+<td>15</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=en" title="Easy : 2nd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of kmkz" href="/kmkz?lang=en">kmkz</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">4</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-Ptrace" title="Compiled with GCC32 4.3.4 on linux gentoo.">ELF x86 - Ptrace</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 3%; background-color: #ff4b4b;">3%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=69&amp;lang=en" title="Who ?">4450</a>
+</span>
+</td>
+<td>15</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=en" title="Easy : 2nd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of g0uZ" href="/g0uZ?lang=en">g0uZ</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">2</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-ARM-basic-crackme" title="Constant time">ELF ARM - Basic Crackme</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1304&amp;lang=en" title="Who ?">1787</a>
+</span>
+</td>
+<td>20</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=en" title="Easy : 2nd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of 0xmitsurugi" href="/0xmitsurugi?lang=en">0xmitsurugi</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">6</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PYC-ByteCode" title="A compiled crackme">PYC - ByteCode</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=358&amp;lang=en" title="Who ?">3067</a>
+</span>
+</td>
+<td>20</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Thanat0s" href="/Thanat0s?lang=en">Thanat0s</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">9</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-No-software-breakpoints" title="It doesn&#039;t like code modifications.">ELF x86 - No software breakpoints</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=376&amp;lang=en" title="Who ?">2392</a>
+</span>
+</td>
+<td>25</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of yodzeb" href="/yodzeb?lang=en">yodzeb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">6</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/MachO-x64-keygenme-or-not" title="Read the code and find the good way">MachO x64 - keygenme or not</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1358&amp;lang=en" title="Who ?">807</a>
+</span>
+</td>
+<td>25</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of /bin/ls" href="/lsirigna42-21328?lang=en">/bin/ls</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-ARM-crackme-1337" title="1337">ELF ARM - crackme 1337</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=123&amp;lang=en" title="Who ?">1287</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">2</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-CrackPass" title="Can you bypass the algorithm?">ELF x86 - CrackPass</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=119&amp;lang=en" title="Who ?">2839</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Tosh" href="/Tosh?lang=en">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">5</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-ExploitMe" title="Bof bof...">ELF x86 - ExploitMe</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=79&amp;lang=en" title="Who ?">2633</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of kmkz" href="/kmkz?lang=en">kmkz</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">5</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-Random-Crackme" title="This crackme can be solved in many different ways. We&#039;ll let you find them. Note that you might get errors when executing the application. This is expected ">ELF x86 - Random Crackme</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=75&amp;lang=en" title="Who ?">2064</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of kmkz" href="/kmkz?lang=en">kmkz</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/GB-Basic-GameBoy-crackme" title="An unorthodox architecture!">GB - Basic GameBoy crackme</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1867&amp;lang=en" title="Who ?">369</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of jambon69" href="/jambon69?lang=en">jambon69</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">2</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PDF-Javascript" title="This challenge was part of Hack.lu&#039;s 2011 CTF">PDF - Javascript</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=237&amp;lang=en" title="Who ?">950</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of koma" href="/koma?lang=en">koma</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PE-x86-Xor-Madness" title="xor, sub, call, ret. Nothing else.">PE x86 - Xor Madness</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=2059&amp;lang=en" title="Who ?">149</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of ENOENT" href="/Florian-49364?lang=en">ENOENT</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-ARM-Crypted" title="Google is your friend.">ELF ARM - Crypted</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=258&amp;lang=en" title="Who ?">416</a>
+</span>
+</td>
+<td>35</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of koma" href="/koma?lang=en">koma</a>
+</td>
+<td><img src="squelettes/img/note/note2.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x64-Crackme-automating" title="Find basic block, automate cracking.">ELF x64 - Crackme automating</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1831&amp;lang=en" title="Who ?">364</a>
+</span>
+</td>
+<td>35</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of 0xmitsurugi" href="/0xmitsurugi?lang=en">0xmitsurugi</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">6</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PE-SEHVEH" title="A Exceptionnal crackme !">PE x86 - SEHVEH</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=323&amp;lang=en" title="Who ?">696</a>
+</span>
+</td>
+<td>35</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Thanat0s" href="/Thanat0s?lang=en">Thanat0s</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/APK-Anti-debug" title="Play hide and seek, this challenge comes from Hashdays 2012">APK - Anti-debug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=279&amp;lang=en" title="Who ?">1188</a>
+</span>
+</td>
+<td>40</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of cryptax" href="/cryptax?lang=en">cryptax</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x64-Nanomites-Introduction" title="Where are my instructions?">ELF x64 - Nanomites - Introduction</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1762&amp;lang=en" title="Who ?">278</a>
+</span>
+</td>
+<td>45</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of Phenol" href="/Phenol?lang=en">Phenol</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">2</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-Anti-debug" title="A small Linux program using many anti-dbg technics.">ELF x86 - Anti-debug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=253&amp;lang=en" title="Who ?">1030</a>
+</span>
+</td>
+<td>45</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Tosh" href="/Tosh?lang=en">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PE-x86-AutoPE" title="Immerse yourself Into windows&#039; cracking with this crackme coded in AutoIt. EOF it&#039;s just a start, the source will lead you to WTF...">PE x86 - AutoPE</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=159&amp;lang=en" title="Who ?">481</a>
+</span>
+</td>
+<td>45</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of Gr4ph0s" href="/Gr4ph0s?lang=en">Gr4ph0s</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-KeygenMe" title="">ELF x86 - KeygenMe</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=157&amp;lang=en" title="Who ?">458</a>
+</span>
+</td>
+<td>50</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=en" title="Medium : 3rd level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of int_0x80" href="/int_0x80?lang=en">int_0x80</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">5</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x64-Anti-debug-and-equations" title="Warning: Weird anti-debug techniques">ELF x64 - Anti-debug and equations</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1303&amp;lang=en" title="Who ?">223</a>
+</span>
+</td>
+<td>65</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=en" title="Hard : 4th level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of 0xmitsurugi" href="/0xmitsurugi?lang=en">0xmitsurugi</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x64-Nanomites" title="Nanomites everywhere">ELF x64 - Nanomites</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=1763&amp;lang=en" title="Who ?">162</a>
+</span>
+</td>
+<td>70</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=en" title="Hard : 4th level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil of Phenol" href="/Phenol?lang=en">Phenol</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-Packed" title="">ELF x86 - Packed</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=175&amp;lang=en" title="Who ?">269</a>
+</span>
+</td>
+<td>70</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=en" title="Hard : 4th level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Tosh" href="/Tosh?lang=en">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">3</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/PE-x86-RunPE" title="Windows packing technique.">PE x86 - RunPE</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=385&amp;lang=en" title="Who ?">596</a>
+</span>
+</td>
+<td>75</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=en" title="Hard : 4th level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Thanat0s" href="/Thanat0s?lang=en">Thanat0s</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">4</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/ELF-x86-VM" title="Virtual Machine">ELF x86 - VM</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=352&amp;lang=en" title="Who ?">376</a>
+</span>
+</td>
+<td>90</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=en" title="Hard : 4th level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Thanat0s" href="/Thanat0s?lang=en">Thanat0s</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">7</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/Ringgit" title="Nanomites">Ringgit</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=2108&amp;lang=en" title="Who ?">8</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=en" title="Very hard : Last level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Cryptanalyse" href="/Cryptanalyse?lang=en">Cryptanalyse</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="en/Challenges/Cracking/White-Box-Cryptography-2" title="Reverse and crypto">White-Box Cryptography #2</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=69&amp;id_c=2060&amp;lang=en" title="Who ?">9</a>
+</span>
+</td>
+<td>130</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=en" title="Very hard : Last level of the challenge"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil of Cryptanalyse" href="/Cryptanalyse?lang=en">Cryptanalyse</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div><!--ajaxbloc-->    
+<div class='ajaxbloc' data-ajax-env='WW3EXOeaOUiVTEy+V+iblmCOPiu8+AUmt07HcFiO30kK4eWzKuZLGmuUhkQI3idGm5z6NBbpU+pLt3scfkoCeJXIfYo6DKlEWf+huxGZpu3qVMtr39R8Ik/57orcWmz8KlV4vt25VRwmFAwYzDUdOzShjkTaVzqsZj4bIfAXtIjh' data-origin="/en/Challenges/Cracking/">
+<div  class="small-12 columns"  >
+<div class="tile">
+<div class="t-body tb-padding">
+<a name='pagination_dernieres_validations' id='pagination_dernieres_validations'></a>
+<h1>
+<img src='squelettes/img/valid.png' alt='Challenge Results' class='vmiddle' width='32' height='32' />&nbsp;Challenge Results
+</h1>
+<div class="box">
+<table class="spip text-center mauto" style="width: 100%;">
+<thead>
+<tr class="row_first">
+<td style="width: 20%;">Pseudo</td>
+<td style="width: 35%;">Challenge</td>
+<td style="width: 10%;">Lang</td>
+<td style="width: 30%;">date</td>
+</tr>
+</thead>
+<tbody>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil of mikki13" href="/mikki13?lang=en">mikki13</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/ELF-x86-0-protection" title="First challenge of cracking, writen in C with vi and compiled with GCC32">
+ELF x86 - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;16:11</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil of Yr Hen Ogledd" href="/Yr-Hen-Ogledd?lang=en">Yr Hen Ogledd</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/ELF-x86-Basic" title=" ">
+ELF x86 - Basic
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:37</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil of g4sl" href="/g4sl?lang=en">g4sl</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/ELF-C-0-protection" title="std::string">
+ELF C++ - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:35</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil of Etudiant_curieux" href="/Etudiant_curieux?lang=en">Etudiant_curieux</a></td>
+<td>
+<a href="fr/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon69-9b11a.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/Cracking/ELF-C-0-protection" title="std::string">
+ELF C++ - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:34</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil of g4sl" href="/g4sl?lang=en">g4sl</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/PE-x86-0-protection" title="This challenge comes from greHack CTF 2012">
+PE x86 - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:29</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil of Quasar" href="/Quasar-362983?lang=en">Quasar</a></td>
+<td>
+<a href="fr/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon69-9b11a.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/Cracking/ELF-C-0-protection" title="std::string">
+ELF C++ - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:25</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil of vilemonkey" href="/vilemonkey?lang=en">vilemonkey</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/PE-x86-0-protection" title="This challenge comes from greHack CTF 2012">
+PE x86 - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:17</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil of g4sl" href="/g4sl?lang=en">g4sl</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/ELF-x86-Basic" title=" ">
+ELF x86 - Basic
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:16</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil of g4sl" href="/g4sl?lang=en">g4sl</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/ELF-x86-0-protection" title="First challenge of cracking, writen in C with vi and compiled with GCC32">
+ELF x86 - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;15:14</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil of Alligat0r" href="/Alligat0r-361645?lang=en">Alligat0r</a></td>
+<td>
+<a href="en/Challenges/Cracking/" title="Cracking">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon158-4f4fc.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/Cracking/ELF-x86-0-protection" title="First challenge of cracking, writen in C with vi and compiled with GCC32">
+ELF x86 - 0 protection
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3 November 2019&nbsp;at&nbsp;14:50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pagination-centered">
+<ul class="pagination">
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=0#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>0</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=10#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>10</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=20#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>20</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=30#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>30</a></li>
+<li class="current"><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=40#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>40</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=50#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>50</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=60#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>60</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=70#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>70</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=80#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>80</a></li>
+<li><a href='/en/Challenges/Cracking/?ln=forum&amp;debut_dernieres_validations=490#pagination_dernieres_validations' class='lien_pagination ajax' rel='nofollow'>...</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div><!--ajaxbloc-->        
+</div><!--ajaxbloc-->                  </main>
+<footer id="footer" class="text-center" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+©&nbsp;2010&nbsp;-&nbsp;2019<br/>
+Root Me : Hacking and Information Security learning platform
+</footer>              </div>            
+</div>
+</div>    
+</body>
+</html>

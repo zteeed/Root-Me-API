@@ -1,0 +1,980 @@
+[
+  {
+    "name": "App-System",
+    "logo": "local/cache-vignettes/L32xH32/rubon204-f271d.png?1572507285",
+    "description1": "These challenges will help you understand applicative vulnerabilities.",
+    "description2": "Login credentials are provided for different challenge, the goal is to obtain additional rights by exploiting program\u2019s weaknesses and get a password to validate challs on the portal.",
+    "prerequisites": [],
+    "challenges": [
+      {
+        "author": [
+          "Lyes"
+        ],
+        "difficulty": "Very easy",
+        "name": "ELF x86 - Stack buffer overflow basic 1",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-1",
+        "solutions_nb": 11,
+        "statement": "An intermediate level to familiarize yourself with stack overflows",
+        "validations_nb": 12007,
+        "validations_percentage": "8%",
+        "value": 5
+      },
+      {
+        "author": [
+          "Lyes"
+        ],
+        "difficulty": "Very easy",
+        "name": "ELF x86 - Stack buffer overflow basic 2",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-basic-2",
+        "solutions_nb": 10,
+        "statement": "An intermediate level to familiarize yourself with stack overflows",
+        "validations_nb": 8850,
+        "validations_percentage": "6%",
+        "value": 10
+      },
+      {
+        "author": [
+          "Lu33Y"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF x86 - Format string bug basic 1",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x86-Format-string-bug-basic-1",
+        "solutions_nb": 5,
+        "statement": "... or how to read through the stack",
+        "validations_nb": 5862,
+        "validations_percentage": "4%",
+        "value": 15
+      },
+      {
+        "author": [
+          "Arod"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x64 - Stack buffer overflow - basic",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Stack-buffer-overflow-basic",
+        "solutions_nb": 5,
+        "statement": "first step to 64 bits",
+        "validations_nb": 4365,
+        "validations_percentage": "3%",
+        "value": 20
+      },
+      {
+        "author": [
+          "Lyes"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Format string bug basic 2",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Format-string-bug-basic-2",
+        "solutions_nb": 5,
+        "statement": "Or how to write what you want where you want in the stack",
+        "validations_nb": 2896,
+        "validations_percentage": "2%",
+        "value": 20
+      },
+      {
+        "author": [
+          "Lu33Y"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Race condition",
+        "note": 3,
+        "path": "en/Challenges/App-System/ELF-x86-Race-condition",
+        "solutions_nb": 9,
+        "statement": "Are you fast enough ?",
+        "validations_nb": 3945,
+        "validations_percentage": "3%",
+        "value": 20
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Easy",
+        "name": "ELF ARM - Stack buffer overflow - basic",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-ARM-Stack-buffer-overflow-basic",
+        "solutions_nb": 7,
+        "statement": "Intro to memory corruption on ARM",
+        "validations_nb": 736,
+        "validations_percentage": "1%",
+        "value": 25
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF MIPS - Stack buffer overflow - No NX",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-MIPS-Stack-buffer-overflow-No-NX",
+        "solutions_nb": 2,
+        "statement": "Introduction to MIPS exploitation",
+        "validations_nb": 198,
+        "validations_percentage": "1%",
+        "value": 25
+      },
+      {
+        "author": [
+          "Lyes"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Stack buffer overflow basic 3",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-basic-3",
+        "solutions_nb": 2,
+        "statement": "An intermediate level to familiarize yourself with stack overflows",
+        "validations_nb": 2872,
+        "validations_percentage": "2%",
+        "value": 25
+      },
+      {
+        "author": [
+          "Esad"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Use After Free - basic",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Use-After-Free-basic",
+        "solutions_nb": 3,
+        "statement": "At least you learnt that an english dog says: \"uaf\"",
+        "validations_nb": 413,
+        "validations_percentage": "1%",
+        "value": 25
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF ARM - Stack Spraying",
+        "note": 3,
+        "path": "en/Challenges/App-System/ELF-ARM-Stack-Spraying",
+        "solutions_nb": 4,
+        "statement": "It's not pretty... but it works.",
+        "validations_nb": 140,
+        "validations_percentage": "1%",
+        "value": 30
+      },
+      {
+        "author": [
+          "Lu33Y"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - BSS buffer overflow",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-BSS-buffer-overflow",
+        "solutions_nb": 7,
+        "statement": "Who said overflows happen only on the stack ?",
+        "validations_nb": 3011,
+        "validations_percentage": "2%",
+        "value": 30
+      },
+      {
+        "author": [
+          "Lu33Y"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Stack buffer overflow basic 4",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-basic-4",
+        "solutions_nb": 5,
+        "statement": "Can you return the env to me pleazzz ?",
+        "validations_nb": 2015,
+        "validations_percentage": "2%",
+        "value": 30
+      },
+      {
+        "author": [
+          "TiWim"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Stack buffer overflow basic 6",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-basic-6",
+        "solutions_nb": 5,
+        "statement": "ret2libc",
+        "validations_nb": 1651,
+        "validations_percentage": "2%",
+        "value": 30
+      },
+      {
+        "author": [
+          "Lyes"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Format String Bug Basic 3",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Format-String-Bug-Basic-3",
+        "solutions_nb": 2,
+        "statement": "Another way to exploit a format string bug",
+        "validations_nb": 783,
+        "validations_percentage": "1%",
+        "value": 35
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF ARM - Basic ROP",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-ARM-Basic-ROP",
+        "solutions_nb": 5,
+        "statement": "ROP for dummies vol. 1",
+        "validations_nb": 359,
+        "validations_percentage": "1%",
+        "value": 40
+      },
+      {
+        "author": [
+          "dagger-16674"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF MIPS - Basic ROP",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-MIPS-Basic-ROP",
+        "solutions_nb": 1,
+        "statement": "First MIPS ROP exploit",
+        "validations_nb": 63,
+        "validations_percentage": "1%",
+        "value": 40
+      },
+      {
+        "author": [
+          "sebbb"
+        ],
+        "difficulty": "Medium",
+        "name": "ELF x86 - Stack buffer overflow - C++ vtables",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-C-vtables",
+        "solutions_nb": 2,
+        "statement": "Buffer overflow on C++ vtables",
+        "validations_nb": 562,
+        "validations_percentage": "1%",
+        "value": 40
+      },
+      {
+        "author": [
+          "sbrk"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x64 - Logic bug",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x64-Logic-bug",
+        "solutions_nb": 3,
+        "statement": "glibc indirect weakness and common bug",
+        "validations_nb": 116,
+        "validations_percentage": "1%",
+        "value": 50
+      },
+      {
+        "author": [
+          "sbrk"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Bug Hunting - Several issues",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x86-Bug-Hunting-Several-issues",
+        "solutions_nb": 0,
+        "statement": "An exceptional salary?",
+        "validations_nb": 60,
+        "validations_percentage": "1%",
+        "value": 50
+      },
+      {
+        "author": [
+          "Lu33Y"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Stack buffer and integer overflow",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Stack-buffer-and-integer-overflow",
+        "solutions_nb": 3,
+        "statement": "Plus or minus ?",
+        "validations_nb": 1478,
+        "validations_percentage": "1%",
+        "value": 50
+      },
+      {
+        "author": [
+          "kikko"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Stack buffer overflow - ret2dl_resolve",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-ret2dl_resolve",
+        "solutions_nb": 0,
+        "statement": "no leak, no bruteforce",
+        "validations_nb": 88,
+        "validations_percentage": "1%",
+        "value": 50
+      },
+      {
+        "author": [
+          "Lu33Y"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Stack buffer overflow basic 5",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-5",
+        "solutions_nb": 1,
+        "statement": "Please don't smash me !",
+        "validations_nb": 1351,
+        "validations_percentage": "1%",
+        "value": 50
+      },
+      {
+        "author": [
+          "Arod"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x64 - Stack buffer overflow - advanced",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Stack-buffer-overflow-advanced",
+        "solutions_nb": 4,
+        "statement": "ROP 64 bits",
+        "validations_nb": 781,
+        "validations_percentage": "1%",
+        "value": 55
+      },
+      {
+        "author": [
+          "pickle",
+          "martin-76750"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF MIPS - Format String Glitch",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-MIPS-Format-String-Glitch",
+        "solutions_nb": 0,
+        "statement": "Old becomes new again",
+        "validations_nb": 27,
+        "validations_percentage": "1%",
+        "value": 60
+      },
+      {
+        "author": [
+          "Arod"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Information leakage with Stack Smashing Protector",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Information-leakage-with-Stack-Smashing-Protector",
+        "solutions_nb": 2,
+        "statement": "Many protections, but...",
+        "validations_nb": 586,
+        "validations_percentage": "1%",
+        "value": 60
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF ARM - Race condition",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-ARM-Race-condition",
+        "solutions_nb": 1,
+        "statement": "Will you win the race?",
+        "validations_nb": 80,
+        "validations_percentage": "1%",
+        "value": 70
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x64 - Browser exploit - Intro",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x64-Browser-exploit-Intro",
+        "solutions_nb": 1,
+        "statement": "Hack mah browser!",
+        "validations_nb": 41,
+        "validations_percentage": "1%",
+        "value": 70
+      },
+      {
+        "author": [
+          "sbrk"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Out of bounds attack - French Paradox",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Out-of-bounds-attack-French-Paradox",
+        "solutions_nb": 3,
+        "statement": "A colored paradox",
+        "validations_nb": 69,
+        "validations_percentage": "1%",
+        "value": 70
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Remote BSS buffer overflow",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Remote-BSS-buffer-overflow",
+        "solutions_nb": 1,
+        "statement": "Try to hack my IRC bot!",
+        "validations_nb": 633,
+        "validations_percentage": "1%",
+        "value": 75
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Remote Format String bug",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Remote-Format-String-bug",
+        "solutions_nb": 2,
+        "statement": "See the power of format string !",
+        "validations_nb": 785,
+        "validations_percentage": "1%",
+        "value": 75
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x64 - Remote heap buffer overflow - fastbin",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Remote-heap-buffer-overflow-fastbin",
+        "solutions_nb": 1,
+        "statement": "2 be free",
+        "validations_nb": 177,
+        "validations_percentage": "1%",
+        "value": 80
+      },
+      {
+        "author": [
+          "Lyes"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF x86 - Blind remote format string bug",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Blind-remote-format-string-bug",
+        "solutions_nb": 1,
+        "statement": "Network service attack without binary or source code",
+        "validations_nb": 215,
+        "validations_percentage": "1%",
+        "value": 80
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Hard",
+        "name": "LinKern ARM - vulnerable syscall",
+        "note": 4,
+        "path": "en/Challenges/App-System/LinKern-ARM-vulnerable-syscall",
+        "solutions_nb": 0,
+        "statement": "Introduction to ARM kernel exploitations",
+        "validations_nb": 75,
+        "validations_percentage": "1%",
+        "value": 85
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Hard",
+        "name": "LinKern x86 - Buffer overflow basic 1",
+        "note": 5,
+        "path": "en/Challenges/App-System/LinKern-x86-Buffer-overflow-basic-1",
+        "solutions_nb": 2,
+        "statement": "Not too much",
+        "validations_nb": 293,
+        "validations_percentage": "1%",
+        "value": 85
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Hard",
+        "name": "LinKern x86 - Null pointer dereference",
+        "note": 5,
+        "path": "en/Challenges/App-System/LinKern32-Null-pointer-dereference",
+        "solutions_nb": 0,
+        "statement": "Keep control",
+        "validations_nb": 305,
+        "validations_percentage": "1%",
+        "value": 90
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Hard",
+        "name": "LinKern x64 - Race condition",
+        "note": 5,
+        "path": "en/Challenges/App-System/LinKern64-Race-condition",
+        "solutions_nb": 0,
+        "statement": "Don't do two things at once",
+        "validations_nb": 188,
+        "validations_percentage": "1%",
+        "value": 95
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Hard",
+        "name": "ELF ARM - Alphanumeric shellcode",
+        "note": 3,
+        "path": "en/Challenges/App-System/ELF-ARM-Alphanumeric-shellcode",
+        "solutions_nb": 2,
+        "statement": "Alphanumeric input",
+        "validations_nb": 23,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF MIPS - URLEncoded Format String bug",
+        "note": 3,
+        "path": "en/Challenges/App-System/ELF-MIPS-URLEncoded-Format-String-bug",
+        "solutions_nb": 0,
+        "statement": "Sometimes security mitigation is just about annoying the attacker into submission",
+        "validations_nb": 13,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "sm0k"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 1",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Hardened-binary-1",
+        "solutions_nb": 3,
+        "statement": "",
+        "validations_nb": 527,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "sm0k"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 2",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Hardened-binary-2",
+        "solutions_nb": 3,
+        "statement": "",
+        "validations_nb": 412,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "sm0k"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 3",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Hardened-binary-3",
+        "solutions_nb": 1,
+        "statement": "",
+        "validations_nb": 262,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "sm0k"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 4",
+        "note": 5,
+        "path": "en/Challenges/App-System/Hardened-binary-4",
+        "solutions_nb": 2,
+        "statement": "",
+        "validations_nb": 292,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "LinKern MIPSel - Vulnerable ioctl",
+        "note": 4,
+        "path": "en/Challenges/App-System/LinKern-MIPSel-Vulnerable-ioctl-1921",
+        "solutions_nb": 0,
+        "statement": "Push it to the limit",
+        "validations_nb": 24,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "LinKern x64 - reentrant code",
+        "note": 4,
+        "path": "en/Challenges/App-System/LinKern64-reentrant-code",
+        "solutions_nb": 1,
+        "statement": "Look next",
+        "validations_nb": 98,
+        "validations_percentage": "1%",
+        "value": 100
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF ARM - Heap format string bug",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-ARM-Heap-format-string-bug",
+        "solutions_nb": 0,
+        "statement": "No returning",
+        "validations_nb": 47,
+        "validations_percentage": "1%",
+        "value": 105
+      },
+      {
+        "author": [
+          "Arod"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Sigreturn Oriented Programming",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Sigreturn-Oriented-Programming",
+        "solutions_nb": 3,
+        "statement": "SROP",
+        "validations_nb": 173,
+        "validations_percentage": "1%",
+        "value": 105
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF ARM - Format String bug",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-ARM-Format-String-bug",
+        "solutions_nb": 0,
+        "statement": "From a trickle to a flood",
+        "validations_nb": 56,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF ARM - Use After Free",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-ARM-Use-After-Free",
+        "solutions_nb": 0,
+        "statement": "The best things in life are free()",
+        "validations_nb": 52,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "laxa"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Heap feng-shui",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x64-Heap-feng-shui",
+        "solutions_nb": 2,
+        "statement": "Have you heard of heap feng shui?",
+        "validations_nb": 38,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "NeedToLearn"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Off-by-one bug",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Off-by-one-bug",
+        "solutions_nb": 2,
+        "statement": "Side effect",
+        "validations_nb": 87,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "sm0k"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 5",
+        "note": 5,
+        "path": "en/Challenges/App-System/Hardened-binary-5",
+        "solutions_nb": 1,
+        "statement": "",
+        "validations_nb": 219,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "LinKern ARM - Stack Overflow",
+        "note": 4,
+        "path": "en/Challenges/App-System/LinKern-ARM-Stack-Overflow",
+        "solutions_nb": 0,
+        "statement": "Kernel stack Smashing 101",
+        "validations_nb": 31,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "LinKern x86 - basic ROP",
+        "note": 5,
+        "path": "en/Challenges/App-System/LinKern32-basic-ROP",
+        "solutions_nb": 1,
+        "statement": "ROP inside",
+        "validations_nb": 147,
+        "validations_percentage": "1%",
+        "value": 110
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF ARM - Heap Off-by-One",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-ARM-Heap-Off-by-One",
+        "solutions_nb": 1,
+        "statement": "Poison the heap for fun and profit",
+        "validations_nb": 31,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Remote Heap buffer overflow 1",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Remote-Heap-buffer-overflow-1",
+        "solutions_nb": 3,
+        "statement": "Heap overflow exploitation (ptmalloc2/glibc)",
+        "validations_nb": 103,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "sm0k"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 6",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Hardened-binary-6",
+        "solutions_nb": 3,
+        "statement": "",
+        "validations_nb": 206,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Hardened binary 7",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x86-Hardened-binary-7",
+        "solutions_nb": 3,
+        "statement": "Byte by byte...",
+        "validations_nb": 169,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Remote stack buffer overflow - Hardened",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF32-Remote-stack-buffer-overflow-Hardened",
+        "solutions_nb": 1,
+        "statement": "Find the info you need",
+        "validations_nb": 99,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "LinKern x64 - RowHammer",
+        "note": 5,
+        "path": "en/Challenges/App-System/LinKern-x64-RowHammer",
+        "solutions_nb": 0,
+        "statement": "Flipping bits like 2014!",
+        "validations_nb": 27,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "Tosh"
+        ],
+        "difficulty": "Very hard",
+        "name": "LinKern x64 - SLUB off-by-one",
+        "note": 5,
+        "path": "en/Challenges/App-System/LinKern-x64-SLUB-off-by-one",
+        "solutions_nb": 1,
+        "statement": "Exploit an off-by-one on this vulnerable module",
+        "validations_nb": 17,
+        "validations_percentage": "1%",
+        "value": 115
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF ARM - Heap buffer overflow - Wilderness",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-ARM-Heap-buffer-overflow-Wilderness",
+        "solutions_nb": 1,
+        "statement": "Use the force Luke",
+        "validations_nb": 20,
+        "validations_percentage": "1%",
+        "value": 120
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF ARM - Heap Overflow",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-ARM-Heap-Overflow",
+        "solutions_nb": 0,
+        "statement": "Can you pwn the heap without convenient pointers to overwrite?",
+        "validations_nb": 23,
+        "validations_percentage": "1%",
+        "value": 120
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Seccomp Whitelist",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF-x64-Seccomp-Whitelist",
+        "solutions_nb": 0,
+        "statement": "Pwn a binary secured with a seccomp whitelist",
+        "validations_nb": 34,
+        "validations_percentage": "1%",
+        "value": 120
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x86 - Blind ROP",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x86-Blind-ROP",
+        "solutions_nb": 0,
+        "statement": "BROP",
+        "validations_nb": 69,
+        "validations_percentage": "1%",
+        "value": 120
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "Linkern x64 - Memory exploration",
+        "note": 5,
+        "path": "en/Challenges/App-System/Linkern64-Memory-exploration",
+        "solutions_nb": 1,
+        "statement": "Explore the kernel memory",
+        "validations_nb": 65,
+        "validations_percentage": "1%",
+        "value": 120
+      },
+      {
+        "author": [
+          "Tosh",
+          "Fritz"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Remote Heap buffer overflow 2",
+        "note": 5,
+        "path": "en/Challenges/App-System/ELF64-Remote-Heap-buffer-overflow-2",
+        "solutions_nb": 1,
+        "statement": "Heap overflow exploitation (ptmalloc2/glibc) - compiled with all protections",
+        "validations_nb": 75,
+        "validations_percentage": "1%",
+        "value": 130
+      },
+      {
+        "author": [
+          "franb"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Blind ROP",
+        "note": 3,
+        "path": "en/Challenges/App-System/ELF-x64-Blind-ROP",
+        "solutions_nb": 1,
+        "statement": "Hacking blind with BROP",
+        "validations_nb": 44,
+        "validations_percentage": "1%",
+        "value": 135
+      },
+      {
+        "author": [
+          "pickle"
+        ],
+        "difficulty": "Very hard",
+        "name": "ELF x64 - Browser exploit - BitString",
+        "note": 4,
+        "path": "en/Challenges/App-System/ELF-x64-Browser-exploit-BitString",
+        "solutions_nb": 0,
+        "statement": "A bit of browser fun!",
+        "validations_nb": 16,
+        "validations_percentage": "1%",
+        "value": 135
+      }
+    ],
+    "challenges_nb": 69
+  }
+]

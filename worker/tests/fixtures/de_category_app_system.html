@@ -1,0 +1,2070 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="no-js" lang="de" xml:lang="de">
+<head>
+<base href="https://www.root-me.org/" />
+<title>Challenges/App - System [Root Me : Hacking und Informationssicherheit Learning-Plattform]</title>
+<meta name="Description" content="Diese &#220;bungen setzen sich mit Schwachstellen in Programmen auseinander."/>
+<meta name="keywords" content="Challenges,App - System,App - System"/>
+<link rel="alternate" type="application/rss+xml" title="RSS [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend&amp;lang=de" />
+<link rel="alternate" type="application/rss+xml" title="RSS (breves) [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend-breves&amp;lang=de" />
+<link rel="alternate" type="application/rss+xml" title="RSS Forum [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend-forums&amp;lang=de" />
+<link rel="alternate" type="application/rss+xml" title="RSS challenges [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend-challenges&amp;lang=de" />
+<link rel="alternate" type="application/rss+xml" title="RSS solutions [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend-solutions&amp;lang=de" />
+<link rel="alternate" type="application/rss+xml" title="RSS CTF all the day [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend-ctfalltheday&amp;lang=de" />
+<link rel="alternate" type="application/rss+xml" title="RSS CTF calendar [Root Me : Hacking und Informationssicherheit Learning-Plattform]" href="https://www.root-me.org?page=backend-ctf&amp;lang=de" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />            
+<link rel='stylesheet' href='local/cache-css/4f990afb2618282baa6ca42cffb34231.css?1572791753' type='text/css' />    
+<script type="text/javascript">/* <![CDATA[ */
+var box_settings = {tt_img:true,sel_g:"#documents_portfolio a[type='image/jpeg'],#documents_portfolio a[type='image/png'],#documents_portfolio a[type='image/gif']",sel_c:".mediabox",trans:"elastic",speed:"100",ssSpeed:"2500",maxW:"90%",maxH:"90%",minW:"400px",minH:"",opa:"0.8",str_ssStart:"Diaschau",str_ssStop:"Stop",str_cur:"{current}/{total}",str_prev:"Zurück",str_next:"Weiter",str_close:"Schließen",splash_url:""};
+var box_settings_splash_width = "600px";
+var box_settings_splash_height = "90%";
+var box_settings_iframe = true;
+/* ]]> */</script>
+<!-- insert_head_css -->
+<link id="menu_css" rel="stylesheet" href="local/cache-css/cssdyn-css_menu_css-f8d18e47.css?1572507212" type="text/css" />
+<script type='text/javascript'>
+var jQl={q:[],dq:[],gs:[],ready:function(a){"function"==typeof a&&jQl.q.push(a);return jQl},getScript:function(a,c){jQl.gs.push([a,c])},unq:function(){for(var a=0;a<jQl.q.length;a++)jQl.q[a]();jQl.q=[]},ungs:function(){for(var a=0;a<jQl.gs.length;a++)jQuery.getScript(jQl.gs[a][0],jQl.gs[a][1]);jQl.gs=[]},bId:null,boot:function(a){"undefined"==typeof window.jQuery.fn?jQl.bId||(jQl.bId=setInterval(function(){jQl.boot(a)},25)):(jQl.bId&&clearInterval(jQl.bId),jQl.bId=0,jQl.unqjQdep(),jQl.ungs(),jQuery(jQl.unq()), "function"==typeof a&&a())},booted:function(){return 0===jQl.bId},loadjQ:function(a,c){setTimeout(function(){var b=document.createElement("script");b.src=a;document.getElementsByTagName("head")[0].appendChild(b)},1);jQl.boot(c)},loadjQdep:function(a){jQl.loadxhr(a,jQl.qdep)},qdep:function(a){a&&("undefined"!==typeof window.jQuery.fn&&!jQl.dq.length?jQl.rs(a):jQl.dq.push(a))},unqjQdep:function(){if("undefined"==typeof window.jQuery.fn)setTimeout(jQl.unqjQdep,50);else{for(var a=0;a<jQl.dq.length;a++)jQl.rs(jQl.dq[a]); jQl.dq=[]}},rs:function(a){var c=document.createElement("script");document.getElementsByTagName("head")[0].appendChild(c);c.text=a},loadxhr:function(a,c){var b;b=jQl.getxo();b.onreadystatechange=function(){4!=b.readyState||200!=b.status||c(b.responseText,a)};try{b.open("GET",a,!0),b.send("")}catch(d){}},getxo:function(){var a=!1;try{a=new XMLHttpRequest}catch(c){for(var b=["MSXML2.XMLHTTP.5.0","MSXML2.XMLHTTP.4.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"],d=0;d<b.length;++d){try{a= new ActiveXObject(b[d])}catch(e){continue}break}}finally{return a}}};if("undefined"==typeof window.jQuery){var $=jQl.ready,jQuery=$;$.getScript=jQl.getScript};
+jQl.loadjQ('local/cache-js/4e8e6a2b00d0a2c46a970a0ea53652fa.js?1572507212')
+</script>
+<!-- insert_head -->
+<script id="onload_js" type="text/javascript" src="local/cache-html/htmldyn-script_onload-0cbcad2d.html?1572507212"></script>
+<link rel="icon" type="image/x-icon" href="https://www.root-me.org/squelettes/img/rblack.ico" />
+<link rel="icon" type="image/png" href="squelettes/img/rblackGrand32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="squelettes/img/rblackGrand16.png" sizes="16x16" />       
+</head>
+<body class="antialiased hide-extras" dir="ltr" itemscope itemtype="https://schema.org/CollectionPage">
+<header id="header" role="banner">
+<nav class="top-bar" data-topbar>
+<ul class="title-area" itemprop="isPartOf" itemscope itemtype="https://schema.org/WebSite">
+<li class="name">
+<a itemprop="url" href="https://www.root-me.org?lang=de" title="Hacking und Informationssicherheit Learning-Plattform" target="_top">
+<img class="show-for-medium-up vmiddle" alt="logo https://www.root-me.org" src="local/cache-vignettes/L48xH48/rwhiteGrand48-a88ba.png?1572507210" itemprop="image" />
+<img class="show-for-small-only toggleSidebar vmiddle" alt="logo https://www.root-me.org" src="local/cache-vignettes/L48xH48/rblackGrand48-0dba3.png?1572507210" itemprop="image" />
+<span class="show-for-large-up blanc" itemprop="name">Root&nbsp;Me</span>
+</a>
+</li>    
+</ul>
+<section class="top-bar-section">
+<ul class="right">    
+<li class="lang">
+<span>
+<span>
+<a id="url_fr" href="fr/Challenges/App-Systeme/"><img class="vmiddle" src="squelettes/img/drap_fr.png" alt="fran&#231;ais" height="16" width="16" title="fran&#231;ais" /></a>
+<a id="url_en" href="en/Challenges/App-System/"><img class="vmiddle" src="squelettes/img/drap_en.png" alt="English" height="16" width="16" title="English" /></a>
+<a id="url_es" href="es/Challenges/App-Sistema/"><img class="vmiddle" src="squelettes/img/drap_es.png" alt="Espa&#241;ol" height="16" width="16" title="Espa&#241;ol" /></a>
+</span>
+<a href="/de/Challenges/App-System/#"><img src='squelettes/img/drap_de.png' alt='de' class='grayscale' width='16' height='16' /></a>
+</span>
+</li>
+<li>
+<a style="height: 24px; padding: 10px 10px 0 10px;" class="mediabox pageajax" href="./?page=identifiants&amp;lang=de" title="Ein Konto erstellen"><img src='squelettes/img/creation_compte.png' alt='Ein Konto erstellen' class='vtop' width='16' height='16' /></a>
+<a style="height: 24px; padding: 15px 10px 0 10px;" class="mediabox pageajax" href="./?page=login&amp;lang=de" title="Einloggen"><img src='squelettes/img/connexion.png' alt='Loggen Sie sich ein' class='vtop' width='16' height='16' /></a>
+</li>            </ul>   
+<ul class="left">
+<li><a title="Häufig gestellte Fragen" href="https://www.root-me.org?page=faq&amp;lang=de"><img src="squelettes/img/faq.png" alt="Häufig gestellte Fragen"/></a></li>
+<li><a class="hide-for-small-only" title="Sitemap" href="https://www.root-me.org?page=plan&amp;lang=de"><img src="squelettes/img/sitemap.png" alt="Sitemap"/></a></li>
+<li><a title="Kontakt" href="https://www.root-me.org?page=contact&amp;lang=de"><img src="squelettes/img/contact.png" alt="Kontakt"/></a></li>
+<li><a class="mediabox pageajax " title="Zustand der Dienste" href="https://www.root-me.org?page=structure&amp;inc=inclusions%2Fservices&amp;lang=de"><img src="squelettes/img/service_state.png" alt="Zustand der Dienste"/></a></li>              
+<li><a class="hide-for-small-only" title="Shop" href="https://www.root-me.org?page=structure&amp;inc=page-shop&amp;lang=de"><img src="squelettes/img/shop.png" alt="Shop"/></a></li>              
+<li class="search hide-for-small-only">
+<form action="https://www.root-me.org" method="get">
+<input type="hidden" value="recherche" name="page"/>
+<input type="hidden" value="de" name="lang" />                    
+<input class="search" name="recherche" placeholder="Suchen" type="search" />                        
+</form>
+</li>
+</ul>
+</section>
+</nav>
+</header>      
+<div id="container">
+<div id="main_row">
+<div id="aside_wrapper">
+<aside id="aside" role="complementary" itemscope itemtype="https://schema.org/WPSideBar">
+<nav class="top-bar" data-topbar="" >
+<div class="top-bar-section" role="navigation" itemprop="hasPart" itemscope itemtype="https://schema.org/SiteNavigationElement">
+<ul class="right">
+<li class="has-dropdown">
+<a itemprop="url" href="de/Capture-The-Flag/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon213-17c48.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Capture The Flag</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Capture The Flag</li>
+<li><a class="submenu214" href="de/Capture-The-Flag/CTF-all-the-day/" title="Sie finden einem angreifbaren Server im Internet und m&#252;ssen die Schwachstelle des Systems finden um sich Zugang zu verschaffen."  itemprop="url">CTF all the day</a></li>
+<li><a class="submenu215" href="de/Capture-The-Flag/Kalender/" title=""  itemprop="url">Kalender</a></li>
+</ul>
+</li>
+<li class="has-dropdown active">
+<a itemprop="url" href="de/Challenges/">
+<span class="logo left">
+<img  src="local/cache-vignettes/L16xH16/rubon216-280e4.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Challenges</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Challenges</li>
+<li><a class="submenu217" href="de/Challenges/App-Script/" title="Diese &#220;bungen konzentrieren sich auf Schwachstellen, die durch die gew&#228;hlte Umgebung oder durch Fehler in Skripten entstehen."  itemprop="url">App - Script</a></li>
+<li><a class="submenu218" href="de/Challenges/App-System/" title="Diese &#220;bungen setzen sich mit Schwachstellen in Programmen auseinander."  itemprop="url">App - System</a></li>
+<li><a class="submenu228" href="de/Challenges/Cracking/" title="Diese &#220;bungen konzentrieren sich auf kompilierte Dateien. Es sind, in der Regel, kompilierte Programme, deren Inhalt mithilfe von Debuggern oder Disassemblern, erarbeitet werden muss."  itemprop="url">Cracking</a></li>
+<li><a class="submenu230" href="de/Challenges/Forensik/" title="Testen Sie ihr K&#246;nnen in der forensischen Datananalyse "  itemprop="url">Forensik</a></li>
+<li><a class="submenu229" href="de/Challenges/Kryptoanalyse/" title="Testen Sie ihr K&#246;nnen im Bereich der Kryptoanalyse!"  itemprop="url">Kryptoanalyse</a></li>
+<li><a class="submenu232" href="de/Challenges/Netzwerk/" title="&#220;bungen zu Netzwerken, ihren Diensten, der Aufnahme von Datenbl&#246;cken und ihrer Analyse"  itemprop="url">Netzwerk</a></li>
+<li><a class="submenu231" href="de/Challenges/Programmierung/" title="Programmier&#252;bungen"  itemprop="url">Programmierung</a></li>
+<li><a class="submenu235" href="de/Challenges/Realistisch/" title="realistische Szenarien"  itemprop="url">Realistisch</a></li>
+<li><a class="submenu236" href="de/Challenges/Steganographie/" title="Steganographische &#220;bungen"  itemprop="url">Steganographie</a></li>
+<li><a class="submenu234" href="de/Challenges/Web-Client/" title="Die ersten Schritte sind ganz einfach und ben&#246;tigen kaum Vorkenntnisse, doch dann wird es ziemlich schnell ziemlich haarig."  itemprop="url">Web - Client</a></li>
+<li><a class="submenu233" href="de/Challenges/Web-Server/" title="Entdecken Sie die Protokolle und Technologien, die das Internet am laufen halten und lernen Sie diese zu hintergehen"  itemprop="url">Web - Server</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a itemprop="url" href="de/Community/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon219-931a1.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Community</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Community</li>
+<li><a class="submenu226" href="de/Community/Chatbox/" title="Schreiben Sie uns eine Nachricht"  itemprop="url">Chatbox</a></li>
+<li><a class="submenu223" href="de/Community/Forum/" title="Hier habt ihr die M&#246;glichkeit euch untereinander auszutauschen."  itemprop="url">Forum</a></li>
+<li><a class="submenu225" href="de/Community/Mitglieder/" title="Mitglieder der Gemeinschaft"  itemprop="url">Mitglieder</a></li>
+<li><a class="submenu224" href="de/Community/Ranking/" title="Ranking der Mitglieder"  itemprop="url">Ranking</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a itemprop="url" href="de/Info/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon220-c6371.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Info</span>
+</a>
+<ul class="dropdown">
+<li class="show-for-medium-only first">Info</li>
+<li><a class="submenu237" href="de/Info/Das-Projekt/" title="Root-Me ist ein gemeinn&#252;tziger Verein nach der franz&#246;sischen Gesetzgebung von 1901, mit dem Ziel das Wissen &#252;ber Hacking und Informationsicherheit zu f&#246;rdern."  itemprop="url">Das Projekt</a></li>
+<li><a class="submenu238" href="de/Info/Rechtliche-Hinweise/" title=""  itemprop="url">Rechtliche Hinweise</a></li>
+<li><a class="submenu227" href="de/Info/Team/" title="Die Projektteilnehmer"  itemprop="url">Team</a></li>
+</ul>
+</li>
+<li class="">
+<a itemprop="url" href="de/Materialien/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon222-56f61.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Materialien</span>
+</a>
+</li>
+<li class="">
+<a itemprop="url" href="de/Tools/">
+<span class="logo left">
+<img  class="grayscale" src="local/cache-vignettes/L16xH16/rubon221-9e2e7.png?1572507212" alt="0x0"/>
+</span>
+<span class="hide-for-medium-only">Tools</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<div class="small-12 columns hide-for-medium-only">
+<h3>225 besucheranzahl heute</h3>
+Neue Mitglieder&nbsp;:
+<ul class="inline-list ts">
+<li><a class=" forum"  title="Profil von lagrosadudul" href="/lagrosadudul?lang=de">lagrosadudul</a></li>
+<li><a class=" forum"  title="Profil von the killer" href="/the-killer-373247?lang=de">the killer</a></li>
+<li><a class=" forum"  title="Profil von James pee" href="/James-pee?lang=de">James pee</a></li>
+<li><a class=" forum"  title="Profil von stephenking" href="/stephenking?lang=de">stephenking</a></li>
+<li><a class=" forum"  title="Profil von urlugal" href="/urlugal?lang=de">urlugal</a></li>
+<li><a class=" forum"  title="Profil von Emma_nuel" href="/Emma_nuel?lang=de">Emma_nuel</a></li>
+<li><a class=" forum"  title="Profil von yeorj" href="/yeorj?lang=de">yeorj</a></li>
+</ul>               
+<h3>ShoutBox</h3>
+<div class='ajaxbloc ajax-id-chat_box_mini' data-ajax-env='8a5OWOeKObHh/sCAYQLQR6mP5KuyFu9xULCsJ+H0/rBNoFyDPDiROrFEgkkLJsVXSQEfoLGC77J73fO0HiQoR3bM0d1G+byGmMq+PhJ/J21vQ9XcbLRs1l8OJDtrwFPNPu+PwR7+PNOH8sJBFoUHQlvxGaNhOylwjx1xBwn978xtKkrdo5NHO/eHwfg+wtfVb5dXS5GMsD3vEM4=' data-origin="/de/Challenges/App-System/">
+<a name='pagination_chat_box_archive' id='pagination_chat_box_archive'></a>
+<ul>
+<li>
+<span class="left"><img class='vmiddle logo_auteur logo_6forum' src="local/cache-vignettes/L48xH48/auton0-5220c.png" alt="Exodozzz"  width='48' height='48' /></span>
+<span class="left" style="margin-left: 0.5rem;">
+<a class=" forum"  title="Profil von Exodozzz" href="/Exodozzz?lang=de">Exodozzz</a><br/>
+<span class="txs left">27. Oktober 2019&nbsp;zu &nbsp;18:32</span>
+</span>
+<div class="clearfix"></div>                
+<div class="chatbox txs text-left"><p><p>servus</p></p></div>
+</li>
+<li>
+<span class="right"><img class='vmiddle logo_auteur logo_6forum' src="local/cache-vignettes/L48xH48/auton0-5220c.png" alt="Exodozzz"  width='48' height='48' /></span>
+<span class="text-right right" style="margin-right: 0.5rem;">
+<a class=" forum"  title="Profil von Exodozzz" href="/Exodozzz?lang=de">Exodozzz</a><br/>
+<span class="txs text-right">27. Oktober 2019&nbsp;zu &nbsp;18:31</span>
+</span>
+<div class="clearfix"></div>                
+<div class="chatbox txs text-right"><p><p>yo anyone wanna choin ctf1</p></p></div>
+</li>
+<li>
+<span class="left"><img class='vmiddle logo_auteur logo_6forum' src="local/cache-vignettes/L48xH48/auton0-5220c.png" alt="AlFurqan"  width='48' height='48' /></span>
+<span class="left" style="margin-left: 0.5rem;">
+<a class=" forum"  title="Profil von AlFurqan" href="/AlFurqan-369850?lang=de">AlFurqan</a><br/>
+<span class="txs left">25. Oktober 2019&nbsp;zu &nbsp;18:27</span>
+</span>
+<div class="clearfix"></div>                
+<div class="chatbox txs text-left"><p><p>Dont feel you lonely bro . I am with you</p></p></div>
+</li>
+</ul>
+<div class="pagination-centered">
+<ul class="pagination">
+<li><a href='/de/Challenges/App-System/?debut_chat_box_archive=3#pagination_chat_box_archive' class='lien_pagination gris' rel='nofollow'>&gt;</a></li>
+</ul>
+</div>
+</div><!--ajaxbloc-->
+<span>            
+<a href="./?page=chatbox_message&amp;lang=de" title="Sende eine Nachricht" class="gris mediabox pageajax"><img src='squelettes/img/post.png' alt='' width='32' height='32' />&nbsp;Sende eine Nachricht</a><br/>
+<a class="gris" href="/de/Challenges/App-System/" title="Neu laden" onclick="ajaxReload('chat_box_mini'); return false;"><img src='squelettes/img/refresh.png' alt='' width='32' height='32' />&nbsp;Neu laden</a>                
+</span>
+<div class="clearfix"></div>            <h3>Newsletter</h3>
+<div class="ajax gris"><div class='formulaire_spip formulaire_newsletter formulaire_newsletter_subscribe ajax'>
+<form method='post' action='/de/Challenges/App-System/#'><div>
+<div><input name='formulaire_action' type='hidden'
+value='newsletter_subscribe' /><input name='formulaire_action_args' type='hidden'
+value='ceFOQ+SaJfFeBYyOhYgFJnUuZqGvh+y9imTLkJ8o0abcpU8oaN4jSG5afvRXyCx4iYRntwi8cslJYVk=' /><input type='hidden' name='_jeton' value='7a53e1e90fe18d7c596f3ff1b55bb91e3f948ef6' /></div><ul class="editer-groupe">
+<li class="editer editer_session_email obligatoire">
+<label for="session_email">Email</label><input type="email" name="session_email" class="email text" value="" id="session_email"  required='required'/>
+</li>
+</ul>
+<!--extra-->
+<p class="boutons"><input type="submit" class="submit" value="Newsletter bestellen" /></p>
+</div><div class="editer saisie_session_email" style="display: none;">
+<label for="give_me_your_email">Bitte lassen Sie dieses Feld leer:</label>
+<input type="text" class="text email" name="email_nobot" id="give_me_your_email" value="" size="10" />
+</div></form>
+</div>
+</div>            <h3>Gesponsert von</h3>
+<ul>
+<li><a href="https://www.algosecure.fr" target="_BLANK" >AlgoSecure</a></li>
+<li><a href="https://www.certilience.fr" target="_BLANK" >Certilience</a></li>
+<li><a href="https://navixia.com" target="_BLANK" >Navixia</a></li>
+<li><a href="https://www.nbs-system.com" target="_BLANK" >NBS System</a></li>
+<li><a href="http://www.provadys.com" target="_BLANK" >Provadys</a></li>
+<li><a class="mediabox pageajax" href="./?page=structure&amp;inc=page-don&amp;lang=de">Dir&nbsp;;-)</a></li>
+</ul>            <h3>Follow us</h3>
+</div>
+<div class="row social">
+<div class="small-3 medium-12 large-3 columns"><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fwww.root-me.org%2F&region=follow_link&screen_name=rootme_org&tw_p=followbutton" title="Twitter"><img src='squelettes/img/twitter.png' alt='Twitter' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>
+<div class="small-3 medium-12 large-3 columns"><a href="https://www.linkedin.com/groups/Root-Me-hacking-and-information-8180601" title="Linkedin"><img src='squelettes/img/linkedin.png' alt='Linkedin' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>                
+<div class="small-3 medium-12 large-3 columns"><a href="https://www.root-me.org?page=flux_rss&amp;lang=de" title="RSS"><img src='squelettes/img/rss.png' alt='RSS' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>
+<div class="small-3 medium-12 large-3 columns"><a href="https://facebook.com/" title="Facebook"><img src='squelettes/img/facebook.png' alt='Facebook' class='vmiddle grayscale grayscale_hoveroff' width='48' height='48' /></a></div>
+</div>
+</aside>
+</div>             
+<div id="main_wrapper" class="row">
+<ul id="breadcrumb" class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="https://www.root-me.org?lang=de" itemprop="url">Übersicht</a></li>
+<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a title="Challenges" href="de/Challenges/" itemprop="url">Challenges</a></li>
+<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a title="App - System" href="de/Challenges/App-System/" itemprop="url">App - System</a></li>
+</ul>                  <main id="main" itemprop="mainContentOfPage" itemscope itemtype="https://schema.org/WebPageElement">
+<div class='ajaxbloc' data-ajax-env='Ia/CXKaaObNxmfq6b875gYDu9nf3gM8FogEieLjjvjnw6h8mkyodr93C2/z2NYrkFQr2nmEHQ8h7cE/9RAgfoq76IdX5vZCBzrKWBX2nECLgqMleNOZHQ6qdpPTmD6v84DDLWXfqubYb445ZsC+mfmQcX6S8044Oa8GsAM2CxA7+WcD735U34DABOO+1PNc3yu1SrhSWpyDwyC0g66akko/IW38YxSk=' data-origin="/de/Challenges/App-System/">
+<div  class="small-12 columns"  >
+<div class="tile">
+<div class="t-body tb-padding">
+<h1 class="crayon rubrique-titre-218 "><img class='vmiddle' alt="" src="local/cache-vignettes/L32xH32/rubon218-c81aa.png?1572507389" width='32' height='32' itemprop='image' />&nbsp;<span itemprop="headline">App - System</span></h1>
+<h3 class="crayon rubrique-descriptif-218 " itemprop="description">Diese Übungen setzen sich mit Schwachstellen in Programmen auseinander.
+</h3>
+<div class="texte crayon rubrique-texte-218 " itemprop="text"><p>Bei jeder Übung werden Login-Daten für den Server zur Verfügung gestellt. Ziel ist es auf dem Server eine Schwachstelle in dem zur Verfügung gestellten Programm auszunutzen um zusätzliche Rechte zu erhalten. Mit diesen Rechten kann man dann das Passwort auslesen, mit dem die Übung auf der Plattform gelöst werden kann.</p></div>
+</div>
+</div>
+</div>
+<div class='ajaxbloc' data-ajax-env='IazOXKeaJfFhuSsaMa7BeWKvV/FWAS2UrZPDKoXxetTdVjDkli6dW04yHM8TbCa91i0qLUr5VVdbcMdeBkBE9VaYarxNLej1fpLjgTZ9FopPrYOpMhyRA+w8zE8f23twmD/35MJUq9RAhb4iCOXKlC2iN82YZKI0/869lwMSfC/s1vux' data-origin="/de/Challenges/App-System/">
+<div  class="small-12 columns"  >
+<div class="tile">
+<div class="t-body tb-padding">
+<a name='pagination_co' id='pagination_co'></a>
+<h1>
+<img src="plugins/challenges_hacking/prive/themes/spip/images/challenge-32.png" alt="In dieser Rubrik veröffentlichte Übungen" class="vmiddle" width="32" height="32">&nbsp;69&nbsp;Übungen
+</h1>
+<table class="text-center" style="width: 100%">
+<thead>
+<tr class="row_first">
+<td>Ergebnis</td>
+<td><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=titre' class='ajax'>Name der Übung</a></td>
+<td><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=nombre_validation' class='ajax'>Validierung</a></a></td>
+<td><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=score' class='ajax'>Anzahl der Punkte</a>&nbsp;&nbsp;<a class="mediabox pageajax" href="./?page=structure&amp;inc=inclusions%2Flegende&amp;lang=de#score" title="Erklärung der Punktevergabe"><img src='squelettes/img/question_mark.png' alt='Erkl&#228;rung der Punktevergabe' width='16' height='16' /></a></td>
+<td class="text-center show-for-medium-up"><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=id_mot' class='ajax'>Schwierigkeitsgrad</a>&nbsp;&nbsp;<a class="mediabox pageajax" href="./?page=structure&amp;inc=inclusions%2Flegende&amp;lang=de#difficulte" title="Schwierigkeitsgrad"><img src='squelettes/img/question_mark.png' alt='Schwierigkeitsgrad' width='16' height='16' /></a></td>
+<td class="text-center show-for-large-up"><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=nom' class='ajax'>Autor</a></td>
+<td><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=note_ponderee' class='ajax'>Bewertung</a>&nbsp;&nbsp;<a class="mediabox pageajax" href="./?page=structure&amp;inc=inclusions%2Flegende&amp;lang=de#note" title="Bewertung"><img src='squelettes/img/question_mark.png' alt='Bewertung' width='16' height='16' /></a></td>
+<td class="show-for-medium-up"><a href='/de/Challenges/App-System/?q=%2Fen%2FChallenges%2Fde%2FChallenges%2FApp-System%2F&amp;debut_chat_box_archive=3&amp;debut_dernieres_validations=40&amp;tri_co=nombre_solution' class='ajax'>Musterlösung</a></td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-1" title="An intermediate level to familiarize yourself with stack overflows">ELF x86 - Stack buffer overflow basic 1</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 8%; background-color: #ff4b4b;">8%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=838&amp;lang=de" title="Wer hat die Übung gelöst?">12007</a>
+</span>
+</td>
+<td>5</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-facile?lang=de" title="Sehr einfach : Erstes Niveau der &#220;bungen"><span class="difficulte difficulte1   difficulte1a" style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Lyes" href="/Lyes?lang=de">Lyes</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">2</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-2" title="An intermediate level to familiarize yourself with stack overflows">ELF x86 - Stack buffer overflow basic 2	</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 6%; background-color: #ff4b4b;">6%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=853&amp;lang=de" title="Wer hat die Übung gelöst?">8850</a>
+</span>
+</td>
+<td>10</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-facile?lang=de" title="Sehr einfach : Erstes Niveau der &#220;bungen"><span class="difficulte difficulte1   difficulte1a" style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Lyes" href="/Lyes?lang=de">Lyes</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Format-string-bug-basic-1" title="... or how to read through the stack">ELF x86 - Format string bug basic 1</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 4%; background-color: #ff4b4b;">4%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=553&amp;lang=de" title="Wer hat die Übung gelöst?">5862</a>
+</span>
+</td>
+<td>15</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=de" title="Einfach : Zweites Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Lu33Y" href="/Lu33Y?lang=de">Lu33Y</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Stack-buffer-overflow-basic" title="first step to 64 bits">ELF x64 - Stack buffer overflow - basic</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 3%; background-color: #ff4b4b;">3%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=895&amp;lang=de" title="Wer hat die Übung gelöst?">4365</a>
+</span>
+</td>
+<td>20</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Arod" href="/Arod?lang=de">Arod</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Format-string-bug-basic-2" title="Or how to write what you want where you want in the stack">ELF x86 - Format string bug basic 2</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=852&amp;lang=de" title="Wer hat die Übung gelöst?">2895</a>
+</span>
+</td>
+<td>20</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Lyes" href="/Lyes?lang=de">Lyes</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Race-condition" title="Are you fast enough ?">ELF x86 - Race condition</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 3%; background-color: #ff4b4b;">3%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=559&amp;lang=de" title="Wer hat die Übung gelöst?">3945</a>
+</span>
+</td>
+<td>20</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Lu33Y" href="/Lu33Y?lang=de">Lu33Y</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Stack-buffer-overflow-basic" title="Intro to memory corruption on ARM">ELF ARM - Stack buffer overflow - basic</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1456&amp;lang=de" title="Wer hat die Übung gelöst?">736</a>
+</span>
+</td>
+<td>25</td>
+<td class="show-for-medium-up">
+<a href="tag/Facile?lang=de" title="Einfach : Zweites Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2   difficulte2a" style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-MIPS-Stack-buffer-overflow-No-NX" title="Introduction to MIPS exploitation">ELF MIPS - Stack buffer overflow - No NX</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1901&amp;lang=de" title="Wer hat die Übung gelöst?">198</a>
+</span>
+</td>
+<td>25</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-3" title="An intermediate level to familiarize yourself with stack overflows">ELF x86 - Stack buffer overflow basic 3	</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=854&amp;lang=de" title="Wer hat die Übung gelöst?">2872</a>
+</span>
+</td>
+<td>25</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Lyes" href="/Lyes?lang=de">Lyes</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x86-Use-After-Free-basic" title="At least you learnt that an english dog says: &#034;uaf&#034;">ELF x86 - Use After Free - basic</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=2034&amp;lang=de" title="Wer hat die Übung gelöst?">413</a>
+</span>
+</td>
+<td>25</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Esad" href="/Esad?lang=de">Esad</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Stack-Spraying" title="It&#039;s not pretty... but it works.">ELF ARM - Stack Spraying</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1494&amp;lang=de" title="Wer hat die Übung gelöst?">140</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-BSS-buffer-overflow" title="Who said overflows happen only on the stack ? ">ELF x86 - BSS buffer overflow</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=555&amp;lang=de" title="Wer hat die Übung gelöst?">3011</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Lu33Y" href="/Lu33Y?lang=de">Lu33Y</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-4" title="Can you return the env to me pleazzz ? ">ELF x86 - Stack buffer overflow basic 4</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=556&amp;lang=de" title="Wer hat die Übung gelöst?">2015</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Lu33Y" href="/Lu33Y?lang=de">Lu33Y</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-6" title="ret2libc">ELF x86 - Stack buffer overflow basic 6</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 2%; background-color: #ff4b4b;">2%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1046&amp;lang=de" title="Wer hat die Übung gelöst?">1651</a>
+</span>
+</td>
+<td>30</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von TiWim" href="/TiWim?lang=de">TiWim</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">1</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Format-String-Bug-Basic-3" title="Another way to exploit a format string bug">ELF x86 - Format String Bug Basic 3</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=880&amp;lang=de" title="Wer hat die Übung gelöst?">783</a>
+</span>
+</td>
+<td>35</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Lyes" href="/Lyes?lang=de">Lyes</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Basic-ROP" title="ROP for dummies vol. 1">ELF ARM - Basic ROP</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1458&amp;lang=de" title="Wer hat die Übung gelöst?">359</a>
+</span>
+</td>
+<td>40</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-MIPS-Basic-ROP" title="First MIPS ROP exploit">ELF MIPS - Basic ROP</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1910&amp;lang=de" title="Wer hat die Übung gelöst?">63</a>
+</span>
+</td>
+<td>40</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von dagger" href="/dagger-16674?lang=de">dagger</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-C-vtables" title="Buffer overflow on C++ vtables">ELF x86 - Stack buffer overflow - C++ vtables</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=924&amp;lang=de" title="Wer hat die Übung gelöst?">562</a>
+</span>
+</td>
+<td>40</td>
+<td class="show-for-medium-up">
+<a href="tag/Moyen?lang=de" title="Mittel : Drittes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3   difficulte3a" style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von sebbb" href="/sebbb?lang=de">sebbb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Logic-bug" title="glibc indirect weakness and common bug">ELF x64 - Logic bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1567&amp;lang=de" title="Wer hat die Übung gelöst?">116</a>
+</span>
+</td>
+<td>50</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von sbrk" href="/sbrk?lang=de">sbrk</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x86-Bug-Hunting-Several-issues" title="An exceptional salary?">ELF x86 - Bug Hunting - Several issues</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1739&amp;lang=de" title="Wer hat die Übung gelöst?">60</a>
+</span>
+</td>
+<td>50</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von sbrk" href="/sbrk?lang=de">sbrk</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-and-integer-overflow" title="Plus or minus ?">ELF x86 - Stack buffer and integer overflow</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=558&amp;lang=de" title="Wer hat die Übung gelöst?">1478</a>
+</span>
+</td>
+<td>50</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Lu33Y" href="/Lu33Y?lang=de">Lu33Y</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x86-Stack-buffer-overflow-ret2dl_resolve-1989" title="no leak, no bruteforce">ELF x86 - Stack buffer overflow - ret2dl_resolve</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1989&amp;lang=de" title="Wer hat die Übung gelöst?">88</a>
+</span>
+</td>
+<td>50</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von kikko" href="/kikko?lang=de">kikko</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-5" title="Please don&#039;t smash me !">ELF x86 - Stack buffer overflow basic 5</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=557&amp;lang=de" title="Wer hat die Übung gelöst?">1351</a>
+</span>
+</td>
+<td>50</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von Lu33Y" href="/Lu33Y?lang=de">Lu33Y</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF64-Stack-buffer-overflow-advanced" title="ROP 64 bits">ELF x64 - Stack buffer overflow - advanced</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=899&amp;lang=de" title="Wer hat die Übung gelöst?">781</a>
+</span>
+</td>
+<td>55</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Arod" href="/Arod?lang=de">Arod</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-MIPS-Format-String-Glitch" title="Old becomes new again">ELF MIPS - Format String Glitch</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1919&amp;lang=de" title="Wer hat die Übung gelöst?">27</a>
+</span>
+</td>
+<td>60</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>, <a class=" forum"  title="Profil von martin" href="/martin-76750?lang=de">martin</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Information-leakage-with-Stack-Smashing-Protector" title="Many protections, but...">ELF x86 - Information leakage with Stack Smashing Protector</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=873&amp;lang=de" title="Wer hat die Übung gelöst?">586</a>
+</span>
+</td>
+<td>60</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Arod" href="/Arod?lang=de">Arod</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Race-condition" title="Will you win the race?">ELF ARM - Race condition</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1532&amp;lang=de" title="Wer hat die Übung gelöst?">80</a>
+</span>
+</td>
+<td>70</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Browser-exploit-Intro" title="Hack mah browser!">ELF x64 - Browser exploit - Intro</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1928&amp;lang=de" title="Wer hat die Übung gelöst?">41</a>
+</span>
+</td>
+<td>70</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x86-Out-of-bounds-attack-French-Paradox" title="A colored paradox">ELF x86 - Out of bounds attack - French Paradox</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1658&amp;lang=de" title="Wer hat die Übung gelöst?">69</a>
+</span>
+</td>
+<td>70</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von sbrk" href="/sbrk?lang=de">sbrk</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Remote-BSS-buffer-overflow" title="Try to hack my IRC bot!">ELF x86 - Remote BSS buffer overflow</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=549&amp;lang=de" title="Wer hat die Übung gelöst?">633</a>
+</span>
+</td>
+<td>75</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Tosh" href="/Tosh?lang=de">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Remote-Format-String-bug" title="See the power of format string !">ELF x86 - Remote Format String bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=548&amp;lang=de" title="Wer hat die Übung gelöst?">785</a>
+</span>
+</td>
+<td>75</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Tosh" href="/Tosh?lang=de">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Remote-heap-buffer-overflow-fastbin" title="2 be free">ELF x64 - Remote heap buffer overflow - fastbin</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1436&amp;lang=de" title="Wer hat die Übung gelöst?">177</a>
+</span>
+</td>
+<td>80</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Blind-remote-format-string-bug" title="Network service attack without binary or source code">ELF x86 - Blind remote format string bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=902&amp;lang=de" title="Wer hat die Übung gelöst?">215</a>
+</span>
+</td>
+<td>80</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Lyes" href="/Lyes?lang=de">Lyes</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern-ARM-vulnerable-syscall" title="Introduction to ARM kernel exploitations">LinKern ARM - vulnerable syscall</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1481&amp;lang=de" title="Wer hat die Übung gelöst?">75</a>
+</span>
+</td>
+<td>85</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern32-Buffer-overflow-basic-1" title="Not too much">LinKern x86 - Buffer overflow basic 1</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1027&amp;lang=de" title="Wer hat die Übung gelöst?">293</a>
+</span>
+</td>
+<td>85</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern32-Null-pointer-dereference" title="Keep control">LinKern x86 - Null pointer dereference</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1028&amp;lang=de" title="Wer hat die Übung gelöst?">305</a>
+</span>
+</td>
+<td>90</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern64-Race-condition" title="Don&#039;t do two things at once">LinKern x64 - Race condition</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1029&amp;lang=de" title="Wer hat die Übung gelöst?">188</a>
+</span>
+</td>
+<td>95</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Alphanumeric-shellcode" title="Alphanumeric input">ELF ARM - Alphanumeric shellcode</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1471&amp;lang=de" title="Wer hat die Übung gelöst?">23</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Difficile?lang=de" title="Schwer : Viertes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4   difficulte4a" style="height: 0.8rem;"></span><span class="difficulte difficulte36 " style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-MIPS-URLEncoded-Format-String-bug" title="Sometimes security mitigation is just about annoying the attacker into submission ">ELF MIPS - URLEncoded Format String bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1906&amp;lang=de" title="Wer hat die Übung gelöst?">13</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-1" title="">ELF x86 - Hardened binary 1</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=543&amp;lang=de" title="Wer hat die Übung gelöst?">527</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von sm0k" href="/sm0k?lang=de">sm0k</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-2" title="">ELF x86 - Hardened binary 2</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=560&amp;lang=de" title="Wer hat die Übung gelöst?">412</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von sm0k" href="/sm0k?lang=de">sm0k</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-3" title="">ELF x86 - Hardened binary 3</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=561&amp;lang=de" title="Wer hat die Übung gelöst?">262</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von sm0k" href="/sm0k?lang=de">sm0k</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-4" title="">ELF x86 - Hardened binary 4</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=562&amp;lang=de" title="Wer hat die Übung gelöst?">292</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von sm0k" href="/sm0k?lang=de">sm0k</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern-MIPSel-Vulnerable-ioctl" title="Push it to the limit">LinKern MIPSel - Vulnerable ioctl</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1923&amp;lang=de" title="Wer hat die Übung gelöst?">24</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern64-reentrant-code" title="Look next">LinKern x64 - reentrant code</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1035&amp;lang=de" title="Wer hat die Übung gelöst?">98</a>
+</span>
+</td>
+<td>100</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Heap-format-string-bug" title="No returning">ELF ARM - Heap format string bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1536&amp;lang=de" title="Wer hat die Übung gelöst?">46</a>
+</span>
+</td>
+<td>105</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF64-Sigreturn-Oriented-Programming" title="SROP">ELF x64 - Sigreturn Oriented Programming</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=908&amp;lang=de" title="Wer hat die Übung gelöst?">173</a>
+</span>
+</td>
+<td>105</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Arod" href="/Arod?lang=de">Arod</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Format-String-bug" title="From a trickle to a flood">ELF ARM - Format String bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1468&amp;lang=de" title="Wer hat die Übung gelöst?">56</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Use-After-Free" title="The best things in life are free()">ELF ARM - Use After Free</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1479&amp;lang=de" title="Wer hat die Übung gelöst?">52</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Heap-feng-shui" title="Have you heard of heap feng shui?">ELF x64 - Heap feng-shui</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1609&amp;lang=de" title="Wer hat die Übung gelöst?">38</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von laxa" href="/laxa?lang=de">laxa</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF64-Off-by-one-bug" title="Side effect">ELF x64 - Off-by-one bug</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1065&amp;lang=de" title="Wer hat die Übung gelöst?">87</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" forum"  title="Profil von NeedToLearn" href="/NeedToLearn?lang=de">NeedToLearn</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-5" title="">ELF x86 - Hardened binary 5</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=563&amp;lang=de" title="Wer hat die Übung gelöst?">219</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von sm0k" href="/sm0k?lang=de">sm0k</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern-ARM-Stack-Overflow" title="Kernel stack Smashing 101">LinKern ARM - Stack Overflow</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1589&amp;lang=de" title="Wer hat die Übung gelöst?">31</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern32-basic-ROP" title="ROP inside">LinKern x86 - basic ROP </a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1062&amp;lang=de" title="Wer hat die Übung gelöst?">147</a>
+</span>
+</td>
+<td>110</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Heap-Off-by-One" title="Poison the heap for fun and profit">ELF ARM - Heap Off-by-One</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1465&amp;lang=de" title="Wer hat die Übung gelöst?">31</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF64-Remote-Heap-buffer-overflow-1" title="Heap overflow exploitation (ptmalloc2/glibc)">ELF x64 - Remote Heap buffer overflow 1</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=907&amp;lang=de" title="Wer hat die Übung gelöst?">103</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Tosh" href="/Tosh?lang=de">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-6" title="">ELF x86 - Hardened binary 6</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=564&amp;lang=de" title="Wer hat die Übung gelöst?">206</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von sm0k" href="/sm0k?lang=de">sm0k</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Hardened-binary-7" title="Byte by byte...">ELF x86 - Hardened binary 7</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=578&amp;lang=de" title="Wer hat die Übung gelöst?">169</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Tosh" href="/Tosh?lang=de">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF32-Remote-stack-buffer-overflow-Hardened" title="Find the info you need">ELF x86 - Remote stack buffer overflow - Hardened</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1322&amp;lang=de" title="Wer hat die Übung gelöst?">99</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern-x64-RowHammer" title="Flipping bits like 2014!">LinKern x64 - RowHammer</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=2002&amp;lang=de" title="Wer hat die Übung gelöst?">27</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/LinKern-x64-SLUB-off-by-one" title="Exploit an off-by-one on this vulnerable module">LinKern x64 - SLUB off-by-one</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=2021&amp;lang=de" title="Wer hat die Übung gelöst?">17</a>
+</span>
+</td>
+<td>115</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Tosh" href="/Tosh?lang=de">Tosh</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Heap-buffer-overflow-Wilderness" title="Use the force Luke">ELF ARM - Heap buffer overflow - Wilderness</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1484&amp;lang=de" title="Wer hat die Übung gelöst?">20</a>
+</span>
+</td>
+<td>120</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-ARM-Heap-Overflow" title="Can you pwn the heap without convenient pointers to overwrite?">ELF ARM - Heap Overflow</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1496&amp;lang=de" title="Wer hat die Übung gelöst?">23</a>
+</span>
+</td>
+<td>120</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Seccomp-Whitelist" title="Pwn a binary secured with a seccomp whitelist">ELF x64 - Seccomp Whitelist</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1534&amp;lang=de" title="Wer hat die Übung gelöst?">34</a>
+</span>
+</td>
+<td>120</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x86-Blind-ROP" title="BROP">ELF x86 - Blind ROP</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1352&amp;lang=de" title="Wer hat die Übung gelöst?">69</a>
+</span>
+</td>
+<td>120</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/Linkern64-Memory-exploration" title="Explore the kernel memory">Linkern x64 - Memory exploration</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1315&amp;lang=de" title="Wer hat die Übung gelöst?">65</a>
+</span>
+</td>
+<td>120</td>
+<td class="show-for-medium-up">
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF64-Remote-Heap-buffer-overflow-2" title="Heap overflow exploitation (ptmalloc2/glibc) - compiled with all protections">ELF x64 - Remote Heap buffer overflow 2</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=913&amp;lang=de" title="Wer hat die Übung gelöst?">75</a>
+</span>
+</td>
+<td>130</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von Tosh" href="/Tosh?lang=de">Tosh</a>, <a class=" forum"  title="Profil von Fritz" href="/Fritz?lang=de">Fritz</a>
+</td>
+<td><img src="squelettes/img/note/note5.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Blind-ROP" title="Hacking blind with BROP">ELF x64 - Blind ROP</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1770&amp;lang=de" title="Wer hat die Übung gelöst?">44</a>
+</span>
+</td>
+<td>135</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" comite"  title="Profil von franb" href="/franb?lang=de">franb</a>
+</td>
+<td><img src="squelettes/img/note/note3.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+<tr>
+<td>
+<img class="vmiddle" src="squelettes/img/pas_valide.png" alt="pas_valide" />
+</td>
+<td class="text-left">
+<a href="de/Challenges/App-System/ELF-x64-Browser-exploit-BitString" title="A bit of browser fun!">ELF x64 - Browser exploit - BitString</a>
+</td>
+<td class="text-left">
+<span class="gras left text-left" style="display: inline-block; border-radius: 5px; padding: 2px; width: 1%; background-color: #ff4b4b;">1%</span>
+<span class="right">
+<a class="txs gris" href="./?page=valid&amp;id_r=203&amp;id_c=1949&amp;lang=de" title="Wer hat die Übung gelöst?">16</a>
+</span>
+</td>
+<td>135</td>
+<td class="show-for-medium-up">
+<a href="tag/Tres-difficile?lang=de" title="Sehr Schwer : Letztes und schwerstes Niveau der &#220;bungen"><span class="difficulte difficulte1 " style="height: 0.2rem;"></span><span class="difficulte difficulte2 " style="height: 0.4rem;"></span><span class="difficulte difficulte3 " style="height: 0.6rem;"></span><span class="difficulte difficulte4 " style="height: 0.8rem;"></span><span class="difficulte difficulte36   difficulte36a" style="height: 1rem;"></span></a>
+</td>
+<td class="show-for-large-up">
+<a class=" minirezo"  title="Profil von pickle" href="/pickle?lang=de">pickle</a>
+</td>
+<td><img src="squelettes/img/note/note4.png" alt="" width="24" height="24"></td>
+<td class="show-for-medium-up">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div><!--ajaxbloc-->    
+<div class='ajaxbloc' data-ajax-env='WWzEXKaaOUiVTLRcFpbuXV+N4vBkil/oVWR0ncLm290h5wbNCxB6GyXhxRW6ke1uuNy3z0TrKNQTjqYLRG2vQKtPIcAj1QxACrvpq6beqK7qeOyL41R0zk7b7PbRzvSG3cE5u36/iPyLsMxWO/aQ5Unibn1IzTS+zxNcURc0TBgltCs=' data-origin="/de/Challenges/App-System/">
+<div  class="small-12 columns"  >
+<div class="tile">
+<div class="t-body tb-padding">
+<a name='pagination_dernieres_validations' id='pagination_dernieres_validations'></a>
+<h1>
+<img src='squelettes/img/valid.png' alt='Ergebnisse der &#220;bungen' class='vmiddle' width='32' height='32' />&nbsp;Ergebnisse der Übungen
+</h1>
+<div class="box">
+<table class="spip text-center mauto" style="width: 100%;">
+<thead>
+<tr class="row_first">
+<td style="width: 20%;">Nickname</td>
+<td style="width: 35%;">Übungen</td>
+<td style="width: 10%;">Sprache</td>
+<td style="width: 30%;">date</td>
+</tr>
+</thead>
+<tbody>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil von gundammobie" href="/gundammobie?lang=de">gundammobie</a></td>
+<td>
+<a href="en/Challenges/App-System/" title="App - System">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon204-07c5e.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-1" title="An intermediate level to familiarize yourself with stack overflows">
+ELF x86 - Stack buffer overflow basic 1
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>4. November 2019&nbsp;zu &nbsp;05:38</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil von lancer00t" href="/lancer00t?lang=de">lancer00t</a></td>
+<td>
+<a href="fr/Challenges/App-Systeme/" title="App - Syst&#232;me">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon203-4d414.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/App-Systeme/ELF-x86-Format-string-bug-basic-2" title="Ou comment &#233;crire ce que l&#039;on veut o&#249; l&#039;on veut dans la pile">
+ELF x86 - Format string bug basic 2
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>4. November 2019&nbsp;zu &nbsp;01:38</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil von nobodyisnobody" href="/nobodyisnobody?lang=de">nobodyisnobody</a></td>
+<td>
+<a href="fr/Challenges/App-Systeme/" title="App - Syst&#232;me">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon203-4d414.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/App-Systeme/ELF-ARM-Heap-format-string-bug" title="Aucun retour possible">
+ELF ARM - Heap format string bug
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>4. November 2019&nbsp;zu &nbsp;01:21</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil von q3rv0" href="/q3rv0?lang=de">q3rv0</a></td>
+<td>
+<a href="en/Challenges/App-System/" title="App - System">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon204-07c5e.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-5" title="Please don&#039;t smash me !">
+ELF x86 - Stack buffer overflow basic 5
+</a>
+</td>
+<td><img src='squelettes/img/drap_es.png' alt='es' width='16' height='16' /></td>
+<td>4. November 2019&nbsp;zu &nbsp;00:33</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil von mchachkin654" href="/mchachkin654?lang=de">mchachkin654</a></td>
+<td>
+<a href="en/Challenges/App-System/" title="App - System">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon204-07c5e.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/App-System/ELF-x86-Stack-buffer-overflow-basic-6" title="ret2libc">
+ELF x86 - Stack buffer overflow basic 6
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>4. November 2019&nbsp;zu &nbsp;00:15</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil von skaa" href="/skaa?lang=de">skaa</a></td>
+<td>
+<a href="fr/Challenges/App-Systeme/" title="App - Syst&#232;me">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon203-4d414.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/App-Systeme/ELF-x86-Format-string-bug-basic-2" title="Ou comment &#233;crire ce que l&#039;on veut o&#249; l&#039;on veut dans la pile">
+ELF x86 - Format string bug basic 2
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>4. November 2019&nbsp;zu &nbsp;00:09</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil von mchachkin654" href="/mchachkin654?lang=de">mchachkin654</a></td>
+<td>
+<a href="en/Challenges/App-System/" title="App - System">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon204-07c5e.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-1" title="An intermediate level to familiarize yourself with stack overflows">
+ELF x86 - Stack buffer overflow basic 1
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3. November 2019&nbsp;zu &nbsp;23:56</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil von spinozaure" href="/spinozaure?lang=de">spinozaure</a></td>
+<td>
+<a href="en/Challenges/App-System/" title="App - System">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon204-07c5e.png?1572507211" width='16' height='16' />&nbsp;
+</a>
+<a href="en/Challenges/App-System/ELF-x64-Stack-buffer-overflow-advanced" title="ROP 64 bits">
+ELF x64 - Stack buffer overflow - advanced
+</a>
+</td>
+<td><img src='squelettes/img/drap_en.png' alt='en' width='16' height='16' /></td>
+<td>3. November 2019&nbsp;zu &nbsp;19:52</td>
+</tr>
+<tr class="row_even">
+<td><a class=" forum"  title="Profil von alfred" href="/alfred-340670?lang=de">alfred</a></td>
+<td>
+<a href="fr/Challenges/App-Systeme/" title="App - Syst&#232;me">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon203-4d414.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/App-Systeme/ELF-x86-Stack-buffer-overflow-basic-2" title="Un niveau interm&#233;diaire afin de vous familiariser avec les d&#233;bordements de pile">
+ELF x86 - Stack buffer overflow basic 2	
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>3. November 2019&nbsp;zu &nbsp;19:05</td>
+</tr>
+<tr class="row_odd">
+<td><a class=" forum"  title="Profil von lancer00t" href="/lancer00t?lang=de">lancer00t</a></td>
+<td>
+<a href="fr/Challenges/App-Systeme/" title="App - Syst&#232;me">
+<img class='vmiddle' alt="" src="local/cache-vignettes/L16xH16/rubon203-4d414.png?1572507209" width='16' height='16' />&nbsp;
+</a>
+<a href="fr/Challenges/App-Systeme/ELF32-Format-string-bug-basic-1" title="... ou comment lire dans la pile.">
+ELF x86 - Format string bug basic 1
+</a>
+</td>
+<td><img src='squelettes/img/drap_fr.png' alt='fr' width='16' height='16' /></td>
+<td>3. November 2019&nbsp;zu &nbsp;18:26</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pagination-centered">
+<ul class="pagination">
+<li class="current"><a href='/de/Challenges/App-System/?debut_dernieres_validations=0#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>0</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=10#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>10</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=20#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>20</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=30#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>30</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=40#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>40</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=50#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>50</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=60#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>60</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=70#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>70</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=80#pagination_dernieres_validations' class='lien_pagination gris' rel='nofollow'>80</a></li>
+<li><a href='/de/Challenges/App-System/?debut_dernieres_validations=490#pagination_dernieres_validations' class='lien_pagination ajax' rel='nofollow'>...</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div><!--ajaxbloc-->        
+</div><!--ajaxbloc-->                  </main>
+<footer id="footer" class="text-center" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+©&nbsp;2010&nbsp;-&nbsp;2019<br/>
+Root Me : Hacking und Informationssicherheit Learning-Plattform
+</footer>              </div>            
+</div>
+</div>    
+</body>
+</html>
