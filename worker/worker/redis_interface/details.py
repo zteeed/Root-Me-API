@@ -11,8 +11,8 @@ from worker.parser.details import extract_score, extract_nb_challenges_solved, e
 from worker.parser.profile import extract_pseudo
 
 
-def get_user_details_data(username: str) -> Optional[List[Dict[str, str]]]:
-    html = http_get(URL + username + '?inc=score')
+def get_user_details_data(username: str, lang: str) -> Optional[List[Dict[str, str]]]:
+    html = http_get(f'{URL}/{username}?inc=score&lang={lang}')
     if html is None:
         log.warning(f'could_not_get_user_details', username=username)
         return
@@ -39,8 +39,8 @@ def get_user_details_data(username: str) -> Optional[List[Dict[str, str]]]:
     }]
 
 
-async def set_user_details(username: str) -> None:
-    response = get_user_details_data(username)
-    await app.redis.set(f'{username}.details',
+async def set_user_details(username: str, lang: str) -> None:
+    response = get_user_details_data(username, lang)
+    await app.redis.set(f'{lang}.{username}.details',
                         json.dumps({'body': response, 'last_update': datetime.now().isoformat()}))
-    log.debug('set_user_details_success', username=username)
+    log.debug('set_user_details_success', username=username, lang=lang)

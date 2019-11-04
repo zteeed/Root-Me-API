@@ -4,13 +4,16 @@ from typing import Dict, List, Optional
 
 import discord
 from discord.channel import TextChannel
+from discord.guild import Guild
+from discord.guild import Guild
 from discord.ext.commands.bot import Bot
 from discord.ext.commands.context import Context
 
 import bot.display.show as show
-import bot.manage.started_data as sd
+from bot.api.parser import Parser
+from bot.database.manager import DatabaseManager
 from bot.colors import green, red, yellow
-from bot.constants import bot_channel
+from bot.constants import bot_channel, PROJECT_INFORMATION
 from bot.manage.discord_data import get_command_args
 
 
@@ -21,7 +24,7 @@ def display(part: str) -> None:
 
 
 async def interrupt(channel: TextChannel, message: str, embed_color: Optional[int] = None,
-                    embed_name: Optional[str] = None) -> None:
+                    embed_name: Optional[str] = None, embed_footer: Optional[str] = None) -> None:
     if str(channel) != bot_channel or not message:
         return
     parts = show.display_parts(message)
@@ -32,39 +35,19 @@ async def interrupt(channel: TextChannel, message: str, embed_color: Optional[in
         else:
             embed = discord.Embed(color=embed_color)
             embed.add_field(name=embed_name, value=part, inline=False)
+            if embed_footer is not None:
+                embed.set_footer(text=embed_footer)
             await channel.send(embed=embed)
 
 
-def check(channel: TextChannel) -> None:
-    if channel is None:
-        red(f'{bot_channel} is not a valid channel name')
-        red('Please update the channel name used by the bot '
-            'in ./bot/constants.py')
-        sys.exit(0)
-
-    if sd.default() is None:
-        red('Can\'t connect to API, please update URL in '
-            './bot/constants.py')
-        sys.exit(0)
+async def info(context: Context) -> None:
+    title = PROJECT_INFORMATION['title']
+    tosend = PROJECT_INFORMATION['content']
+    footer = PROJECT_INFORMATION['footer']
+    await interrupt(context.message.channel, tosend, embed_color=0xF4900C, embed_name=title, embed_footer=footer)
 
 
-async def ready(channel: TextChannel, command_prefix: str) -> None:
-    check(channel)
-    green('RootMeBot is coming !')
-
-    if not sd.is_first():
-        tosend = 'Hello back !'
-        tosend = ''
-    else:
-        sd.launched()
-        tosend = f"Hello, it seems that it's the first time you are using my services.\nYou might use " \
-            f"`{command_prefix}help` to know more about my features."
-
-    embed_color, embed_name = 0x000000, "RootMe Bot"
-    await interrupt(channel, tosend, embed_color=embed_color, embed_name=embed_name)
-
-
-async def add_user(context: Context) -> None:
+async def lang(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -72,11 +55,23 @@ async def add_user(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_add_user(context.bot, args[0])
+    tosend = await show.display_lang(db, context.guild.id, context.bot, args[0])
+    await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Update lang")
+
+
+async def add_user(db: DatabaseManager, context: Context) -> None:
+    args = get_command_args(context)
+
+    if len(args) != 1:
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
+        await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
+        return
+
+    tosend = await show.display_add_user(db, context.guild.id, context.bot, args[0])
     await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Add user")
 
 
-async def remove_user(context: Context) -> None:
+async def remove_user(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -84,21 +79,28 @@ async def remove_user(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_remove_user(context.bot, args[0])
+    tosend = await show.display_remove_user(db, context.guild.id, context.bot, args[0])
     await interrupt(context.message.channel, tosend, embed_color=0xD81D32, embed_name="Remove user")
 
 
-async def scoreboard(context: Context) -> None:
-    tosend = show.display_scoreboard()
+async def scoreboard(db: DatabaseManager, context: Context) -> None:
+    users = await db.select_users(context.guild.id)
+    if not users:
+        tosend = f'No users in team, you might add some with ' \
+            f'{context.bot.command_prefix}{context.command} {context.command.help.strip()}'
+    else:
+        tosend = await show.display_scoreboard(db, context.guild.id)
     await interrupt(context.message.channel, tosend, embed_color=0x4200d4, embed_name="Scoreboard")
 
 
-async def categories(context: Context) -> None:
-    tosend = show.display_categories()
+async def categories(db: DatabaseManager, context: Context) -> None:
+    lang = await db.get_server_language(context.guild.id)
+    tosend = await show.display_categories(lang)
     await interrupt(context.message.channel, tosend, embed_color=0xB315A8, embed_name="Categories")
 
 
-async def category(context: Context) -> None:
+async def category(db: DatabaseManager, context: Context) -> None:
+    lang = await db.get_server_language(context.guild.id)
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -106,12 +108,12 @@ async def category(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_category(args[0])
+    tosend = await show.display_category(lang, args[0])
     embed_name = f"Category {args[0]}"
     await interrupt(context.message.channel, tosend, embed_color=0xB315A8, embed_name=embed_name)
 
 
-async def who_solved(context: Context) -> None:
+async def who_solved(db: DatabaseManager, context: Context) -> None:
     challenge = ' '.join(context.message.content.strip().split(' ')[1:])
     challenge_selected = unescape(challenge.strip())
     if not challenge_selected:
@@ -119,8 +121,27 @@ async def who_solved(context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = show.display_who_solved(context.bot, challenge_selected)
+    tosend = await show.display_who_solved(db, context.guild.id, challenge_selected)
     embed_name = f"Who solved {challenge_selected} ?"
+    await interrupt(context.message.channel, tosend, embed_color=0x29C1C5, embed_name=embed_name)
+
+
+async def remain(db: DatabaseManager, context: Context) -> None:
+    args = get_command_args(context)
+    if len(args) < 1 or len(args) > 2:
+        tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
+        await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
+        return
+
+    username = args[0]
+    if len(args) == 1:
+        embed_name = f"Challenges remaining for {username}"
+        tosend = await show.display_remain(db, context.guild.id, context.bot, username)
+    else:
+        category = args[1]
+        embed_name = f"Challenges remaining in {category} for {username}"
+        tosend = await show.display_remain(db, context.guild.id, context.bot, username, category=category)
+
     await interrupt(context.message.channel, tosend, embed_color=0x29C1C5, embed_name=embed_name)
 
 
@@ -141,7 +162,8 @@ async def display_by_blocks_duration(context: Context, tosend_list: List[str], c
             await interrupt(context.message.channel, tosend, embed_color=color, embed_name=embed_name)
 
 
-async def duration(context: Context, duration_command: str = 'today', duration_msg: str = 'since last 24h') -> None:
+async def duration(db: DatabaseManager, context: Context, duration_command: str = 'today',
+                   duration_msg: str = 'since last 24h') -> None:
     args = get_command_args(context)
 
     if len(args) > 1:
@@ -150,20 +172,20 @@ async def duration(context: Context, duration_command: str = 'today', duration_m
         return
 
     if duration_command == 'week':
-        tosend_list = show.display_week(context, args)
+        tosend_list = await show.display_week(db, context, args)
     elif duration_command == 'today':
-        tosend_list = show.display_today(context, args)
+        tosend_list = await show.display_today(db, context, args)
     else:
         return
     await display_by_blocks_duration(context, tosend_list, 0x00C7FF, duration_msg=duration_msg)
 
 
-async def week(context: Context) -> None:
-    await duration(context, duration_command='week', duration_msg='last week')
+async def week(db: DatabaseManager, context: Context) -> None:
+    await duration(db, context, duration_command='week', duration_msg='last week')
 
 
-async def today(context: Context) -> None:
-    await duration(context, duration_command='today', duration_msg='since last 24h')
+async def today(db: DatabaseManager, context: Context) -> None:
+    await duration(db, context, duration_command='today', duration_msg='since last 24h')
 
 
 async def display_by_blocks_diff(channel: TextChannel, tosend_list: List[Dict[str, str]], color: int) -> None:
@@ -173,7 +195,7 @@ async def display_by_blocks_diff(channel: TextChannel, tosend_list: List[Dict[st
             await interrupt(channel, block['msg'], embed_color=color, embed_name=embed_name)
 
 
-async def diff(context: Context) -> None:
+async def diff(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 2:
@@ -182,11 +204,11 @@ async def diff(context: Context) -> None:
         return
 
     pseudo1, pseudo2 = args[0], args[1]
-    tosend_list = show.display_diff(context.bot, pseudo1, pseudo2)
+    tosend_list = await show.display_diff(db, context.guild.id, context.bot, pseudo1, pseudo2)
     await display_by_blocks_diff(context.message.channel, tosend_list, 0xFF00FF)
 
 
-async def diff_with(context: Context) -> None:
+async def diff_with(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -195,7 +217,7 @@ async def diff_with(context: Context) -> None:
         return
 
     pseudo = args[0]
-    tosend_list = show.display_diff_with(context.bot, pseudo)
+    tosend_list = await show.display_diff_with(db, context.guild.id, context.bot, pseudo)
     await display_by_blocks_diff(context.message.channel, tosend_list, 0xFF00FF)
 
 
@@ -207,7 +229,27 @@ async def flush(context: Context) -> None:
     await interrupt(context.message.channel, tosend, embed_color=embed_color, embed_name=embed_name)
 
 
-async def cron(channel: TextChannel, bot: Bot) -> None:
-    name, tosend_cron = show.display_cron(bot)
+async def reset_database(db: DatabaseManager, context: Context) -> None:
+    if context.message.author != context.guild.owner:
+        tosend = f'You need to be the server owner to launch {context.bot.command_prefix}{context.command} command.'
+    else:
+        tosend = await show.display_reset_database(db, context.guild.id, context.bot)
+    await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Reset Database")
+
+
+async def check_new_server(channel: TextChannel, server: Guild, db: DatabaseManager, command_prefix: str) -> None:
+    if await db.is_server_registered(server.id):
+        return
+    green(f'RootMeBot is coming on {server.name} discord server !')
+    await db.register_server(server.id)
+    tosend = f"Hello, it seems that it's the first time you are using my services.\nYou might use " \
+        f"`{command_prefix}help` to know more about my features."
+    embed_color, embed_name = 0x000000, "RootMe Bot"
+    await interrupt(channel, tosend, embed_color=embed_color, embed_name=embed_name)
+
+
+async def cron(channel: TextChannel, server: Guild, db: DatabaseManager, bot: Bot) -> None:
+    await check_new_server(channel, server, db, bot.command_prefix)
+    name, tosend_cron = await show.display_cron(server.id, db)
     if tosend_cron is not None:
         await interrupt(channel, tosend_cron, embed_color=0xFFCC00, embed_name=name)

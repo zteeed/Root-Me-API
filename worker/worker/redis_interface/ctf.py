@@ -13,7 +13,7 @@ from worker.parser.profile import extract_pseudo
 
 
 def get_ctf_page(username: str, page_index: int) -> Optional[List[Dict[str, str]]]:
-    url = f'{URL}{username}?inc=ctf&debut_ctf_alltheday_vm_dispo={50 * page_index}#pagination_ctf_alltheday_vm_dispo'
+    url = f'{URL}/{username}?inc=ctf&debut_ctf_alltheday_vm_dispo={50 * page_index}#pagination_ctf_alltheday_vm_dispo'
     html = http_get(url)
     if html is None:
         log.warning(f'ctf_page_not_found', username=username, page_index=page_index)
@@ -22,19 +22,18 @@ def get_ctf_page(username: str, page_index: int) -> Optional[List[Dict[str, str]
     return extract_ctf(html)
 
 
-def get_user_ctf_data(username: str) -> Optional[List[Dict[str, str]]]:
-    html = http_get(URL + username + '?inc=ctf')
+def get_user_ctf_data(username: str, lang: str) -> Optional[List[Dict[str, str]]]:
+    html = http_get(f'{URL}/{username}?inc=ctf&lang={lang}')
     if html is None:
         log.warning(f'ctf_page_not_found', username=username)
         return
 
-    if not is_not_participating(html):
+    if is_not_participating(html):
         log.warning(f'{username} never played CTF all the day.')
         return
 
     pseudo = extract_pseudo(html)
-    num_success, num_try = extract_summary(html)
-    description = f'{num_success} machine(s) compromise(s) en {num_try} tentatives'
+    num_success, num_try, description = extract_summary(html)
     tp_function = partial(get_ctf_page, username)
     nb_ctf_pages = 2  # might need to be changed in some months/years
     tp_argument = list(range(nb_ctf_pages))
@@ -51,7 +50,7 @@ def get_user_ctf_data(username: str) -> Optional[List[Dict[str, str]]]:
     }]
 
 
-async def set_user_ctf(username: str) -> None:
-    response = get_user_ctf_data(username)
-    await app.redis.set(f'{username}.ctfs', json.dumps({'body': response, 'last_update': datetime.now().isoformat()}))
-    log.debug('set_user_ctf_success', username=username)
+async def set_user_ctf(username: str, lang: str) -> None:
+    response = get_user_ctf_data(username, lang)
+    await app.redis.set(f'{lang}.{username}.ctfs', json.dumps({'body': response, 'last_update': datetime.now().isoformat()}))
+    log.debug('set_user_ctf_success', username=username, lang=lang)

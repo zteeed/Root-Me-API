@@ -1,6 +1,5 @@
 AUTHORS = ["Aurélien Duboc", "Nicolas Bonnet"]
 GITHUB_ACCOUNTS = ["https://github.com/zteeed", "https://github.com/bonnetn"]
-VERSION = 'v2'
 REDIS_HOST = 'redis'
 REDIS_PORT = 6379
 REDIS_STREAM_USERS = 'update_users'

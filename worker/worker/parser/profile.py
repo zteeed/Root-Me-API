@@ -15,7 +15,7 @@ def extract_pseudo(content: bytes) -> str:
 
 def extract_score(content: bytes) -> int:
     tree = html.fromstring(content)
-    result = tree.xpath('//ul[@class="spip"]/li[contains(., "Score")]/span/text()')
+    result = tree.xpath('//ul[@class="spip"]/li[3]/span/text()')
     if not result:  # Manage case when score is null (score is not displayed on profile)
         return 0
     if not result[0]:  # result can be equal to [''] with this xpath search

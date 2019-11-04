@@ -18,17 +18,18 @@ async def use_stream_item(stream_item: List[Tuple[bytes, bytes, OrderedDict]]) -
     for item in stream_item:
         (stream_name, message_id, ordered_dict) = item
         stream_name = stream_name.decode()
+        lang = ordered_dict[b'lang'].decode()  # lang = en / fr / de / es
 
         if stream_name == REDIS_STREAM_USERS:
             username = ordered_dict[b'username'].decode()
-            await set_user_profile(username)
-            await set_user_contributions(username)
-            await set_user_details(username)
-            await set_user_ctf(username)
-            await set_user_stats(username)
+            await set_user_profile(username, lang)
+            await set_user_contributions(username, lang)
+            await set_user_details(username, lang)
+            await set_user_ctf(username, lang)
+            await set_user_stats(username, lang)
 
         if stream_name == REDIS_STREAM_CHALLENGES:
-            await set_all_challenges()
+            await set_all_challenges(lang)
 
         await app.redis.xack(stream_name, CG_NAME, message_id)
 

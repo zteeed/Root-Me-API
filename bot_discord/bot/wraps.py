@@ -1,6 +1,6 @@
 from functools import wraps
 
-import bot.manage.json_data as json_data
+import bot.api.fetch as json_data
 
 
 def update_challenges(f):

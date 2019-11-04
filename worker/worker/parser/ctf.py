@@ -8,17 +8,18 @@ from worker.parser.exceptions import RootMeParsingError
 
 def is_not_participating(content: bytes) -> bool:
     tree = html.fromstring(content)
-    return not tree.xpath('//div[@class="t-body tb-padding"]/div/h3[contains(.,"ne participe pas")]')
+    return not tree.xpath('//div[@class="t-body tb-padding"]/div/p/text()')
 
 
-def extract_summary(content: bytes) -> Tuple[int, int]:
+def extract_summary(content: bytes) -> Tuple[int, int, str]:
     tree = html.fromstring(content)
     success = tree.xpath('//div[@class="t-body tb-padding"]/div/p/span[2]/text()')[0]
-    success = re.findall(r'(\d+)', success)
-    if len(success) != 2:
+    data = re.findall(r'(\d+)', success)
+    if len(data) != 2:
         raise RootMeParsingError()
-    num_success, num_try = success
-    return int(num_success), int(num_try)
+    num_success, num_try = data
+    description = success.replace('\xa0', ' ').replace('\n', ' ').strip()
+    return int(num_success), int(num_try), description
 
 
 def extract_ctf(content: bytes) -> List[Dict[str, str]]:
