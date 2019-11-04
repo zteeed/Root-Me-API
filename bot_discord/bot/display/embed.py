@@ -47,7 +47,7 @@ async def info(context: Context) -> None:
     await interrupt(context.message.channel, tosend, embed_color=0xF4900C, embed_name=title, embed_footer=footer)
 
 
-async def lang(parser: Parser, context: Context) -> None:
+async def lang(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -55,11 +55,11 @@ async def lang(parser: Parser, context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = await show.display_lang(parser, context.bot, args[0])
+    tosend = await show.display_lang(db, context.guild.id, context.bot, args[0])
     await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Update lang")
 
 
-async def add_user(parser: Parser, db: DatabaseManager, context: Context) -> None:
+async def add_user(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -67,7 +67,7 @@ async def add_user(parser: Parser, db: DatabaseManager, context: Context) -> Non
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = await show.display_add_user(parser, db, context.guild.id, context.bot, args[0])
+    tosend = await show.display_add_user(db, context.guild.id, context.bot, args[0])
     await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Add user")
 
 
@@ -83,22 +83,24 @@ async def remove_user(db: DatabaseManager, context: Context) -> None:
     await interrupt(context.message.channel, tosend, embed_color=0xD81D32, embed_name="Remove user")
 
 
-async def scoreboard(parser: Parser, db: DatabaseManager, context: Context) -> None:
+async def scoreboard(db: DatabaseManager, context: Context) -> None:
     users = await db.select_users(context.guild.id)
     if not users:
         tosend = f'No users in team, you might add some with ' \
             f'{context.bot.command_prefix}{context.command} {context.command.help.strip()}'
     else:
-        tosend = await show.display_scoreboard(parser, db, context.guild.id)
+        tosend = await show.display_scoreboard(db, context.guild.id)
     await interrupt(context.message.channel, tosend, embed_color=0x4200d4, embed_name="Scoreboard")
 
 
-async def categories(parser: Parser, context: Context) -> None:
-    tosend = await show.display_categories(parser)
+async def categories(db: DatabaseManager, context: Context) -> None:
+    lang = await db.get_server_language(context.guild.id)
+    tosend = await show.display_categories(lang)
     await interrupt(context.message.channel, tosend, embed_color=0xB315A8, embed_name="Categories")
 
 
-async def category(parser: Parser, context: Context) -> None:
+async def category(db: DatabaseManager, context: Context) -> None:
+    lang = await db.get_server_language(context.guild.id)
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -106,12 +108,12 @@ async def category(parser: Parser, context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = await show.display_category(parser, args[0])
+    tosend = await show.display_category(lang, args[0])
     embed_name = f"Category {args[0]}"
     await interrupt(context.message.channel, tosend, embed_color=0xB315A8, embed_name=embed_name)
 
 
-async def who_solved(parser: Parser, db: DatabaseManager, context: Context) -> None:
+async def who_solved(db: DatabaseManager, context: Context) -> None:
     challenge = ' '.join(context.message.content.strip().split(' ')[1:])
     challenge_selected = unescape(challenge.strip())
     if not challenge_selected:
@@ -119,12 +121,12 @@ async def who_solved(parser: Parser, db: DatabaseManager, context: Context) -> N
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = await show.display_who_solved(parser, db, context.guild.id, context.bot, challenge_selected)
+    tosend = await show.display_who_solved(db, context.guild.id, challenge_selected)
     embed_name = f"Who solved {challenge_selected} ?"
     await interrupt(context.message.channel, tosend, embed_color=0x29C1C5, embed_name=embed_name)
 
 
-async def remain(parser: Parser, db: DatabaseManager, context: Context) -> None:
+async def remain(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
     if len(args) < 1 or len(args) > 2:
         tosend = f'Use {context.bot.command_prefix}{context.command} {context.command.help.strip()}'
@@ -134,11 +136,11 @@ async def remain(parser: Parser, db: DatabaseManager, context: Context) -> None:
     username = args[0]
     if len(args) == 1:
         embed_name = f"Challenges remaining for {username}"
-        tosend = await show.display_remain(parser, db, context.guild.id, context.bot, username)
+        tosend = await show.display_remain(db, context.guild.id, context.bot, username)
     else:
         category = args[1]
         embed_name = f"Challenges remaining in {category} for {username}"
-        tosend = await show.display_remain(parser, db, context.guild.id, context.bot, username, category=category)
+        tosend = await show.display_remain(db, context.guild.id, context.bot, username, category=category)
 
     await interrupt(context.message.channel, tosend, embed_color=0x29C1C5, embed_name=embed_name)
 
@@ -160,7 +162,7 @@ async def display_by_blocks_duration(context: Context, tosend_list: List[str], c
             await interrupt(context.message.channel, tosend, embed_color=color, embed_name=embed_name)
 
 
-async def duration(parser: Parser, db: DatabaseManager, context: Context, duration_command: str = 'today',
+async def duration(db: DatabaseManager, context: Context, duration_command: str = 'today',
                    duration_msg: str = 'since last 24h') -> None:
     args = get_command_args(context)
 
@@ -170,20 +172,20 @@ async def duration(parser: Parser, db: DatabaseManager, context: Context, durati
         return
 
     if duration_command == 'week':
-        tosend_list = await show.display_week(parser, db, context, args)
+        tosend_list = await show.display_week(db, context, args)
     elif duration_command == 'today':
-        tosend_list = await show.display_today(parser, db, context, args)
+        tosend_list = await show.display_today(db, context, args)
     else:
         return
     await display_by_blocks_duration(context, tosend_list, 0x00C7FF, duration_msg=duration_msg)
 
 
-async def week(parser: Parser, db: DatabaseManager, context: Context) -> None:
-    await duration(parser, db, context, duration_command='week', duration_msg='last week')
+async def week(db: DatabaseManager, context: Context) -> None:
+    await duration(db, context, duration_command='week', duration_msg='last week')
 
 
-async def today(parser: Parser, db: DatabaseManager, context: Context) -> None:
-    await duration(parser, db, context, duration_command='today', duration_msg='since last 24h')
+async def today(db: DatabaseManager, context: Context) -> None:
+    await duration(db, context, duration_command='today', duration_msg='since last 24h')
 
 
 async def display_by_blocks_diff(channel: TextChannel, tosend_list: List[Dict[str, str]], color: int) -> None:
@@ -193,7 +195,7 @@ async def display_by_blocks_diff(channel: TextChannel, tosend_list: List[Dict[st
             await interrupt(channel, block['msg'], embed_color=color, embed_name=embed_name)
 
 
-async def diff(parser: Parser, db: DatabaseManager, context: Context) -> None:
+async def diff(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 2:
@@ -202,11 +204,11 @@ async def diff(parser: Parser, db: DatabaseManager, context: Context) -> None:
         return
 
     pseudo1, pseudo2 = args[0], args[1]
-    tosend_list = await show.display_diff(parser, db, context.guild.id, context.bot, pseudo1, pseudo2)
+    tosend_list = await show.display_diff(db, context.guild.id, context.bot, pseudo1, pseudo2)
     await display_by_blocks_diff(context.message.channel, tosend_list, 0xFF00FF)
 
 
-async def diff_with(parser: Parser, db: DatabaseManager, context: Context) -> None:
+async def diff_with(db: DatabaseManager, context: Context) -> None:
     args = get_command_args(context)
 
     if len(args) != 1:
@@ -215,7 +217,7 @@ async def diff_with(parser: Parser, db: DatabaseManager, context: Context) -> No
         return
 
     pseudo = args[0]
-    tosend_list = await show.display_diff_with(parser, db, context.guild.id, context.bot, pseudo)
+    tosend_list = await show.display_diff_with(db, context.guild.id, context.bot, pseudo)
     await display_by_blocks_diff(context.message.channel, tosend_list, 0xFF00FF)
 
 
@@ -246,8 +248,8 @@ async def check_new_server(channel: TextChannel, server: Guild, db: DatabaseMana
     await interrupt(channel, tosend, embed_color=embed_color, embed_name=embed_name)
 
 
-async def cron(channel: TextChannel, server: Guild, parser: Parser, db: DatabaseManager, bot: Bot) -> None:
+async def cron(channel: TextChannel, server: Guild, db: DatabaseManager, bot: Bot) -> None:
     await check_new_server(channel, server, db, bot.command_prefix)
-    name, tosend_cron = await show.display_cron(server.id, parser, db, bot)
+    name, tosend_cron = await show.display_cron(server.id, db)
     if tosend_cron is not None:
         await interrupt(channel, tosend_cron, embed_color=0xFFCC00, embed_name=name)

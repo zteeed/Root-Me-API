@@ -32,24 +32,27 @@ async def extract_json(url: str) -> response_content_type:
 
 class Parser:
 
-    def __init__(self, lang):
-        self.lang = lang
+    @staticmethod
+    async def extract_default(lang: str) -> response_content_type:
+        return await extract_json(f'{URL}/{lang}')
 
-    async def extract_default(self) -> response_content_type:
-        return await extract_json(f'{URL}/{self.lang}')
+    @staticmethod
+    async def extract_rootme_profile(user: str, lang: str) -> response_content_type:
+        return await extract_json(f'{URL}/{lang}/{user}/profile')
 
-    async def extract_rootme_profile(self, user: str) -> response_content_type:
-        return await extract_json(f'{URL}/{self.lang}/{user}/profile')
+    @staticmethod
+    async def extract_rootme_details(user: str, lang: str) -> response_content_type:
+        return await extract_json(f'{URL}/{lang}/{user}/details')
 
-    async def extract_rootme_details(self, user: str) -> response_content_type:
-        return await extract_json(f'{URL}/{self.lang}/{user}/details')
+    @staticmethod
+    async def extract_rootme_stats(user: str, lang: str) -> response_content_type:
+        return await extract_json(f'{URL}/{lang}/{user}/stats')
 
-    async def extract_rootme_stats(self, user: str) -> response_content_type:
-        return await extract_json(f'{URL}/{self.lang}/{user}/stats')
-
-    async def extract_score(self, user: str) -> int:
-        rootme_profile = await self.extract_rootme_profile(user)
+    @staticmethod
+    async def extract_score(user: str, lang: str) -> int:
+        rootme_profile = await Parser.extract_rootme_profile(user, lang)
         return rootme_profile[0]['score']
 
-    async def extract_categories(self) -> response_content_type:
-        return await extract_json(f'{URL}/{self.lang}/challenges')
+    @staticmethod
+    async def extract_categories(lang: str) -> response_content_type:
+        return await extract_json(f'{URL}/{lang}/challenges')
