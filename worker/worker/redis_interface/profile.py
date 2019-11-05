@@ -5,7 +5,7 @@ from typing import Dict, List, Optional
 from worker import app, log
 from worker.constants import URL
 from worker.http_client import http_get
-from worker.parser.profile import extract_pseudo, extract_score
+from worker.parser.profile import extract_pseudo, extract_score, extract_avatar_url
 
 
 def get_user_profile_data(username: str, lang: str) -> Optional[List[Dict[str, str]]]:
@@ -16,9 +16,11 @@ def get_user_profile_data(username: str, lang: str) -> Optional[List[Dict[str, s
 
     pseudo = extract_pseudo(html)
     score = extract_score(html)
+    avatar_url = extract_avatar_url(html)
     response = [{
         'pseudo': pseudo,
         'score': score,
+        'avatar_url': avatar_url,
     }]
     return response
 
