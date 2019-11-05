@@ -7,7 +7,7 @@ from worker.constants import URL
 from worker.http_client import http_get
 from worker.parser.details import extract_score, extract_nb_challenges_solved, extract_ranking, \
     extract_ranking_category, extract_challenges
-from worker.parser.profile import extract_pseudo
+from worker.parser.profile import extract_pseudo, extract_avatar_url
 
 
 def get_user_details_data(username: str, lang: str) -> Optional[List[Dict[str, str]]]:
@@ -18,6 +18,7 @@ def get_user_details_data(username: str, lang: str) -> Optional[List[Dict[str, s
 
     pseudo = extract_pseudo(html)
     score = extract_score(html)
+    avatar_url = extract_avatar_url(html)
     if score == 0:  # Manage case when score is null (score is not displayed on profile)
         log.warning(f'could_not_get_user_details', username=username)
         return
@@ -29,6 +30,7 @@ def get_user_details_data(username: str, lang: str) -> Optional[List[Dict[str, s
     return [{
         'pseudo': pseudo,
         'score': score,
+        'avatar_url': avatar_url,
         'nb_challenges_solved': nb_challenges_solved,
         'nb_challenges_tot': nb_challenges_tot,
         'ranking': ranking,

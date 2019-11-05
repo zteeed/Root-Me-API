@@ -2,6 +2,7 @@ from html import unescape
 
 from lxml import html
 
+from worker.constants import URL
 from worker.parser.exceptions import RootMeParsingError
 
 
@@ -22,3 +23,11 @@ def extract_score(content: bytes) -> int:
         raise RootMeParsingError()
     result = [int(score) for score in result]
     return result[0]
+
+
+def extract_avatar_url(content: bytes) -> str:
+    tree = html.fromstring(content)
+    result = tree.xpath('//div[@class="t-body tb-padding"]/h1[@itemprop="givenName"]/img/@src')
+    if not result:
+        raise RootMeParsingError()
+    return f'{URL}/{result[0]}'
