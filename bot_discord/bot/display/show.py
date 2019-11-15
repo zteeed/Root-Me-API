@@ -36,6 +36,8 @@ def display_parts(message: str) -> List[str]:
 async def display_lang(db: DatabaseManager, id_discord_server: int, bot: Bot, lang: str) -> str:
     if lang not in LANGS:
         return add_emoji(bot, f'You need to choose fr/en/de/es as <lang> argument', emoji3)
+    if await db.get_server_language(id_discord_server) == lang:
+        return add_emoji(bot, f'"{lang}" is already the current language used.', emoji3)
     await db.update_server_language(id_discord_server, lang)
     #  db.rootme_challenges[lang] = get_categories(lang)  # update list of challenges with new lang
     return add_emoji(bot, f'LANG successfully updated to "{lang}"', emoji2)
