@@ -43,13 +43,22 @@ async def get_last_challenge(name: str, lang: str):
     return last_challenge_solved
 
 
-async def display_lang(db: DatabaseManager, id_discord_server: int, bot: Bot, lang: str) -> str:
+async def display_lang_check(db: DatabaseManager, id_discord_server: int, bot: Bot, lang: str) -> Tuple[str, bool]:
     if lang not in LANGS:
-        return add_emoji(bot, f'You need to choose fr/en/de/es as <lang> argument', emoji3)
-    if await db.get_server_language(id_discord_server) == lang:
-        return add_emoji(bot, f'"{lang}" is already the current language used.', emoji3)
+        return add_emoji(bot, f'You need to choose fr/en/de/es as <lang> argument', emoji3), False
+    old_lang = await db.get_server_language(id_discord_server)
+    if old_lang == lang:
+        return add_emoji(bot, f'"{lang}" is already the current language used.', emoji3), False
+    return add_emoji(bot, f'Converting data from "{old_lang}" to "{lang}" language, please wait...', emoji2), True
+
+
+async def display_lang(db: DatabaseManager, id_discord_server: int, bot: Bot, lang: str) -> str:
+    users = await db.select_users(id_discord_server)
+    usernames = [user['rootme_username'] for user in users]
+    for name in usernames:
+        last_challenge_solved = await get_last_challenge(name, lang)
+        await db.update_user_last_challenge(id_discord_server, name, last_challenge_solved)
     await db.update_server_language(id_discord_server, lang)
-    #  db.rootme_challenges[lang] = get_categories(lang)  # update list of challenges with new lang
     return add_emoji(bot, f'LANG successfully updated to "{lang}"', emoji2)
 
 
@@ -64,7 +73,7 @@ async def display_add_user(db: DatabaseManager, id_discord_server: int, bot: Bot
     if await db.user_exists(id_discord_server, name):
         return add_emoji(bot, f'User {name} already exists in team', emoji5)
     else:
-        last_challenge_solved = await get_solved_challenges(name, lang)
+        last_challenge_solved = await get_last_challenge(name, lang)
         await db.create_user(id_discord_server, name, last_challenge_solved=last_challenge_solved)
         return add_emoji(bot, f'User {name} successfully added in team', emoji2)
 

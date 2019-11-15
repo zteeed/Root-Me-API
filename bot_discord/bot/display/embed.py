@@ -50,8 +50,11 @@ async def lang(db: DatabaseManager, context: Context) -> None:
         await interrupt(context.message.channel, tosend, embed_color=0xD81948, embed_name="ERROR")
         return
 
-    tosend = await show.display_lang(db, context.guild.id, context.bot, args[0])
+    tosend, response = await show.display_lang_check(db, context.guild.id, context.bot, args[0])
     await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Update lang")
+    if response:
+        tosend = await show.display_lang(db, context.guild.id, context.bot, args[0])
+        await interrupt(context.message.channel, tosend, embed_color=0x16B841, embed_name="Update lang")
 
 
 async def add_user(db: DatabaseManager, context: Context) -> None:
