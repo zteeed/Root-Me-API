@@ -21,7 +21,7 @@ def display(part: str) -> None:
 
 
 async def interrupt(channel: TextChannel, message: str, embed_color: Optional[int] = None,
-                    embed_name: Optional[str] = None, embed_footer: Optional[str] = None) -> None:
+                    embed_name: Optional[str] = None) -> None:
     if str(channel) != bot_channel or not message:
         return
     parts = show.display_parts(message)
@@ -32,16 +32,14 @@ async def interrupt(channel: TextChannel, message: str, embed_color: Optional[in
         else:
             embed = discord.Embed(color=embed_color)
             embed.add_field(name=embed_name, value=part, inline=False)
-            if embed_footer is not None:
-                embed.set_footer(text=embed_footer)
+            embed.set_footer(text=PROJECT_INFORMATION['footer'])
             await channel.send(embed=embed)
 
 
 async def info(context: Context) -> None:
     title = PROJECT_INFORMATION['title']
     tosend = PROJECT_INFORMATION['content']
-    footer = PROJECT_INFORMATION['footer']
-    await interrupt(context.message.channel, tosend, embed_color=0xF4900C, embed_name=title, embed_footer=footer)
+    await interrupt(context.message.channel, tosend, embed_color=0xF4900C, embed_name=title)
 
 
 async def lang(db: DatabaseManager, context: Context) -> None:
