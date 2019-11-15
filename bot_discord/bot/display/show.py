@@ -33,6 +33,16 @@ def display_parts(message: str) -> List[str]:
     return stored
 
 
+async def get_last_challenge(name: str, lang: str):
+    stats_user = await Parser.extract_rootme_stats(name, lang)
+    solved_challenges = stats_user['solved_challenges']
+    if not solved_challenges:
+        last_challenge_solved = '?????'
+    else:
+        last_challenge_solved = solved_challenges[-1]['name']
+    return last_challenge_solved
+
+
 async def display_lang(db: DatabaseManager, id_discord_server: int, bot: Bot, lang: str) -> str:
     if lang not in LANGS:
         return add_emoji(bot, f'You need to choose fr/en/de/es as <lang> argument', emoji3)
@@ -54,12 +64,7 @@ async def display_add_user(db: DatabaseManager, id_discord_server: int, bot: Bot
     if await db.user_exists(id_discord_server, name):
         return add_emoji(bot, f'User {name} already exists in team', emoji5)
     else:
-        stats_user = await Parser.extract_rootme_stats(name, lang)
-        solved_challenges = stats_user['solved_challenges']
-        if not solved_challenges:
-            last_challenge_solved = '?????'
-        else:
-            last_challenge_solved = solved_challenges[-1]['name']
+        last_challenge_solved = await get_solved_challenges(name, lang)
         await db.create_user(id_discord_server, name, last_challenge_solved=last_challenge_solved)
         return add_emoji(bot, f'User {name} successfully added in team', emoji2)
 
