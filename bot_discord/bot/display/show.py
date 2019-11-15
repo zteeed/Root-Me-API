@@ -341,7 +341,7 @@ async def display_cron(id_discord_server: int, db: DatabaseManager) -> Tuple[Opt
         blue(solved_user[-1]['name'] + "  |  " + last + "\n")
         next_chall = next_challenge_solved(solved_user, last)
         if next_chall is None:
-            red(f'Error with {user} user --> last chall: {last}\n')
+            red(f'Error with {user} --> last chall: {solved_user[-1]["name"]}\n')
             continue
         name = f'New challenge solved by {user["rootme_username"]}'
         c = find_challenge(db, lang, next_chall['name'])
