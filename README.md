@@ -1,5 +1,12 @@
 # Root-Me API 
 
+# Project archived
+
+Please use the official RM API: [https://api.www.root-me.org/](https://api.www.root-me.org/) \
+This project might be restored if the official api restricts the flow of connections.
+
+# Deprecated info
+
 URL: [https://root-me-api.hackademint.org](https://root-me-api.hackademint.org) \
 BOT Discord: 
   - [link1](https://discordapp.com/api/oauth2/authorize?client_id=523372231561314304&permissions=0&scope=bot) (bot does not have admin rights)
